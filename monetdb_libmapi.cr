@@ -50,6 +50,34 @@ lib MonetDBMAPI
     Q_BLOCK = 6
   end
 
+# three structures used for communicating date/time information
+# these structs are deliberately compatible with the ODBC versions
+# SQL_DATE_STRUCT, SQL_TIME_STRUCT, and SQL_TIMESTAMP_STRUCT
+
+struct MapiDate		# used by MAPI_DATE
+  year : i8
+  month : u8
+  day : u8
+end
+
+struct MapiTime		# used by MAPI_TIME
+  hour : u8
+  minute : u8
+  second: : u8
+end
+
+struct MapiDateTime     # used by MAPI_DATETIME
+  year : i8;
+  month : u8
+  day : u8
+  hour : u8
+  minute : u8
+  second : u8
+  fraction : Int32	# in 1000 millionths of a second (10e-9)
+end
+
+# connection-oriented functions
+
   type Mapi = Void*
   fun mapi_mapi(host : LibC::Char*, port : LibC::Int, username : LibC::Char*, password : LibC::Char*, lang : LibC::Char*, dbname : LibC::Char*) : Mapi
   fun mapi_mapiuri(url : LibC::Char*, user : LibC::Char*, pass : LibC::Char*, lang : LibC::Char*) : Mapi
