@@ -2,8 +2,8 @@
 lib MonetDBMAPI
 
 # Constants
-  _MAPI_H_INCLUDED = 1
-  MAPI_AUTO	= 0	/* automatic type detection */
+  #_MAPI_H_INCLUDED = 1
+  MAPI_AUTO	= 0	# automatic type detection
   MAPI_TINY	= 1
   MAPI_UTINY	= 2
   MAPI_SHORT	= 3
@@ -36,9 +36,9 @@ lib MonetDBMAPI
   LANG_MAL	= 0
   LANG_SQL	= 2
   LANG_JAQL	= 3
-  PROMPTBEG	= "\001"	/* start prompt bracket */
-  PROMPT1	= "\001\001\n"	/* prompt: ready for new query */
-  PROMPT2	= "\001\002\n"	/* prompt: more data needed */
+  PROMPTBEG	= "\001"	# start prompt bracket
+  PROMPT1	= "\001\001\n" # prompt: ready for new query
+  PROMPT2	= "\001\002\n" # prompt: more data needed
 
   enum SQLQuery
     Q_PARSE = 0
@@ -54,25 +54,25 @@ lib MonetDBMAPI
 # these structs are deliberately compatible with the ODBC versions
 # SQL_DATE_STRUCT, SQL_TIME_STRUCT, and SQL_TIMESTAMP_STRUCT
 
-struct MapiDate		# used by MAPI_DATE
-  year : i8
-  month : u8
-  day : u8
+struct MapiDate # used by MAPI_DATE
+  year : UInt8
+  month : UInt8
+  day : UInt8
 end
 
-struct MapiTime		# used by MAPI_TIME
-  hour : u8
-  minute : u8
-  second: : u8
+struct MapiTime # used by MAPI_TIME
+  hour : UInt8
+  minute : UInt8
+  second : UInt8
 end
 
-struct MapiDateTime     # used by MAPI_DATETIME
-  year : i8;
-  month : u8
-  day : u8
-  hour : u8
-  minute : u8
-  second : u8
+struct MapiDateTime # used by MAPI_DATETIME
+  year : Int8;
+  month : UInt8
+  day : UInt8
+  hour : UInt8
+  minute : UInt8
+  second : UInt8
   fraction : Int32	# in 1000 millionths of a second (10e-9)
 end
 
