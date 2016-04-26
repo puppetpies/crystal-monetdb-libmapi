@@ -40,6 +40,16 @@ lib MonetDBMAPI
   PROMPT1	= "\001\001\n"	/* prompt: ready for new query */
   PROMPT2	= "\001\002\n"	/* prompt: more data needed */
 
+  enum SQLQuery
+    Q_PARSE = 0
+    Q_TABLE = 1
+    Q_UPDATE = 2
+    Q_SCHEMA = 3
+    Q_TRANS = 4
+    Q_PREPARE = 5
+    Q_BLOCK = 6
+  end
+
   type Mapi = Void*
   fun mapi_mapi(host : LibC::Char*, port : LibC::Int, username : LibC::Char*, password : LibC::Char*, lang : LibC::Char*, dbname : LibC::Char*) : Mapi
   fun mapi_mapiuri(url : LibC::Char*, user : LibC::Char*, pass : LibC::Char*, lang : LibC::Char*) : Mapi
