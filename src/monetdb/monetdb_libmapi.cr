@@ -1,4 +1,4 @@
-@[Link("libmapi")]
+@[Link("mapi")]
 lib MonetDBMAPI
 
 # Constants
