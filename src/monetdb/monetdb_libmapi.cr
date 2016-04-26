@@ -1,3 +1,7 @@
+lib LibC
+  alias Stream = UInt8
+end
+
 @[Link("mapi")]
 lib MonetDBMAPI
 
@@ -197,4 +201,30 @@ end
   fun mapi_get_querytype(hdl : Mapihdl) : LibC::Int
   fun mapi_get_tableid(hdl : Mapihdl) : LibC::Int
   fun mapi_get_active(mid : Mapi) : Mapihdl
+  
+  # * / ** converted functions from mapi.h file
+  
+  fun mapi_resolve(host : LibC::Char*, port : LibC::Int, pattern : LibC::Char*) : LibC::Char*
+  fun mapi_error_str(mid : Mapi) : LibC::Char*
+  fun mapi_get_from(mid : Mapi) : LibC::Stream*
+  fun mapi_get_to(mid : Mapi) : LibC::Stream*
+  fun mapi_result_error(hdl : Mapihdl) : LibC::Char*
+  fun mapi_fetch_field(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
+  fun mapi_fetch_field_array(hdl : Mapihdl) : LibC::Char*
+  fun mapi_fetch_line(hdl : Mapihdl) : LibC::Char*
+  fun mapi_get_lang(mid : Mapi) : LibC::Char*
+  fun mapi_get_uri(mid : Mapi) : LibC::Char*
+  fun mapi_get_dbname(mid : Mapi) : LibC::Char*
+  fun mapi_get_host(mid : Mapi) : LibC::Char*
+  fun mapi_get_user(mid : Mapi) : LibC::Char*
+  fun mapi_get_mapi_version(mid : Mapi) : LibC::Char*
+  fun mapi_get_monet_version(mid : Mapi) : LibC::Char*
+  fun mapi_get_motd(mid : Mapi) : LibC::Char*
+  fun mapi_get_table(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
+  fun mapi_get_name(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
+  fun mapi_get_type(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
+  fun mapi_get_query(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
+  fun mapi_quote(msg : LibC::Char*, size : LibC::Int) : LibC::Char*
+  fun mapi_unquote(msg : LibC::Char*) : LibC::Char*
+
 end
