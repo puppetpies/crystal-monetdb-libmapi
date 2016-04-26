@@ -1,43 +1,44 @@
 @[Link("libmapi")]
 lib MonetDBMAPI
+
 # Constants
-  _MAPI_H_INCLUDED 1
-#define MAPI_AUTO	0	/* automatic type detection */
-#define MAPI_TINY	1
-#define MAPI_UTINY	2
-#define MAPI_SHORT	3
-#define MAPI_USHORT	4
-#define MAPI_INT	5
-#define MAPI_UINT	6
-#define MAPI_LONG	7
-#define MAPI_ULONG	8
-#define MAPI_LONGLONG	9
-#define MAPI_ULONGLONG	10
-#define MAPI_CHAR	11
-#define MAPI_VARCHAR	12
-#define MAPI_FLOAT	13
-#define MAPI_DOUBLE	14
-#define MAPI_DATE	15
-#define MAPI_TIME	16
-#define MAPI_DATETIME	17
-#define MAPI_NUMERIC	18
-#define PLACEHOLDER	'?'
-#define MAPI_SEEK_SET	0
-#define MAPI_SEEK_CUR	1
-#define MAPI_SEEK_END	2
-#define MAPI_TRACE	1
-#define MAPI_TRACE_LANG	2
-#define MOK		0
-#define MERROR		(-1)
-#define MTIMEOUT	(-2)
-#define MMORE		(-3)
-#define MSERVER		(-4)
-#define LANG_MAL	0
-#define LANG_SQL	2
-#define LANG_JAQL	3
-#define PROMPTBEG	'\001'	/* start prompt bracket */
-#define PROMPT1		"\001\001\n"	/* prompt: ready for new query */
-#define PROMPT2		"\001\002\n"	/* prompt: more data needed */
+  _MAPI_H_INCLUDED = 1
+  MAPI_AUTO	= 0	/* automatic type detection */
+  MAPI_TINY	= 1
+  MAPI_UTINY	= 2
+  MAPI_SHORT	= 3
+  MAPI_USHORT	= 4
+  MAPI_INT	= 5
+  MAPI_UINT	= 6
+  MAPI_LONG	= 7
+  MAPI_ULONG	= 8
+  MAPI_LONGLONG	= 9
+  MAPI_ULONGLONG = 10
+  MAPI_CHAR	= 11
+  MAPI_VARCHAR	= 12
+  MAPI_FLOAT	= 13
+  MAPI_DOUBLE	= 14
+  MAPI_DATE	= 15
+  MAPI_TIME	= 16
+  MAPI_DATETIME	= 17
+  MAPI_NUMERIC	= 18
+  PLACEHOLDER	= "?"
+  MAPI_SEEK_SET	= 0
+  MAPI_SEEK_CUR	= 1
+  MAPI_SEEK_END	= 2
+  MAPI_TRACE	= 1
+  MAPI_TRACE_LANG = 2
+  MOK		= 0
+  MERROR	= -1
+  MTIMEOUT	= -2
+  MMORE		= -3
+  MSERVER       = -4
+  LANG_MAL	= 0
+  LANG_SQL	= 2
+  LANG_JAQL	= 3
+  PROMPTBEG	= "\001"	/* start prompt bracket */
+  PROMPT1	= "\001\001\n"	/* prompt: ready for new query */
+  PROMPT2	= "\001\002\n"	/* prompt: more data needed */
 
   type Mapi = Void*
   fun mapi_mapi(host : LibC::Char*, port : LibC::Int, username : LibC::Char*, password : LibC::Char*, lang : LibC::Char*, dbname : LibC::Char*) : Mapi
@@ -159,4 +160,3 @@ lib MonetDBMAPI
   fun mapi_get_tableid(hdl : Mapihdl) : LibC::Int
   fun mapi_get_active(mid : Mapi) : Mapihdl
 end
-
