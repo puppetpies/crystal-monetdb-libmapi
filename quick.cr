@@ -30,33 +30,24 @@ puts "Is Connected?: #{isc}"
 puts "Mid: #{mid}"
 uri = mero.get_uri(mid)
 puts "Merovingian URI: #{uri}"
-
+ver = mero.get_monet_version(mid)
+puts "Monet Version: #{ver}"
+puts "Insert Test"
 num = 10_000
 puts "Start #{num}"
 c = 0
 mero.setAutocommit(mid, false)
+alpha = random_alphabet
 num.times {|n|
-  f1 = random_alphabet
-  f2 = random_alphabet
-  f3 = random_alphabet
-  f4 = random_alphabet
-  f5 = random_alphabet
-  f6 = random_alphabet
-  f7 = random_alphabet
-  f8 = random_alphabet
-  f9 = random_alphabet
-  f10 = random_alphabet
   print "Query number: #{n} " if c == 1000
-  sql = "INSERT INTO \"threatmonitor\".guid_test VALUES ('#dummy-#{f1}', '#{f1}', '#{f2}', '#{f3}', '#{f4}', '#{f5}', '#{f6}', '#{f7}', '#{f8}', '#{f9}', '#{f10}');"
+  sql = "INSERT INTO \"threatmonitor\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
   hdl = mero.query(mid, sql)
   puts "SQL: #{sql}" if c == 1000
   if c == 1000; c = 0; end
   c += 1
 }
 hdl = mero.query(mid, "COMMIT;")
-
 query = "SELECT * FROM \"threatmonitor\".fruits"
-hdl = MonetDBMAPI::Mapihdl
 hdl = mero.query(mid, query)
 puts "Handle: #{hdl}"
 tblwidth = mero.fetch_row(hdl)
@@ -65,8 +56,6 @@ count = mero.get_row_count(hdl)
 puts "Record Count: #{count}"
 res = mero.execute(hdl)
 puts "Response Code: #{res}"
-puts "Insert Test"
-
 if res == MonetDBMAPI::MOK
   0.upto(count) {|n|
     fruit = mero.fetch_field(hdl, 0)
