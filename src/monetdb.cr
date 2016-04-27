@@ -72,6 +72,15 @@ class MonetDB
     MonetDBMAPI.mapi_fetch_field_array(hdl)
   end
   
+  def setAutocommit(mid, autocommit : Bool)
+    if autocommit == false
+      autovalue = 0
+    else
+      autovalue = 1
+    end
+    MonetDBMAPI.mapi_setAutocommit(mid, autovalue)
+  end
+  
   def seek_row(hdl, rowne : Int32, whence : Int32)
     MonetDBMAPI.mapi_seek_row(hdl, rowne, whence)
   end
