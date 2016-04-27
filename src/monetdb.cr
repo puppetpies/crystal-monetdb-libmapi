@@ -1,7 +1,15 @@
 require "./monetdb/*"
 
 class MonetDB
+
+  property? host : String
+  property? port : Int32
+  property? username : String
+  property? password : String
+  property? db : String
+  
   setter host, port, username, password, lang, db
+  
   def initialize
     @host = "127.0.0.1"
     @port = 50000
@@ -24,7 +32,7 @@ class MonetDB
     end
   end
   
-  def query(mid, query)
+  def query(mid, query : String)
     MonetDBMAPI.mapi_query(mid, query)
   end
   
@@ -50,6 +58,22 @@ class MonetDB
   
   def fetch_row(hdl)
     MonetDBMAPI.mapi_fetch_row(hdl)
+  end
+  
+  def fetch_all_rows(hdl)
+    MonetDBMAPI.mapi_fetch_all_rows(hdl)
+  end
+  
+  def fetch_field(hdl, fnr : Int32)
+    MonetDBMAPI.mapi_fetch_field(hdl, fnr)
+  end
+  
+  def fetch_field_array(hdl)
+    MonetDBMAPI.mapi_fetch_field_array(hdl)
+  end
+  
+  def seek_row(hdl, rowne : Int32, whence : Int32)
+    MonetDBMAPI.mapi_seek_row(hdl, rowne, whence)
   end
   
   def get_row_count(hdl)
