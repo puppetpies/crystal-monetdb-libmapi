@@ -19,6 +19,10 @@ class MonetDB
     @db = "test"
   end
   
+  def get_monet_version(mid)
+    MonetDBMAPI.mapi_get_monet_version(mid)
+  end
+  
   def connect
     MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
   end
