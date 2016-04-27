@@ -1,3 +1,14 @@
+########################################################################
+#
+# Author: Brian Hood
+# Name: Crystal bindings for MonetDB
+# Codename: Dagobert I
+# Description: 
+#   libmapi MonetDB Bindings converted from mapi.h
+#   
+#
+########################################################################
+
 lib LibC
   alias Stream = UInt8
 end
