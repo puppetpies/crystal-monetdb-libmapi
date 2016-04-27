@@ -30,22 +30,11 @@ puts "Is Connected?: #{isc}"
 puts "Mid: #{mid}"
 uri = mero.get_uri(mid)
 puts "Merovingian URI: #{uri}"
-query = "SELECT * FROM \"threatmonitor\".fruits"
-hdl = MonetDBMAPI::Mapihdl
-hdl = mero.query(mid, query)
-puts "Handle: #{hdl}"
-tblwidth = mero.fetch_row(hdl)
-puts "Table Width: #{tblwidth}"
-count = mero.get_row_count(hdl)
-puts "Record Count: #{count}"
-res = mero.execute(hdl)
-puts "Response Code: #{res}"
-puts "Insert Test"
 
 num = 10_000
 puts "Start #{num}"
 c = 0
-mero.setAutocommit(mid, false) # Assume zero is 
+mero.setAutocommit(mid, false)
 num.times {|n|
   f1 = random_alphabet
   f2 = random_alphabet
@@ -65,6 +54,18 @@ num.times {|n|
   c += 1
 }
 hdl = mero.query(mid, "COMMIT;")
+
+query = "SELECT * FROM \"threatmonitor\".fruits"
+hdl = MonetDBMAPI::Mapihdl
+hdl = mero.query(mid, query)
+puts "Handle: #{hdl}"
+tblwidth = mero.fetch_row(hdl)
+puts "Table Width: #{tblwidth}"
+count = mero.get_row_count(hdl)
+puts "Record Count: #{count}"
+res = mero.execute(hdl)
+puts "Response Code: #{res}"
+puts "Insert Test"
 
 if res == MonetDBMAPI::MOK
   0.upto(count) {|n|
