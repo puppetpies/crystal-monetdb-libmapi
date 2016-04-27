@@ -4,6 +4,7 @@ Crystal binding for the MonetDB MAPI client interface
 
 This is currently experimental and needs a lot of work !
 
+````
 Is Connected?: true
 Mid: Pointer(Void)@0x1a61000
 Merovingian URI: Pointer(UInt8)@0x1a632f0
