@@ -24,6 +24,12 @@ end
 mero = MonetDB.new
 mero.host = "172.17.0.2"
 mero.db = "threatmonitor"
+
+puts "Merovingian Server: #{mero.host}"
+puts "Port: #{mero.port}"
+puts "Username: #{mero.username}"
+puts "DB: #{mero.db}"
+ 
 mid = mero.connect # Connect to a MServer5
 isc = mero.is_connected?(mid)
 puts "Is Connected?: #{isc}"
@@ -33,7 +39,7 @@ puts "Merovingian URI: #{uri}"
 ver = mero.get_monet_version(mid)
 puts "Monet Version: #{ver}"
 puts "Insert Test"
-num = 10_000
+num = 3_000
 puts "Start #{num}"
 c = 0
 mero.setAutocommit(mid, false)
@@ -48,6 +54,7 @@ num.times {|n|
 }
 hdl = mero.query(mid, "COMMIT;")
 query = "SELECT * FROM \"threatmonitor\".fruits"
+puts "SELECT Statement: #{query}"
 hdl = mero.query(mid, query)
 puts "Handle: #{hdl}"
 tblwidth = mero.fetch_row(hdl)
