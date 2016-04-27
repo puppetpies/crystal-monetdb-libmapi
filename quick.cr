@@ -35,13 +35,17 @@ if res == MonetDBMAPI::MOK
     fruit = mero.fetch_field(hdl, 0)
     price = mero.fetch_field(hdl, 1)
     puts "Fruit: #{fruit} Price: #{price}"
-    mero.seek_row(hdl, n, 0)
+    mero.seek_row(hdl, n, 0) # Seek to next row
   }
-  mero.close_handle(hdl) # Close query handle and free resources
-  mero.disconnect(mid)  # Disconnect from server
-  mero.destroy(mid) # Free handle resources
-  isc = mero.is_connected?(mid) # Check we disconnected
-  puts "Is Connected?: #{isc}"
+  begin
+    mero.close_handle(hdl) # Close query handle and free resources
+    mero.disconnect(mid)  # Disconnect from server
+    mero.destroy(mid) # Free handle resources
+    isc = mero.is_connected?(mid) # Check we disconnected
+    puts "Connection closed ? #{isc}"
+  rescue
+    raise "Something went wrong closing down..."
+  end
 elsif res == MonetDBMAPI::MSERVER
   raise "Query generated and invalid response please check your SQL"
 end
