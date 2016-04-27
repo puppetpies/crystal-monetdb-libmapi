@@ -8,6 +8,7 @@ class MonetDB
   property? password : String
   property? db : String
   
+  getter host, port, username, password, lang, db
   setter host, port, username, password, lang, db
   
   def initialize
