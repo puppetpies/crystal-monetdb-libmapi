@@ -90,6 +90,22 @@ class MonetDB
     MonetDBMAPI.mapi_seek_row(hdl, rowne, whence)
   end
   
+  def rows_affected(hdl)
+    MonetDBMAPI.mapi_rows_affected(hdl)
+  end
+  
+  def explain(mid, fd)
+    MonetDBMAPI.mapi_explain(mid, fd)
+  end
+  
+  def explain_query(hdl)
+    MonetDBMAPI.mapi_explain_query(hdl, fd)
+  end
+  
+  def explain_result(hdl)
+    MonetDBMAPI.mapi_explain_result(hdl, fd)
+  end
+  
   def get_row_count(hdl)
     MonetDBMAPI.mapi_get_row_count(hdl)
   end
