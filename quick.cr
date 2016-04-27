@@ -20,17 +20,23 @@ puts "Is Connected?: #{isc}"
 puts "Mid: #{mid}"
 uri = mero.get_uri(mid)
 puts "Merovingian URI: #{uri}"
-query = "SELECT NOW() UNION ALL SELECT NOW() UNION ALL SELECT NOW()"
+query = "SELECT * FROM \"threatmonitor\".fruits"
 hdl = MonetDBMAPI::Mapihdl
 hdl = mero.query(mid, query)
 puts "Handle: #{hdl}"
-row = mero.fetch_row(hdl)
-puts "Row: #{row}"
+tblwidth = mero.fetch_row(hdl)
+puts "Table Width: #{tblwidth}"
 count = mero.get_row_count(hdl)
-puts "Count: #{count}"
+puts "Record Count: #{count}"
 res = mero.execute(hdl)
 puts "Response Code: #{res}"
 if res == MonetDBMAPI::MOK
+  0.upto(count) {|n|
+    fruit = mero.fetch_field(hdl, 0)
+    price = mero.fetch_field(hdl, 1)
+    puts "Fruit: #{fruit} Price: #{price}"
+    mero.seek_row(hdl, n, 0)
+  }
   mero.close_handle(hdl) # Close query handle and free resources
   mero.disconnect(mid)  # Disconnect from server
   mero.destroy(mid) # Free handle resources
