@@ -1,7 +1,7 @@
 all: quick
 
 quick:
-	crystal build quick.cr -o quick
+	crystal build --release quick.cr -o quick
 
 clean:
 	rm -f quick
