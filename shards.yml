@@ -4,4 +4,8 @@ version: 0.1.1
 authors:
   - Bri in The Sky <brianh6854@googlemail.com>
 
+development_dependencies:
+  minitest:
+    github: ysbaddaden/minitest.cr
+
 license: GPLv2
