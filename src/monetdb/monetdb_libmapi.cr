@@ -43,18 +43,20 @@ lib MonetDBMAPI
   MAPI_SEEK_END	= 2
   MAPI_TRACE	= 1
   MAPI_TRACE_LANG = 2
+  # Server return codes
   MOK		= 0
   MERROR	= -1
   MTIMEOUT	= -2
   MMORE		= -3
   MSERVER       = -4
+  # Language numbering
   LANG_MAL	= 0
   LANG_SQL	= 2
   LANG_JAQL	= 3
   PROMPTBEG	= "\001"	# start prompt bracket
   PROMPT1	= "\001\001\n" # prompt: ready for new query
   PROMPT2	= "\001\002\n" # prompt: more data needed
-
+  # Enum codes for different SQL operations
   enum SQLQuery
     Q_PARSE = 0
     Q_TABLE = 1
@@ -65,33 +67,33 @@ lib MonetDBMAPI
     Q_BLOCK = 6
   end
 
-# three structures used for communicating date/time information
-# these structs are deliberately compatible with the ODBC versions
-# SQL_DATE_STRUCT, SQL_TIME_STRUCT, and SQL_TIMESTAMP_STRUCT
+  # three structures used for communicating date/time information
+  # these structs are deliberately compatible with the ODBC versions
+  # SQL_DATE_STRUCT, SQL_TIME_STRUCT, and SQL_TIMESTAMP_STRUCT
 
-struct MapiDate # used by MAPI_DATE
-  year : UInt8
-  month : UInt8
-  day : UInt8
-end
+  struct MapiDate # used by MAPI_DATE
+    year : UInt8
+    month : UInt8
+    day : UInt8
+  end
 
-struct MapiTime # used by MAPI_TIME
-  hour : UInt8
-  minute : UInt8
-  second : UInt8
-end
+  struct MapiTime # used by MAPI_TIME
+    hour : UInt8
+    minute : UInt8
+    second : UInt8
+  end
 
-struct MapiDateTime # used by MAPI_DATETIME
-  year : Int8;
-  month : UInt8
-  day : UInt8
-  hour : UInt8
-  minute : UInt8
-  second : UInt8
-  fraction : Int32	# in 1000 millionths of a second (10e-9)
-end
+  struct MapiDateTime # used by MAPI_DATETIME
+    year : Int8;
+    month : UInt8
+    day : UInt8
+    hour : UInt8
+    minute : UInt8
+    second : UInt8
+    fraction : Int32	# in 1000 millionths of a second (10e-9)
+  end
 
-# connection-oriented functions
+  # connection-oriented functions
 
   type Mapi = Void*
   fun mapi_mapi(host : LibC::Char*, port : LibC::Int, username : LibC::Char*, password : LibC::Char*, lang : LibC::Char*, dbname : LibC::Char*) : Mapi
