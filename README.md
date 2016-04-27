@@ -37,3 +37,22 @@ Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
 Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
 Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
 Connection closed ? false
+
+-- MonetDB
+
+[root@mdb-master-01 /]# mclient -u monetdb -d threatmonitor
+password:
+Welcome to mclient, the MonetDB/SQL interactive terminal (Jul2015-SP4)
+Database: MonetDB v11.21.19 (Jul2015-SP4), 'mapi:monetdb://mdb-master-01:50000/threatmonitor'
+Type \q to quit, \? for a list of available commands
+auto commit mode: on
+sql>set schema "threatmonitor";
+auto commit mode: on
+sql>select count(*) as num from guid_test;
++-------+
+| num   |
++=======+
+| 10000 |
++-------+
+1 tuple (2.341ms)
+sql>
