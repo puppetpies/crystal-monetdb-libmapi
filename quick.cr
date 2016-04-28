@@ -40,21 +40,21 @@ puts "Merovingian URI: #{uri}"
 ver = mero.get_monet_version(mid)
 puts "Monet Version: #{ver.to_s}"
 puts ">> Insert Test".colorize(:red)
-num = 100_000
+num = 3_000
 puts "Start #{num}"
 c = 0
 mero.setAutocommit(mid, false)
 alpha = random_alphabet
 num.times {|n|
-  print "Query number: #{n} " if c == 2000
+  print "Query number: #{n} " if c == 500
   sql = "INSERT INTO \"threatmonitor\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
   hdl = mero.query(mid, sql)
-  puts "SQL: #{sql}" if c == 2000
-  if c == 2000; c = 0; end
+  puts "SQL: #{sql}" if c == 500
+  if c == 500; c = 0; end
   c += 1
 }
 puts ">> Update Test".colorize(:green)
-sql = "UPDATE guid_test SET guid = 'gummybears' WHERE f3 LIKE '%sdf%';"
+sql = "UPDATE \"threatmonitor\".guid_test SET guid = 'gummybears' WHERE f3 LIKE '%sdf%';"
 hdl = mero.query(mid, sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}"
