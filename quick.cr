@@ -28,7 +28,8 @@ end
 
 def print_stamp
   puts "Author: Brian Hood"
-  puts "Homepage: https://github.com/puppetpies/crystal-monetdb-libmapi"
+  puts "Homepage: https://github.com/puppetpies/crystal-monetdb-libmapi\n"
+  puts "Description: \n\nCrystal bindings for MonetDB Testing Suite"
 end
 
 host = "127.0.0.1"
@@ -77,7 +78,6 @@ mero.host ||= host
 mero.port ||= port
 mero.username = username
 mero.db ||= password
-
 
 puts "Merovingian Server: #{mero.host}".colorize(:blue)
 puts "Port: #{mero.port}".colorize(:blue)
@@ -140,7 +140,7 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
-query = "SELECT * FROM \"threatmonitor\".fruits"
+query = "SELECT * FROM \"threatmonitor\".fruits;"
 puts "SELECT Statement: #{query}".colorize(:green)
 hdl = mero.query(mid, query)
 
