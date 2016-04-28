@@ -110,6 +110,9 @@ class MonetDB
     MonetDBMAPI.mapi_get_row_count(hdl)
   end
   
+  def query_handle(hdl, cmd)
+    MonetDBMAPI.mapi_query_handle(hdl, cmd)
+  
   def disconnect(mid)
     MonetDBMAPI.mapi_disconnect(mid)
   end
