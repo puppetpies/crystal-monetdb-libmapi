@@ -112,6 +112,7 @@ class MonetDB
   
   def query_handle(hdl, cmd)
     MonetDBMAPI.mapi_query_handle(hdl, cmd)
+  end
   
   def disconnect(mid)
     MonetDBMAPI.mapi_disconnect(mid)
