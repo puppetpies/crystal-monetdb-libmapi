@@ -99,6 +99,10 @@ class MonetDB
     MonetDBMAPI.mapi_setAutocommit(mid, autovalue)
   end
   
+  def next_result(hdl)
+    MonetDBMAPI.mapi_next_result(hdl)
+  end
+  
   def seek_row(hdl, rowne : Int32, whence : Int32)
     MonetDBMAPI.mapi_seek_row(hdl, rowne, whence)
   end
