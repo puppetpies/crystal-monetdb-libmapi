@@ -76,7 +76,7 @@ oparse.parse!
 
 mero.host ||= host
 mero.port ||= port
-mero.username = username
+mero.username ||= username
 mero.db ||= password
 
 puts "Merovingian Server: #{mero.host}".colorize(:blue)
