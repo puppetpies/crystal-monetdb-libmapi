@@ -24,6 +24,15 @@ class MonetDB
     MonetDBMAPI.mapi_get_monet_version(mid)
   end
   
+  def ping(mid)
+    ping = MonetDBMAPI.mapi_ping(mid)
+    if ping == 0
+      return "OK"
+    else
+      return "FAILED"
+    end
+  end
+  
   def connect
     MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
   end
@@ -39,6 +48,10 @@ class MonetDB
   
   def query(mid, query : String)
     MonetDBMAPI.mapi_query(mid, query)
+  end
+  
+  def query_handle(mid, query : String)
+    MonetDBMAPI.mapi_query_handle(mid, query)
   end
   
   def execute(hdl)
@@ -98,11 +111,11 @@ class MonetDB
     MonetDBMAPI.mapi_explain(mid, fd)
   end
 
-  def explain_query(hdl)
+  def explain_query(hdl, fd)
     MonetDBMAPI.mapi_explain_query(hdl, fd)
   end
   
-  def explain_result(hdl)
+  def explain_result(hdl, fd)
     MonetDBMAPI.mapi_explain_result(hdl, fd)
   end
   
