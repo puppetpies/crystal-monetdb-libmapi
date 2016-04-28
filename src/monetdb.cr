@@ -46,12 +46,12 @@ class MonetDB
     end
   end
   
-  def query(mid, query : String)
-    MonetDBMAPI.mapi_query(mid, query)
+  def query(mid, cmd : String)
+    MonetDBMAPI.mapi_query(mid, cmd)
   end
   
-  def query_handle(mid, query : String)
-    MonetDBMAPI.mapi_query_handle(mid, query)
+  def query_handle(hdl, cmd : String)
+    MonetDBMAPI.mapi_query_handle(hdl, cmd)
   end
   
   def execute(hdl)
