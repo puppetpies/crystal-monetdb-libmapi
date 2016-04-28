@@ -97,7 +97,7 @@ class MonetDB
   def explain(mid, fd)
     MonetDBMAPI.mapi_explain(mid, fd)
   end
-  
+
   def explain_query(hdl)
     MonetDBMAPI.mapi_explain_query(hdl, fd)
   end
