@@ -1,0 +1,11 @@
+name: crystal-monetdb-libmapi
+version: 0.1.1
+
+authors:
+  - Brian Hood <brianh6854@googlemail.com>
+
+development_dependencies:
+  minitest:
+    github: ysbaddaden/minitest.cr
+
+license: GPLv2
