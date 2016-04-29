@@ -82,6 +82,10 @@ class MonetDB
     MonetDBMAPI.mapi_fetch_row(hdl)
   end
   
+  def read_response(hdl)
+    MonetDBMAPI.mapi_read_response(hdl)
+  end
+  
   def fetch_all_rows(hdl)
     MonetDBMAPI.mapi_fetch_all_rows(hdl)
   end
