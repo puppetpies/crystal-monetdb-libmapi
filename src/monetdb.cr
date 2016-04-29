@@ -66,7 +66,7 @@ class MonetDB
     MonetDBMAPI.mapi_get_uri(mid)
   end
   
-  def release_id(mid, id)
+  def release_id(mid, id : Int32)
     MonetDBMAPI.mapi_release_id(mid, id)
   end
   
@@ -125,6 +125,10 @@ class MonetDB
   
   def explain_result(hdl, fd)
     MonetDBMAPI.mapi_explain_result(hdl, fd)
+  end
+  
+  def trace(mid, flag : Int32)
+    MonetDBMAPI.mapi_trace(mid, flag)
   end
   
   def get_row_count(hdl)
