@@ -23,6 +23,8 @@ end
 
 class ConnectionError < Exception; end
 class QueryError < Exception; end
+class InternalError < Exception; end
+class TimeoutError < Exception; end
 
 class Timers
   
@@ -278,6 +280,10 @@ if res == MonetDBMAPI::MOK
   rescue
     raise ConnectionError.new "Something went wrong closing down..."
   end
+elsif res == MonetDBMAPI::MERROR
+  raise InternalError.new "Mapi internal error."
+elsif res == MonetDBMAPI::MTIMEOUT
+  raise TimeoutError.new "Error communicating with the server."
 elsif res == MonetDBMAPI::MSERVER
   raise QueryError.new "Query generated and invalid response please check your SQL"
 end
