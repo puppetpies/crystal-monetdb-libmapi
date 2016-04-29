@@ -44,11 +44,16 @@ lib MonetDBMAPI
   MAPI_TRACE	= 1
   MAPI_TRACE_LANG = 2
   # Server return codes
-  MOK		= 0
-  MERROR	= -1
-  MTIMEOUT	= -2
-  MMORE		= -3
-  MSERVER       = -4
+  # Go to the next result set, if any, and close the current result
+  # set.  This function returns 1 if there are more result sets after
+  # the one that was closed, otherwise, if more input is needed, return
+  # MMORE, else, return MOK 
+  #
+  MOK = 0 # @tab No error
+  MERROR = -1 # @tab Mapi internal error.
+  MTIMEOUT = -2 # @tab Error communicating with the server.
+  MMORE = -3 # See above
+  MSERVER = -4 # @tab This is bad / invalid SQL
   # Language numbering
   LANG_MAL	= 0
   LANG_SQL	= 2
@@ -216,7 +221,6 @@ lib MonetDBMAPI
   fun mapi_get_active(mid : Mapi) : Mapihdl
   
   # * / ** converted functions from mapi.h file
-  
   fun mapi_resolve(host : LibC::Char*, port : LibC::Int, pattern : LibC::Char*) : LibC::Char*
   fun mapi_error_str(mid : Mapi) : LibC::Char*
   fun mapi_get_from(mid : Mapi) : LibC::Stream*
