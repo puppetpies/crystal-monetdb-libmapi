@@ -16,6 +16,32 @@ require "option_parser"
 class ConnectionError < Exception; end
 class QueryError < Exception; end
 
+class Timers
+  
+  property? start : Time
+  property? finish : Time
+  
+  def initialize
+    @start = Time.now
+    @finish = Time.now
+    @duration = Time.now
+  end
+  
+  def start
+    @start = Time.now
+  end
+  
+  def stop
+    @finish = Time.now
+  end
+  
+  def stats
+    @duration = @finish - @start
+    return "Start: #{@start} Finish: #{@finish} Duration: #{@duration.to_s}"
+  end
+    
+end
+
 def random_alphabet
   a = "abcdefghijklmnopqrstuvwxyz"
   c = ""
@@ -39,6 +65,7 @@ password = "monetdb"
 db = "test"
 insloop = 3_000
 displayinterval = 250
+updaterands = 1
 
 mero = MonetDB.new
 oparse = OptionParser.parse! do |parser|
@@ -65,6 +92,9 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-i INTERVAL", "-INTERVAL=250", "\tDisplay Interval") {|f|
     displayinterval = f.to_i
   }
+  parser.on("-1 UPDATERAND", "-UPDATERAND=4", "\tUpdate Randomization") {|f|
+    updaterands = f.to_i
+  }
   parser.on("-h", "--help", "Show this help") {|h|
     puts parser
     puts
@@ -78,31 +108,34 @@ mero.host ||= host
 mero.port ||= port
 mero.username ||= username
 mero.db ||= password
-
-puts "Merovingian Server: #{mero.host}".colorize(:blue)
-puts "Port: #{mero.port}".colorize(:blue)
-puts "Username: #{mero.username}".colorize(:blue)
-puts "DB: #{mero.db}".colorize(:blue)
+puts ">> Server Information".colorize(:red)
+puts "\n"
+puts " > Merovingian Server: #{mero.host}".colorize(:blue)
+puts " > Port: #{mero.port}".colorize(:blue)
+puts " > Username: #{mero.username}".colorize(:blue)
+puts " > DB: #{mero.db}".colorize(:blue)
  
 mid = mero.connect # Connect to a MServer5
 isc = mero.is_connected?(mid)
-puts "Is Connected?: #{isc}".colorize(:blue)
+puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping(mid)
-puts "Ping?: #{ping}".colorize(:blue)
-puts "Mid: #{mid}".colorize(:blue)
+puts " > Ping?: #{ping}".colorize(:blue)
+puts " > Mid / Connection: #{mid}".colorize(:blue)
 uri = mero.get_uri(mid)
-puts "Merovingian URI: #{uri}".colorize(:blue)
+puts " > Merovingian URI: #{uri}".colorize(:blue)
 ver = mero.get_monet_version(mid)
-puts "Monet Version: #{ver.to_s}".colorize(:blue)
-puts ">> Insert Test".colorize(:red)
+puts " > Monet Version: #{ver.to_s}".colorize(:blue)
+puts "\n>> Insert Test".colorize(:red)
 if isc == false
   raise ConnectionError.new "Not connected make sure the MServer is started and see ./quick -h for details"
   exit
 end
 
-puts "Number of INSERT iterations: #{insloop}"
+puts " - INSERT iterations: #{insloop}".colorize(:yellow)
 c = 0
 mero.setAutocommit(mid, false)
+tm = Timers.new
+tm.start
 insloop.times {|n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
@@ -115,16 +148,22 @@ insloop.times {|n|
   c += 1
 }
 mero.query(mid, "COMMIT;");
+tm.stop
+print "( Duration ) : ".colorize(:cyan)
+puts tm.stats
 
-puts ">> Update Test".colorize(:red)
-sql = "UPDATE \"threatmonitor\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
-puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-aft = mero.rows_affected(hdl)
-puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query(mid, "COMMIT;")
+puts "\n>> Update Test".colorize(:red)
+0.upto(updaterands) {|n|
+  puts " - Update Iteration: #{n}".colorize(:yellow)
+  sql = "UPDATE \"threatmonitor\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
+  puts sql.colorize(:green)
+  hdl = mero.query(mid, sql)
+  aft = mero.rows_affected(hdl)
+  puts "Rows affected: #{aft}".colorize(:blue)
+  hdl = mero.query(mid, "COMMIT;")
+}
 
-puts ">> Delete Test".colorize(:red)
+puts "\n>> Delete Test".colorize(:red)
 sql = "DELETE FROM \"threatmonitor\".guid_test WHERE guid = 'Dagobert';"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
@@ -132,7 +171,7 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
-puts ">> Delete Test Empty Table".colorize(:red)
+puts "\n>> Delete Test Empty Table".colorize(:red)
 sql = "DELETE FROM \"threatmonitor\".guid_test;"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
@@ -140,7 +179,8 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
-query = "SELECT * FROM \"threatmonitor\".fruits;"
+
+query = "SELECT * FROM \"threatmonitor\".fruits"
 puts "SELECT Statement: #{query}".colorize(:green)
 hdl = mero.query(mid, query)
 
@@ -151,13 +191,17 @@ count = mero.get_row_count(hdl)
 puts "Record Count: #{count}".colorize(:blue)
 res = mero.execute(hdl)
 puts "MServer Response Code: #{res}".colorize(:blue)
+puts "\n>> SELECT Test".colorize(:red)
 if res == MonetDBMAPI::MOK
   0.upto(count) {|n|
     fruit = mero.fetch_field(hdl, 0)
     price = mero.fetch_field(hdl, 1)
     puts "Fruit: #{fruit} Price: #{price}"
-    mero.seek_row(hdl, n, 0) # Seek to next row
+    mero.seek_row(hdl, n, MonetDBMAPI::MAPI_SEEK_CUR) # Seek to next row
+    #mero.next_result(hdl)
   }
+  line = mero.fetch_all_rows(hdl)
+  puts "Line: #{line}"
   begin
     mero.close_handle(hdl) # Close query handle and free resources
     mero.disconnect(mid)  # Disconnect from server
