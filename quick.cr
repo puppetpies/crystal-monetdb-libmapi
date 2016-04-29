@@ -222,14 +222,23 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
-puts "\n>> DELETE / DROP Table Test".colorize(:red)
-sql = "DELETE FROM \"#{db}\".table1;"
+puts "\n>> ALTER TABLE Test ADD COLUMN".colorize(:red)
+sql = "ALTER TABLE \"#{db}\".table1 ADD COLUMN sex CHAR(1);"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
+puts "\n>> ALTER TABLE Test DROP COLUMN".colorize(:red)
+sql = "ALTER TABLE \"#{db}\".table1 DROP COLUMN sex;"
+puts sql.colorize(:green)
+hdl = mero.query(mid, sql)
+aft = mero.rows_affected(hdl)
+puts "Rows affected: #{aft}".colorize(:blue)
+hdl = mero.query(mid, "COMMIT;")
+
+puts "\n>> DROP TABLE Test".colorize(:red)
 sql = "DROP TABLE \"#{db}\".table1;"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
@@ -242,8 +251,8 @@ puts "SELECT Statement: #{query}".colorize(:green)
 hdl = mero.query(mid, query)
 
 puts "Handle: #{hdl}".colorize(:blue)
-tblwidth = mero.fetch_row(hdl)
-puts "Table Width: #{tblwidth}".colorize(:blue)
+#tblwidth = mero.fetch_row(hdl, 1)
+#puts "Table Width: #{tblwidth}".colorize(:blue)
 count = mero.get_row_count(hdl)
 puts "Record Count: #{count}".colorize(:blue)
 res = mero.execute(hdl)
@@ -253,7 +262,9 @@ if res == MonetDBMAPI::MOK
   while (line = mero.fetch_line(hdl))
     puts "Line: #{line}"
   end
-  #while (mero.fetch_row(hdl))
+  #row = mero.fetch_row(hdl, -1)
+  #res2 = mero.read_response(hdl)
+  #p res2
   #  name = mero.fetch_field(hdl, 0)
   #  price = mero.fetch_field(hdl, 1)
   #  puts "#{name} #{price}"
