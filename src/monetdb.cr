@@ -66,6 +66,10 @@ class MonetDB
     MonetDBMAPI.mapi_get_uri(mid)
   end
   
+  def release_id(mid, id)
+    MonetDBMAPI.mapi_release_id(mid, id)
+  end
+  
   def result_error(hdl)
     MonetDBMAPI.mapi_result_error(hdl)
   end
