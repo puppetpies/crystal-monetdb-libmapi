@@ -13,6 +13,14 @@ require "./src/monetdb"
 require "colorize"
 require "option_parser"
 
+enum MServer
+  MOK = 0
+  MERROR = -1
+  MTIMEOUT = -2
+  MMORE = -3
+  MSERVER  = -4
+end
+
 class ConnectionError < Exception; end
 class QueryError < Exception; end
 
@@ -66,6 +74,7 @@ db = "test"
 insloop = 3_000
 displayinterval = 250
 updaterands = 1
+autocommit = false
 
 mero = MonetDB.new
 oparse = OptionParser.parse! do |parser|
@@ -83,8 +92,9 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-p monetdb", "-PASSWORD=monetdb", "\tPassword") {|f|
     mero.password = f
   }
-  parser.on("-d database", "-DB=test", "\tDatabase") {|f|
+  parser.on("-d database", "-DB=test", "\tDatabase / Schema") {|f|
     mero.db = f
+    db = f
   }
   parser.on("-l ITERATIONS", "-LOOP=3000", "\tINSERT Iterations") {|f|
     insloop = f.to_i
@@ -95,6 +105,14 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-1 UPDATERAND", "-UPDATERAND=4", "\tUpdate Randomization") {|f|
     updaterands = f.to_i
   }
+  parser.on("-a BOOLEAN", "-AUTOCOMMIT=true", "\tAuto Commit value") {|f|
+    if f == "true"
+      autocommit = true
+    else
+      autocommit = false
+    end 
+  }
+
   parser.on("-h", "--help", "Show this help") {|h|
     puts parser
     puts
@@ -107,7 +125,8 @@ oparse.parse!
 mero.host ||= host
 mero.port ||= port
 mero.username ||= username
-mero.db ||= password
+mero.password ||= password
+mero.db ||= db
 puts ">> Server Information".colorize(:red)
 puts "\n"
 puts " > Merovingian Server: #{mero.host}".colorize(:blue)
@@ -125,6 +144,7 @@ uri = mero.get_uri(mid)
 puts " > Merovingian URI: #{uri}".colorize(:blue)
 ver = mero.get_monet_version(mid)
 puts " > Monet Version: #{ver.to_s}".colorize(:blue)
+puts " > Autocommit: #{autocommit}".colorize(:blue)
 puts "\n>> Insert Test".colorize(:red)
 if isc == false
   raise ConnectionError.new "Not connected make sure the MServer is started and see ./quick -h for details"
@@ -133,13 +153,13 @@ end
 
 puts " - INSERT iterations: #{insloop}".colorize(:yellow)
 c = 0
-mero.setAutocommit(mid, false)
+mero.setAutocommit(mid, autocommit)
 tm = Timers.new
 tm.start
 insloop.times {|n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
-  sql = "INSERT INTO \"threatmonitor\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
+  sql = "INSERT INTO \"#{db}\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
   hdl = mero.query(mid, sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
@@ -155,7 +175,7 @@ puts tm.stats
 puts "\n>> Update Test".colorize(:red)
 0.upto(updaterands) {|n|
   puts " - Update Iteration: #{n}".colorize(:yellow)
-  sql = "UPDATE \"threatmonitor\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
+  sql = "UPDATE \"#{db}\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
   puts sql.colorize(:green)
   hdl = mero.query(mid, sql)
   aft = mero.rows_affected(hdl)
@@ -164,7 +184,7 @@ puts "\n>> Update Test".colorize(:red)
 }
 
 puts "\n>> Delete Test".colorize(:red)
-sql = "DELETE FROM \"threatmonitor\".guid_test WHERE guid = 'Dagobert';"
+sql = "DELETE FROM \"#{db}\".guid_test WHERE guid = 'Dagobert';"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
 aft = mero.rows_affected(hdl)
@@ -172,15 +192,52 @@ puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
 puts "\n>> Delete Test Empty Table".colorize(:red)
-sql = "DELETE FROM \"threatmonitor\".guid_test;"
+sql = "DELETE FROM \"#{db}\".guid_test;"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
+puts "\n>> Create Table Test Empty Table".colorize(:red)
+sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
+puts sql.colorize(:green)
+hdl = mero.query(mid, sql)
+hdl = mero.query(mid, "COMMIT;")
 
-query = "SELECT * FROM \"threatmonitor\".fruits"
+firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
+lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
+insloop.times {|n|
+  alpha = random_alphabet
+  print "Query number: #{n} " if c == displayinterval
+  sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
+  hdl = mero.query(mid, sql)
+  puts "SQL: #{sql}".colorize(:green) if c == displayinterval
+  if c == displayinterval
+    c = 0;
+  end
+  c += 1
+}
+aft = mero.rows_affected(hdl)
+puts "Rows affected: #{aft}".colorize(:blue)
+hdl = mero.query(mid, "COMMIT;")
+
+puts "\n>> DELETE / DROP Table Test".colorize(:red)
+sql = "DELETE FROM \"#{db}\".table1;"
+puts sql.colorize(:green)
+hdl = mero.query(mid, sql)
+aft = mero.rows_affected(hdl)
+puts "Rows affected: #{aft}".colorize(:blue)
+hdl = mero.query(mid, "COMMIT;")
+
+sql = "DROP TABLE \"#{db}\".table1;"
+puts sql.colorize(:green)
+hdl = mero.query(mid, sql)
+aft = mero.rows_affected(hdl)
+puts "Rows affected: #{aft}".colorize(:blue)
+hdl = mero.query(mid, "COMMIT;")
+
+query = "SELECT * FROM \"#{db}\".fruits"
 puts "SELECT Statement: #{query}".colorize(:green)
 hdl = mero.query(mid, query)
 
@@ -190,18 +247,17 @@ puts "Table Width: #{tblwidth}".colorize(:blue)
 count = mero.get_row_count(hdl)
 puts "Record Count: #{count}".colorize(:blue)
 res = mero.execute(hdl)
-puts "MServer Response Code: #{res}".colorize(:blue)
+puts "MServer Response Key: #{MServer.new(res)} Code: #{res}".colorize(:blue)
 puts "\n>> SELECT Test".colorize(:red)
 if res == MonetDBMAPI::MOK
-  0.upto(count) {|n|
-    fruit = mero.fetch_field(hdl, 0)
-    price = mero.fetch_field(hdl, 1)
-    puts "Fruit: #{fruit} Price: #{price}"
-    mero.seek_row(hdl, n, MonetDBMAPI::MAPI_SEEK_CUR) # Seek to next row
-    #mero.next_result(hdl)
-  }
-  line = mero.fetch_all_rows(hdl)
-  puts "Line: #{line}"
+  while (line = mero.fetch_line(hdl))
+    puts "Line: #{line}"
+  end
+  #while (mero.fetch_row(hdl))
+  #  name = mero.fetch_field(hdl, 0)
+  #  price = mero.fetch_field(hdl, 1)
+  #  puts "#{name} #{price}"
+  #end
   begin
     mero.close_handle(hdl) # Close query handle and free resources
     mero.disconnect(mid)  # Disconnect from server
