@@ -12,54 +12,74 @@ Examples schemas provided under examples/
 
 
 ````
-[brian@orville crystal-monetdb-libmapi]$ make clean
-rm -f quick
-rm -Rf .crystal
-[brian@orville crystal-monetdb-libmapi]$ make
-crystal build --release quick.cr -o quick
-[brian@orville crystal-monetdb-libmapi]$ ./quick 
-Is Connected?: true
-Mid: Pointer(Void)@0x12b8000
-Merovingian URI: Pointer(UInt8)@0x12ba2f0
-Start 10000
-Query number: 1000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-urpbjhkjatzbvftyrswuwvdjku', 'urpbjhkjatzbvftyrswuwvdjku', 'zarblcmiewjrrkwqlpqcrykhlt', 'pwmbyiqmmvqxuvbsoozcbygykg', 'tciosxqjsohzaqrpiyzgmynbhk', 'jkwombrskewcimpdzooxljnzdu', 'vjugqoqxpiyimpcnltqjssefiq', 'mawcryaaaicrmhjpstwtufopzg', 'rtrwqyhhfyrvthmxioskiodjmw', 'ldvbcrjvtjonncrcjyoaxtwxuy', 'avsatiwvliiddnttxcqlirxfdh');
-Query number: 2000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-kqnjtxdsielmhyqtokqkxaejpk', 'kqnjtxdsielmhyqtokqkxaejpk', 'lukmcqmpgjvigemrtaufonacye', 'kyujnkvdjysnyujcnbhxztfpld', 'meqkdjcramebbmehkwmritnilh', 'eksinnckudpanrybsrbabsytlt', 'yosdumehbvitisacrdcflhgcka', 'twlnvolclbeoiazwgbqowroand', 'hrgxbleovazykuyvrfbgrsyhax', 'fompynhlqplxfmdxqwdfgspznt', 'llieytvqnjlopufulwolhctxto');
-Query number: 3000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-gnelrcdzlciuahuybsllyppbzi', 'gnelrcdzlciuahuybsllyppbzi', 'prqxfykqdqtfwwujnrxvxmmtji', 'kflqjnfjhefygulbqswgyayopn', 'ufitoarcvbbxmxfuhfnldsqpqc', 'nghqnrjhppdtriwlkjbhkhonni', 'nfinthikxjscllaojabqxeaorg', 'egneohluaynsyqcicafmwgantx', 'oxkpfrxfxiuhgxmkprlbhrqpqk', 'hbptdblnmoaqrlfiehhtrstlav', 'vxpomryyvcntbcawmdoycphype');
-Query number: 4000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-etcpeanfzzfniqaqpaovcauyyf', 'etcpeanfzzfniqaqpaovcauyyf', 'kurbhdmsvsqdqqonboaldbsfuj', 'gloljljxgdrpflboakftfnlvqu', 'eyledhnjkpsdpjkibsogvmmdje', 'amwqxurqyezxqtduhqeqfezcdr', 'jkrpaupuzupoaiddfvnedfsfea', 'noqnajndzsidchnpmeavsfuujc', 'qbnrwjczmmqesqbnmaollngfdx', 'kqlnzjxpidlhntxuuvjidyrhrk', 'vmuaecfifvkxumbbrufgxzhcce');
-Query number: 5000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-eamnmelqlatxxritkxpcbgshxj', 'eamnmelqlatxxritkxpcbgshxj', 'znvhqnkfsfycbucgkksqsxdben', 'nbehndilcpgggdudvamxephabk', 'ltsnturhtyagzbxsicrxsgxqew', 'orywehdijjhhgwrdbzetlavgwg', 'vxabpqkpvclmpqmxixkuqiwizu', 'llkjmvnxnprnrzquojvrbpeger', 'iugtmiouwmbunvwddclxaiaavq', 'mbnbzktznpnlwgjuhontcvnzis', 'dkyuxoeoelmazumvunpjsmosno');
-Query number: 6000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-paicrhnbiijzgbuymhwsgysony', 'paicrhnbiijzgbuymhwsgysony', 'ufvkxwyscpfbfdadpdwsahmrex', 'nnmcjmwjeurjvytuttuxhucrmw', 'ccfyprqxdkncrawyzccbvqfaiq', 'nbwmlwfvodiiuxbknpxkwgimwk', 'gfzwlbzxrbbhifumyuxlauqfzm', 'fwyorptywsnkadkhuwbxitlrod', 'avarrxbebcdsxeornfmfqjyghm', 'cohvgveqtyqgsvzzfhhtvnmzim', 'zrvbcpvaionfavzjrwleilwrhh');
-Query number: 7000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-llgyluaxbrhfimxkkukgnmikge', 'llgyluaxbrhfimxkkukgnmikge', 'xvfzqwgldoldwzeojwmmgumqqa', 'yqjunmgbizjmzpdrugyvumihhv', 'bxvkqghviqqlksxfrydojtmjee', 'bwaxlsnmnnqwryxueyeccywjzz', 'rsyqjuspuqhsudmtgbzhuaxlft', 'nsqptcpjwkvesbygckqajfgtnt', 'kcuuyhxnavxvaqtoyorxuzdigt', 'anxsibxqofrjstwbcfbjqfszrs', 'nbtaijbacogmxtfpivswjmbrmr');
-Query number: 8000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-cnrrgjcxvmvlwyxyswsjffmzsd', 'cnrrgjcxvmvlwyxyswsjffmzsd', 'jijkuxgzonhsjleluqvczasqgf', 'ksjxawxhheksfnqahojimbokjw', 'jaukydboqonuufgkzqsrnwcrmo', 'jcuafxamhnxhjhznaaptcnkytz', 'syxidnpquomsufcqayqdgjbifc', 'hgxngrjwlscjmkxvqdxqgpdepa', 'btiqqdmiosyaukvlvozpagridg', 'evusczgvmfwvcavybngfmgvlob', 'swbevizamdtjtqisjwmrqvvuhv');
-Query number: 9000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-bwnekdfneiyjjccucpubyjqrsu', 'bwnekdfneiyjjccucpubyjqrsu', 'mlhsdgespzovuwnfiideblszhs', 'kqubhvqwbtusloqjawwitcicnr', 'kunaknukkcqizioykazudvipms', 'vuzmbwnjcwetcfumoougqlxlof', 'ydobtppahyosxvnovzvpnsemgu', 'tbultosihuosacsprxllwccqeh', 'fjfxjndcoocsmdjagzdbogjalq', 'yfpuzwrgvhjvdobwydnhghlqmd', 'kaciqyvwxjvvjcuphdhubqaisf');
-Handle: Pointer(Void)@0x19ab740
-Table Width: 5
-Record Count: 6
-Response Code: 0
-Insert Test
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Fruit: Pointer(UInt8).null Price: Pointer(UInt8).null
-Connection closed ? false
+>> Server Information
 
--- MonetDB
+ > Merovingian Server: 172.17.0.2
+ > Port: 50000
+ > Username: monetdb
+ > DB: threatmonitor
+ > Is Connected?: true
+ > Ping?: OK
+ > Mid / Connection: Pointer(Void)@0xd94ff0
+ > Merovingian URI: Pointer(UInt8)@0xd97300
+ > Monet Version: Pointer(UInt8)@0x7fdbb05e4a18
+ > Autocommit: false
 
-[root@mdb-master-01 /]# mclient -u monetdb -d threatmonitor
-password:
-Welcome to mclient, the MonetDB/SQL interactive terminal (Jul2015-SP4)
-Database: MonetDB v11.21.19 (Jul2015-SP4), 'mapi:monetdb://mdb-master-01:50000/threatmonitor'
-Type \q to quit, \? for a list of available commands
-auto commit mode: on
-sql>set schema "threatmonitor";
-auto commit mode: on
-sql>select count(*) as num from guid_test;
-+-------+
-| num   |
-+=======+
-| 10000 |
-+-------+
-1 tuple (2.341ms)
-sql>
+>> Insert Test
+ - INSERT iterations: 500
+Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya', 'mygmoztrolvqkfghmwflcpfkya')
+( Duration ) : Start: 2016-04-30 13:30:53 +0000 Finish: 2016-04-30 13:30:54 +0000 Duration: 00:00:00.9316560
+
+>> Update Test
+ - Update Iteration: 0
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f7 LIKE '%asd%';
+Rows affected: 2
+ - Update Iteration: 1
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f2 LIKE '%asd%';
+Rows affected: 2
+
+>> Delete Test
+DELETE FROM "threatmonitor".guid_test WHERE guid = 'Dagobert';
+Rows affected: 2
+
+>> Delete Test Empty Table
+DELETE FROM "threatmonitor".guid_test;
+Rows affected: 498
+
+>> Create Table Test Empty Table
+CREATE TABLE "threatmonitor".table1 ( id int, firstname char(50), lastname char(50), age int);
+Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'Ernest', 'Edwards', 57);
+Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'James', 'Stevens', 33);
+Rows affected: 1
+
+>> ALTER TABLE Test ADD COLUMN
+ALTER TABLE "threatmonitor".table1 ADD COLUMN sex CHAR(1);
+Rows affected: 0
+
+>> ALTER TABLE Test DROP COLUMN
+ALTER TABLE "threatmonitor".table1 DROP COLUMN sex;
+Rows affected: 0
+
+>> DROP TABLE Test
+DROP TABLE "threatmonitor".table1;
+Rows affected: 0
+SELECT Statement: SELECT * FROM "threatmonitor".fruits
+Handle: Pointer(Void)@0xe9ebd0
+Record Count: 8
+MServer Response Key: MOK Code: 0
+
+>> SELECT Test
+Line: Pointer(UInt8)@0xe9ede0
+Line: Pointer(UInt8)@0xea03b0
+Line: Pointer(UInt8)@0xe9eed0
+Line: Pointer(UInt8)@0xea0490
+Line: Pointer(UInt8)@0xea0560
+Line: Pointer(UInt8)@0xea0590
+Line: Pointer(UInt8)@0xea05c0
+Line: Pointer(UInt8)@0xea05f0
+Line: Pointer(UInt8)@0xea0620
+Line: Pointer(UInt8)@0xea0650
+Line: Pointer(UInt8)@0xea0690
+Line: Pointer(UInt8)@0xea06c0
+Connected to MServer ? false
+
