@@ -82,5 +82,7 @@ Line: Pointer(UInt8)@0xea0620
 Line: Pointer(UInt8)@0xea0650
 Line: Pointer(UInt8)@0xea0690
 Line: Pointer(UInt8)@0xea06c0
+Session should now be closed down and disconnected
+Checking ...
 Connected to MServer ? false
 
