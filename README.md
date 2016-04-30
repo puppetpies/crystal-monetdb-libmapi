@@ -12,6 +12,7 @@ Examples schemas provided under examples/
 
 
 ````
+$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 50
 >> Server Information
 
  > Merovingian Server: 172.17.0.2
