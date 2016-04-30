@@ -141,11 +141,10 @@ isc = mero.is_connected?(mid)
 puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping(mid)
 puts " > Ping?: #{ping}".colorize(:blue)
-puts " > Mid / Connection: #{mid}".colorize(:blue)
 uri = mero.get_uri(mid)
-puts " > Merovingian URI: #{uri}".colorize(:blue)
+puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
 ver = mero.get_monet_version(mid)
-puts " > Monet Version: #{ver.to_s}".colorize(:blue)
+puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
 puts "\n>> Insert Test".colorize(:red)
 if isc == false
@@ -252,7 +251,7 @@ query = "SELECT * FROM \"#{db}\".fruits"
 puts "SELECT Statement: #{query}".colorize(:green)
 hdl = mero.query(mid, query)
 
-puts "Handle: #{hdl}".colorize(:blue)
+#puts "Handle: #{hdl}".colorize(:blue)
 #tblwidth = mero.fetch_row(hdl, 1)
 #puts "Table Width: #{tblwidth}".colorize(:blue)
 count = mero.get_row_count(hdl)
@@ -262,7 +261,7 @@ puts "MServer Response Key: #{MServer.new(res)} Code: #{res}".colorize(:blue)
 puts "\n>> SELECT Test".colorize(:red)
 if res == MonetDBMAPI::MOK
   while (line = mero.fetch_line(hdl))
-    puts "Line: #{line}"
+    puts "Line: #{String.new(line)}"
   end
   #row = mero.fetch_row(hdl, -1)
   #res2 = mero.read_response(hdl)
@@ -275,7 +274,9 @@ if res == MonetDBMAPI::MOK
     mero.close_handle(hdl) # Close query handle and free resources
     mero.disconnect(mid)  # Disconnect from server
     mero.destroy(mid) # Free handle resources
+    puts "Session should now be closed down and disconnected"
     isc = mero.is_connected?(mid) # Check we disconnected
+    puts "Checking ...."
     puts "Connected to MServer ? #{isc}"
   rescue
     raise ConnectionError.new "Something went wrong closing down..."
