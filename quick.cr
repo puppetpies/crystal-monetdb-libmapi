@@ -77,6 +77,7 @@ insloop = 3_000
 displayinterval = 250
 updaterands = 1
 autocommit = false
+deleterecordsall = false
 
 mero = MonetDB.new
 oparse = OptionParser.parse! do |parser|
@@ -114,7 +115,13 @@ oparse = OptionParser.parse! do |parser|
       autocommit = false
     end 
   }
-
+  parser.on("-2 BOOLEAN", "-DELETERECORDSALL=true", "\tDELETE RECORDS ALL") {|f|
+    if f == "true"
+      deleterecordsall = true
+    else
+      deleterecordsall = false
+    end
+  }
   parser.on("-h", "--help", "Show this help") {|h|
     puts parser
     puts
@@ -192,13 +199,15 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
-puts "\n>> Delete Test Empty Table".colorize(:red)
-sql = "DELETE FROM \"#{db}\".guid_test;"
-puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-aft = mero.rows_affected(hdl)
-puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query(mid, "COMMIT;")
+if deleterecordsall == true
+  puts "\n>> Delete Test Empty Table".colorize(:red)
+  sql = "DELETE FROM \"#{db}\".guid_test;"
+  puts sql.colorize(:green)
+  hdl = mero.query(mid, sql)
+  aft = mero.rows_affected(hdl)
+  puts "Rows affected: #{aft}".colorize(:blue)
+  hdl = mero.query(mid, "COMMIT;")
+end
 
 puts "\n>> Create Table Test Empty Table".colorize(:red)
 sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
@@ -246,45 +255,44 @@ hdl = mero.query(mid, sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
-
-query = "SELECT * FROM \"#{db}\".fruits"
-puts "SELECT Statement: #{query}".colorize(:green)
-hdl = mero.query(mid, query)
-
-#puts "Handle: #{hdl}".colorize(:blue)
-#tblwidth = mero.fetch_row(hdl, 1)
-#puts "Table Width: #{tblwidth}".colorize(:blue)
-count = mero.get_row_count(hdl)
-puts "Record Count: #{count}".colorize(:blue)
-res = mero.execute(hdl)
-puts "MServer Response Key: #{MServer.new(res)} Code: #{res}".colorize(:blue)
-puts "\n>> SELECT Test".colorize(:red)
-if res == MonetDBMAPI::MOK
-  while (line = mero.fetch_line(hdl))
-    puts "Line: #{String.new(line)}"
+query = "SELECT 1"
+2.times {|q|
+  if q == 0
+    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 10"
+  elsif q == 1
+    query = "SELECT * FROM \"#{db}\".fruits"
   end
-  #row = mero.fetch_row(hdl, -1)
-  #res2 = mero.read_response(hdl)
-  #p res2
-  #  name = mero.fetch_field(hdl, 0)
-  #  price = mero.fetch_field(hdl, 1)
-  #  puts "#{name} #{price}"
-  #end
-  begin
-    mero.close_handle(hdl) # Close query handle and free resources
-    mero.disconnect(mid)  # Disconnect from server
-    mero.destroy(mid) # Free handle resources
-    puts "Session should now be closed down and disconnected"
-    isc = mero.is_connected?(mid) # Check we disconnected
-    puts "Checking ...."
-    puts "Connected to MServer ? #{isc}"
-  rescue
-    raise ConnectionError.new "Something went wrong closing down..."
+  mero.connect
+  puts "SELECT Statement: #{query}".colorize(:green)
+  hdl = mero.query(mid, query)
+  puts "Handle: #{hdl}".colorize(:blue)
+  tblwidth = mero.fetch_row(hdl)
+  puts "Table Width: #{tblwidth}".colorize(:blue)
+  count = mero.get_row_count(hdl)
+  puts "Record Count: #{count}".colorize(:blue)
+  res = mero.execute(hdl)
+  puts "MServer Response Key: #{MServer.new(res)} Code: #{res}".colorize(:blue)
+  puts "\n>> SELECT Test".colorize(:red)
+  if res == MonetDBMAPI::MOK
+    while (line = mero.fetch_line(hdl))
+      puts String.new(line)
+    end
+  elsif res == MonetDBMAPI::MERROR
+    raise InternalError.new "Mapi internal error."
+  elsif res == MonetDBMAPI::MTIMEOUT
+    raise TimeoutError.new "Error communicating with the server."
+  elsif res == MonetDBMAPI::MSERVER
+    raise QueryError.new "Query generated and invalid response please check your SQL"
   end
-elsif res == MonetDBMAPI::MERROR
-  raise InternalError.new "Mapi internal error."
-elsif res == MonetDBMAPI::MTIMEOUT
-  raise TimeoutError.new "Error communicating with the server."
-elsif res == MonetDBMAPI::MSERVER
-  raise QueryError.new "Query generated and invalid response please check your SQL"
+}
+begin
+  mero.close_handle(hdl) # Close query handle and free resources
+  mero.disconnect(mid)  # Disconnect from server
+  mero.destroy(mid) # Free handle resources
+  puts "Session should now be closed down and disconnected"
+  isc = mero.is_connected?(mid) # Check we disconnected
+  puts "Checking ...."
+  puts "Connected to MServer ? #{isc}"
+rescue
+  raise ConnectionError.new "Something went wrong closing down..."
 end
