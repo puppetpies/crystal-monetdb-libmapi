@@ -12,24 +12,6 @@ Examples schemas provided under examples/
 
 
 ````
-$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 500
->> Server Information
-
- > Merovingian Server: 172.17.0.2
- > Port: 50000
- > Username: monetdb
- > DB: threatmonitor
- > Is Connected?: true
- > Ping?: OK
- > Merovingian URI: mapi:monetdb://172.17.0.2:50000/threatmonitor
- > Monet Version: 
- > Autocommit: false
-
->> Insert Test
- - INSERT iterations: 3000
-Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy', 'srkuatznlusheeqsbkavinhddy')
-Query number: 500 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio', 'bsfithfwbvyznvkzogiiuoxnio')
-^C
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
 [brian@orville crystal-monetdb-libmapi]$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -2 false
