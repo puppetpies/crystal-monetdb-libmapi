@@ -1,0 +1,7 @@
+% threatmonitor.fruits2,	threatmonitor.fruits2,	threatmonitor.fruits2,	threatmonitor.fruits2,	threatmonitor.fruits2 # table_name
+% name,	price,	weight,	comments,	id # name
+% varchar,	varchar,	int,	clob,	int # type
+% 5,	4,	2,	7,	1 # length
+[ "Apple",	"4.99",	50,	"Testing",	1	]
+[ "Pear",	"4.99",	50,	"Juicy",	2	]
+[ "Kiwi",	"6.99",	30,	"Juicy",	3	]
