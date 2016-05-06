@@ -10,6 +10,7 @@
 ########################################################################
 
 require "./src/monetdb"
+require "./src/monetdb_data"
 require "colorize"
 require "option_parser"
 
@@ -34,7 +35,6 @@ class Timers
   def initialize
     @start = Time.now
     @finish = Time.now
-    @duration = Time.now
   end
   
   def start
@@ -46,8 +46,8 @@ class Timers
   end
   
   def stats
-    @duration = @finish - @start
-    return "Start: #{@start} Finish: #{@finish} Duration: #{@duration.to_s}"
+    duration = @finish - @start
+    return "Start: #{@start} Finish: #{@finish} Duration: #{duration.to_s}"
   end
     
 end
@@ -79,7 +79,7 @@ updaterands = 1
 autocommit = false
 deleterecordsall = false
 
-mero = MonetDB.new
+mero = MonetDBJSON.new
 oparse = OptionParser.parse! do |parser|
   parser.banner = "Usage: quick [options]"
 
@@ -256,10 +256,10 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 query = "SELECT 1"
-2.times {|q|
+1.times {|q|
   if q == 0
-    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 10"
-  elsif q == 1
+  #  query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+  #elsif q == 1
     query = "SELECT * FROM \"#{db}\".fruits"
   end
   mero.connect
@@ -277,6 +277,14 @@ query = "SELECT 1"
     while (line = mero.fetch_line(hdl))
       puts String.new(line)
     end
+    json_data = mero.query_json(mid, query)
+    puts "JSON Internal Data Type: #{json_data.class}\n"
+    #puts "JSON Generated: #{json}"
+    # Doesn't work here where did the each method go.
+    json_data.each {|j|
+      puts j
+    }
+    p json_data
   elsif res == MonetDBMAPI::MERROR
     raise InternalError.new "Mapi internal error."
   elsif res == MonetDBMAPI::MTIMEOUT
