@@ -278,13 +278,12 @@ query = "SELECT 1"
       puts String.new(line)
     end
     json_data = mero.query_json(mid, query)
-    puts "JSON Internal Data Type: #{json_data.class}\n"
-    #puts "JSON Generated: #{json}"
+    #puts "JSON Internal Data Type: #{json_data.class}\n"
+    puts "JSON Generated:\n"
     # Doesn't work here where did the each method go.
     json_data.each {|j|
       puts j
     }
-    p json_data
   elsif res == MonetDBMAPI::MERROR
     raise InternalError.new "Mapi internal error."
   elsif res == MonetDBMAPI::MTIMEOUT
