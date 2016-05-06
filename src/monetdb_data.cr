@@ -36,10 +36,10 @@ class MonetDBJSON < MonetDB
         monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
         if hdrinc == 1
           @fields = l.gsub("% ", "").split("#")[0].strip
-          puts "Field: #{@fields}"
+          #puts "Field: #{@fields}"
         elsif hdrinc == 2
           @types = l.gsub("% ", "").split("#")[0].strip
-          puts "Type: #{@types}"
+          #puts "Type: #{@types}"
         end
         hdrinc += 1
       end
@@ -56,7 +56,7 @@ class MonetDBJSON < MonetDB
     rowcounter = 0
     ln = 0
     @monetdb_raw_data.each_line {|n|
-      puts "#{ln} RAW Line: #{n}"
+      #puts "#{ln} RAW Line: #{n}"
       comma_sep = Array(String).new
       mraw = 0
       nextrec = 0
@@ -74,7 +74,7 @@ class MonetDBJSON < MonetDB
       #puts result
       ln += 1
     }
-    puts "Result: #{@result.class}"
+    #puts "Result: #{@result.class}"
     return @result.not_nil!
   end
   
@@ -82,22 +82,27 @@ class MonetDBJSON < MonetDB
     hdl = self.query(mid, cmd)
     rawdata = Array(String).new
     res = self.execute(hdl)
-    if res == MonetDBMAPI::MOK
+    case res  
+    when MonetDBMAPI::MOK
       while (line = self.fetch_line(hdl)); rawdata << String.new(line).not_nil!; end
-      puts "query_json: Internal Type: #{rawdata.class}"
+      #puts "query_json: Internal Type: #{rawdata.class}"
       process_from_raw(rawdata)
       json_result = json_process_result
-# Works here ?
-      #json_result.each {|n|
-      #  puts "JSON String: #{n}"
-      #}
       return json_result
-    elsif res == MonetDBMAPI::MERROR
+    when MonetDBMAPI::MERROR
       raise InternalError.new "Mapi internal error."
-    elsif res == MonetDBMAPI::MTIMEOUT
+    when res == MonetDBMAPI::MTIMEOUT
       raise TimeoutError.new "Error communicating with the server."
-    elsif res == MonetDBMAPI::MSERVER
+    when res == MonetDBMAPI::MSERVER
       raise QueryError.new "Query generated and invalid response please check your SQL"
+    else
+      json_result = Array(String).new
+      json_result << String.build do |io|
+        io.json_object do |object|
+          object.field "result", "Unknown MServer Response code / MAPI Implementation outdated ?"
+        end
+      end
+      return json_result
     end
   end
   
