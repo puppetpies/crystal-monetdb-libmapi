@@ -12,12 +12,14 @@ require "json"
 
 class MonetDBJSON < MonetDB
 
+  property? result : Array(String)
+  
   def initialize
     super
     @monetdb_raw_data = ""
     @fields = ""
     @types = ""
-    @result = ""
+    @result = Array(String).new
   end
   
   def process_from_raw(raw)
@@ -27,36 +29,40 @@ class MonetDBJSON < MonetDB
     skipfirst = 0
     @fields = ""
     @types = ""
-    puts raw
+#   puts raw
     raw.each {|l|
+#   puts "RAW Line: #{l}"
       unless hdrinc == 4
         monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
         if hdrinc == 1
           @fields = l.gsub("% ", "").split("#")[0].strip
+          puts "Field: #{@fields}"
         elsif hdrinc == 2
           @types = l.gsub("% ", "").split("#")[0].strip
+          puts "Type: #{@types}"
         end
         hdrinc += 1
       end
       if hdrinc == 4
         if skipfirst > 0
-          @monetdb_raw_data = "{#{@monetdb_raw_data}#{l}"
+          @monetdb_raw_data = "#{@monetdb_raw_data}#{l}\n"
         end
         skipfirst += 1
       end
     }
-    json_process_result
   end
   
   def json_process_result
     rowcounter = 0
+    ln = 0
     @monetdb_raw_data.each_line {|n|
+      puts "#{ln} RAW Line: #{n}"
       comma_sep = Array(String).new
       mraw = 0
       nextrec = 0
       comma_sep << n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"").gsub("[ ", "").gsub("[", "").gsub("]", "")
       #puts comma_sep
-      @result = String.build do |io|
+      @result << String.build do |io|
         io.json_object do |object|
           @fields.split(",").each {|field|
             object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
@@ -66,8 +72,10 @@ class MonetDBJSON < MonetDB
         end
       end
       #puts result
+      ln += 1
     }
-    return @result
+    puts "Result: #{@result.class}"
+    return @result.not_nil!
   end
   
   def query_json(mid, cmd : String)
@@ -75,10 +83,15 @@ class MonetDBJSON < MonetDB
     rawdata = Array(String).new
     res = self.execute(hdl)
     if res == MonetDBMAPI::MOK
-      while (line = self.fetch_line(hdl)); rawdata << String.new(line); end
-      puts "Type: #{rawdata.class}"
-      json = process_from_raw(rawdata)
-      return json
+      while (line = self.fetch_line(hdl)); rawdata << String.new(line).not_nil!; end
+      puts "query_json: Internal Type: #{rawdata.class}"
+      process_from_raw(rawdata)
+      json_result = json_process_result
+# Works here ?
+      #json_result.each {|n|
+      #  puts "JSON String: #{n}"
+      #}
+      return json_result
     elsif res == MonetDBMAPI::MERROR
       raise InternalError.new "Mapi internal error."
     elsif res == MonetDBMAPI::MTIMEOUT
