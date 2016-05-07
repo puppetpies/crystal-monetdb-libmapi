@@ -6,6 +6,8 @@ This is currently experimental and needs a lot of work !
 
 You will need the MonetDB client package installed for this to work and also an instance of MServer5 running
 
+We can now perform and query that emits JSON useful for SELECT statements
+
 For more details look at monetdb.org
 
 Examples schemas provided under examples/
@@ -14,7 +16,7 @@ Examples schemas provided under examples/
 ````
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
-[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -2 false
+[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 300 -2 false
 >> Server Information
 
  > Merovingian Server: 172.17.0.2
@@ -28,46 +30,25 @@ crystal build --release quick.cr -o bin/quick
  > Autocommit: false
 
 >> Insert Test
- - INSERT iterations: 3000
-Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo', 'hsropzicvxbzcvoxgdskdtssvo')
-Query number: 500 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc', 'fasarzvhfimdqyeanhtbzsqamc')
-Query number: 750 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe', 'pfwefohlkeylqponpmlqtgrjxe')
-Query number: 1000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky', 'hbvdclihtmbzmgocvidixupaky')
-Query number: 1250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu', 'gurtuulylcruvskdmofwwzoqfu')
-Query number: 1500 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx', 'qvruarnrlkjetkjgdcocszykfx')
-Query number: 1750 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs', 'cvbrwgskfphqqoohbmtunjxhbs')
-Query number: 2000 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra', 'gckazemknbdhqlslxbzrnkgtra')
-Query number: 2250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy', 'dzvgoboauzgenyykacqhzoncxy')
-Query number: 2500 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz', 'qglplasgayoobksgcklacshumz')
-Query number: 2750 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf', 'dkjnqffttixwhaitqumfqhdtlf')
-( Duration ) : Start: 2016-04-30 20:33:39 +0000 Finish: 2016-04-30 20:33:44 +0000 Duration: 00:00:05.4429530
+ - INSERT iterations: 300
+Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry', 'arbaxirohpyatwxuwdjsnbkxry')
+( Duration ) : Start: 2016-05-07 16:09:58 +0100 Finish: 2016-05-07 16:09:58 +0100 Duration: 00:00:00.4979153
 
 >> Update Test
  - Update Iteration: 0
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f1 LIKE '%asd%';
 Rows affected: 0
  - Update Iteration: 1
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f8 LIKE '%asd%';
-Rows affected: 4
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f5 LIKE '%asd%';
+Rows affected: 0
 
 >> Delete Test
 DELETE FROM "threatmonitor".guid_test WHERE guid = 'Dagobert';
-Rows affected: 4
+Rows affected: 0
 
 >> Create Table Test Empty Table
 CREATE TABLE "threatmonitor".table1 ( id int, firstname char(50), lastname char(50), age int);
-Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'Dave', 'Stevens', 12);
-Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'Fred', 'Smith', 0);
-Query number: 500 SQL: INSERT INTO "threatmonitor".table1 VALUES (500, 'Dave', 'Edwards', 41);
-Query number: 750 SQL: INSERT INTO "threatmonitor".table1 VALUES (750, 'Dave', 'Stevens', 53);
-Query number: 1000 SQL: INSERT INTO "threatmonitor".table1 VALUES (1000, 'James', 'Edwards', 71);
-Query number: 1250 SQL: INSERT INTO "threatmonitor".table1 VALUES (1250, 'Fred', 'Stevens', 69);
-Query number: 1500 SQL: INSERT INTO "threatmonitor".table1 VALUES (1500, 'Ernest', 'Jones', 1);
-Query number: 1750 SQL: INSERT INTO "threatmonitor".table1 VALUES (1750, 'Dave', 'Stevens', 15);
-Query number: 2000 SQL: INSERT INTO "threatmonitor".table1 VALUES (2000, 'James', 'Smith', 11);
-Query number: 2250 SQL: INSERT INTO "threatmonitor".table1 VALUES (2250, 'John', 'Jones', 45);
-Query number: 2500 SQL: INSERT INTO "threatmonitor".table1 VALUES (2500, 'Dave', 'Stevens', 12);
-Query number: 2750 SQL: INSERT INTO "threatmonitor".table1 VALUES (2750, 'John', 'Williams', 67);
+Query number: 200 SQL: INSERT INTO "threatmonitor".table1 VALUES (200, 'Fred', 'Jones', 3);
 Rows affected: 1
 
 >> ALTER TABLE Test ADD COLUMN
@@ -81,10 +62,10 @@ Rows affected: 0
 >> DROP TABLE Test
 DROP TABLE "threatmonitor".table1;
 Rows affected: 0
-SELECT Statement: SELECT * FROM "threatmonitor".guid_test LIMIT 10
-Handle: Pointer(Void)@0x22077a0
+SELECT Statement: SELECT * FROM "threatmonitor".guid_test LIMIT 5
+Handle: Pointer(Void)@0x1c8a790
 Table Width: 11
-Record Count: 10
+Record Count: 5
 MServer Response Key: MOK Code: 0
 
 >> SELECT Test
@@ -97,13 +78,15 @@ MServer Response Key: MOK Code: 0
 [ "#dummy-sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh"	]
 [ "#dummy-ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf"	]
 [ "#dummy-nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap"	]
-[ "#dummy-tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl",	"tyhtvouwoeowqfelwzjbhbrxwl"	]
-[ "#dummy-mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp",	"mohcynzdzglfgrznimqxusnfbp"	]
-[ "#dummy-mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo",	"mesgkaopbfyowtamjfzjiklbeo"	]
-[ "#dummy-rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf",	"rwyxrjrqnrptgcxugjdzqfaxrf"	]
-[ "#dummy-jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu",	"jddmveyjggqhhxchiehurwwigu"	]
+JSON Internal Data Type: Array(String)
+JSON Generated:
+{"guid":"#dummy-vwgydzzpinlwwzyqzfejpcxgod","f1":"vwgydzzpinlwwzyqzfejpcxgod","f2":"vwgydzzpinlwwzyqzfejpcxgod","f3":"vwgydzzpinlwwzyqzfejpcxgod","f4":"vwgydzzpinlwwzyqzfejpcxgod","f5":"vwgydzzpinlwwzyqzfejpcxgod","f6":"vwgydzzpinlwwzyqzfejpcxgod","f7":"vwgydzzpinlwwzyqzfejpcxgod","f8":"vwgydzzpinlwwzyqzfejpcxgod","f9":"vwgydzzpinlwwzyqzfejpcxgod","f10":"vwgydzzpinlwwzyqzfejpcxgod"}
+{"guid":"#dummy-dynfzsvtzmpzofrgqebrlcznvb","f1":"dynfzsvtzmpzofrgqebrlcznvb","f2":"dynfzsvtzmpzofrgqebrlcznvb","f3":"dynfzsvtzmpzofrgqebrlcznvb","f4":"dynfzsvtzmpzofrgqebrlcznvb","f5":"dynfzsvtzmpzofrgqebrlcznvb","f6":"dynfzsvtzmpzofrgqebrlcznvb","f7":"dynfzsvtzmpzofrgqebrlcznvb","f8":"dynfzsvtzmpzofrgqebrlcznvb","f9":"dynfzsvtzmpzofrgqebrlcznvb","f10":"dynfzsvtzmpzofrgqebrlcznvb"}
+{"guid":"#dummy-sqmckjiuxgygfkuntnrgxntpzh","f1":"sqmckjiuxgygfkuntnrgxntpzh","f2":"sqmckjiuxgygfkuntnrgxntpzh","f3":"sqmckjiuxgygfkuntnrgxntpzh","f4":"sqmckjiuxgygfkuntnrgxntpzh","f5":"sqmckjiuxgygfkuntnrgxntpzh","f6":"sqmckjiuxgygfkuntnrgxntpzh","f7":"sqmckjiuxgygfkuntnrgxntpzh","f8":"sqmckjiuxgygfkuntnrgxntpzh","f9":"sqmckjiuxgygfkuntnrgxntpzh","f10":"sqmckjiuxgygfkuntnrgxntpzh"}
+{"guid":"#dummy-ekzpopvrqhstpfvxplhnjnphlf","f1":"ekzpopvrqhstpfvxplhnjnphlf","f2":"ekzpopvrqhstpfvxplhnjnphlf","f3":"ekzpopvrqhstpfvxplhnjnphlf","f4":"ekzpopvrqhstpfvxplhnjnphlf","f5":"ekzpopvrqhstpfvxplhnjnphlf","f6":"ekzpopvrqhstpfvxplhnjnphlf","f7":"ekzpopvrqhstpfvxplhnjnphlf","f8":"ekzpopvrqhstpfvxplhnjnphlf","f9":"ekzpopvrqhstpfvxplhnjnphlf","f10":"ekzpopvrqhstpfvxplhnjnphlf"}
+{"guid":"#dummy-nuqnikukecgajmahyjogqjozap","f1":"nuqnikukecgajmahyjogqjozap","f2":"nuqnikukecgajmahyjogqjozap","f3":"nuqnikukecgajmahyjogqjozap","f4":"nuqnikukecgajmahyjogqjozap","f5":"nuqnikukecgajmahyjogqjozap","f6":"nuqnikukecgajmahyjogqjozap","f7":"nuqnikukecgajmahyjogqjozap","f8":"nuqnikukecgajmahyjogqjozap","f9":"nuqnikukecgajmahyjogqjozap","f10":"nuqnikukecgajmahyjogqjozap"}
 SELECT Statement: SELECT * FROM "threatmonitor".fruits
-Handle: Pointer(Void)@0x2213f50
+Handle: Pointer(Void)@0x1c98b90
 Table Width: 5
 Record Count: 8
 MServer Response Key: MOK Code: 0
@@ -121,13 +104,20 @@ MServer Response Key: MOK Code: 0
 [ "Tomato",	"2.00",	20,	"Yes a fruit",	6	]
 [ "Pear",	"4.00",	30,	"Juicy",	7	]
 [ "Nectarine",	"6.00",	50,	"Juicy",	8	]
+JSON Internal Data Type: Array(String)
+JSON Generated:
+{"name":"Apple","price":"9.99","weight":"50","comments":"NULL","id":"1"}
+{"name":"Bananna","price":"3.99","weight":"30","comments":"NULL","id":"2"}
+{"name":"Orange","price":"7.99","weight":"60","comments":"NULL","id":"3"}
+{"name":"Peach","price":"5.00","weight":"80","comments":"NULL","id":"4"}
+{"name":"Kiwi","price":"9.00","weight":"20","comments":"NULL","id":"5"}
+{"name":"Tomato","price":"2.00","weight":"20","comments":"Yes a fruit","id":"6"}
+{"name":"Pear","price":"4.00","weight":"30","comments":"Juicy","id":"7"}
+{"name":"Nectarine","price":"6.00","weight":"50","comments":"Juicy","id":"8"}
 Session should now be closed down and disconnected
 Checking ....
 Connected to MServer ? false
-
-# MClient output showing that Crystal INSERTED the data into the Database
-
-$ mclient -h 172.17.0.2 -u monetdb -d threatmonitor
+[brian@orville crystal-monetdb-libmapi]$ mclient -h 172.17.0.2 -u monetdb -d threatmonitor
 password:
 Welcome to mclient, the MonetDB/SQL interactive terminal (Jul2015-SP2)
 Database: MonetDB v11.21.19 (Jul2015-SP4), 'mapi:monetdb://mdb-master-01:50000/threatmonitor'
@@ -160,8 +150,8 @@ sql>select * from guid_test limit 10;
 | #dummy-jddmveyjgg | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchi | jddmveyjggqhhxchie | jddmveyjggqhhxchie | jddmveyjggqhhxchie |
 : qhhxchiehurwwigu  : ehurwwigu         : ehurwwigu         : ehurwwigu         : ehurwwigu         : ehurwwigu         : ehurwwigu         : ehurwwigu         : hurwwigu           : hurwwigu           : hurwwigu           :
 +-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+--------------------+--------------------+--------------------+
-10 tuples (8.156ms)
-sql>select * from fruits limit 10;
+10 tuples (39.225ms)
+sql>select * from fruits;
 +-----------+-------+--------+-------------+------+
 | name      | price | weight | comments    | id   |
 +===========+=======+========+=============+======+
@@ -174,4 +164,5 @@ sql>select * from fruits limit 10;
 | Pear      | 4.00  |     30 | Juicy       |    7 |
 | Nectarine | 6.00  |     50 | Juicy       |    8 |
 +-----------+-------+--------+-------------+------+
-8 tuples (9.972ms)
+8 tuples (5.715ms)
+sql>
