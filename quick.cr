@@ -79,7 +79,7 @@ updaterands = 1
 autocommit = false
 deleterecordsall = false
 
-mero = MonetDBJSON.new
+mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
   parser.banner = "Usage: quick [options]"
 
@@ -256,11 +256,11 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 query = "SELECT 1"
-1.times {|q|
+2.times {|q|
   if q == 0
-  #  query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
-  #elsif q == 1
-    query = "SELECT * FROM \"#{db}\".fruits"
+    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+  elsif q == 1
+   query = "SELECT * FROM \"#{db}\".fruits"
   end
   mero.connect
   puts "SELECT Statement: #{query}".colorize(:green)
