@@ -10,6 +10,11 @@
 ########################################################################
 require "json"
 
+class ConnectionError < Exception; end
+class QueryError < Exception; end
+class InternalError < Exception; end
+class TimeoutError < Exception; end
+
 module MonetDB
 
   class ClientJSON < Client
