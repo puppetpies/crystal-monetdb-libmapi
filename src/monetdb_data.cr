@@ -119,6 +119,7 @@ module MonetDB
         json_result << String.build do |io|
           io.json_object do |object|
             object.field "result", "Unknown MServer Response code / MAPI Implementation outdated ?"
+            object.field "troubleshooting", "Maybe you missing specifying Schema SELECT * FROM \"myschema\".table ..."
           end
         end
         self.reset
