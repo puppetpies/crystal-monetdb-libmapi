@@ -6,6 +6,7 @@
 # Description: 
 #   MonetDB RAW Data processor
 #   
+#   For clarity this is just a test for parsing the RAW output
 #
 ########################################################################
 
