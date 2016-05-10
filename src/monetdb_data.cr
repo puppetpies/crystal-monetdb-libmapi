@@ -29,7 +29,6 @@ module MonetDB
       @monetdb_raw_data = ""
       @fields = ""
       @types = ""
-      @result = Array(String).new
     end
     
     # No Alias method ?
@@ -37,7 +36,6 @@ module MonetDB
       @monetdb_raw_data = ""
       @fields = ""
       @types = ""
-      @result = Array(String).new    
     end
     
     private def process_from_raw(raw)
@@ -73,6 +71,7 @@ module MonetDB
     private def json_process_result
       rowcounter = 0
       ln = 0
+      result = Array(String).new
       @monetdb_raw_data.each_line {|n|
         #puts "#{ln} RAW Line: #{n}"
         comma_sep = Array(String).new
@@ -80,7 +79,7 @@ module MonetDB
         nextrec = 0
         comma_sep << n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"").gsub("[ ", "").gsub("[", "").gsub("]", "")
         #puts comma_sep
-        @result << String.build do |io|
+        result << String.build do |io|
           io.json_object do |object|
             @fields.split(",").each {|field|
               object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
@@ -93,7 +92,7 @@ module MonetDB
         ln += 1
       }
       #puts "Result: #{@result.class}"
-      return @result.not_nil!
+      return result.not_nil!
     end
     
     def query_json(mid, cmd : String)
