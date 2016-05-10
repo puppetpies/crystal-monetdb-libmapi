@@ -272,12 +272,30 @@ query = "SELECT 1"
     while (line = mero.fetch_line(hdl))
       puts String.new(line)
     end
-    json_data = mero.query_json(mid, query)
-    puts "JSON Internal Data Type: #{json_data.class}\n"
-    puts "JSON Generated:\n"
-    json_data.each {|j|
+    result_json = mero.query_json(mid, query)
+    #puts "JSON Internal Data Type: #{result_json.class}\n".colorize(:red)
+    puts "JSON Generated:\n".colorize(:red)
+    # Sample process JSON
+    # crystal eval 'require "json"; str = "{\"name\":\"Apple\",\"price\":\"0.65\"}" 
+    # jsn = JSON.parse(str); p jsn.each {|k,v| puts k; puts v; }'
+    result_json.each {|j|
       puts j
     }
+    puts "\nProcessed JSON Printable format:\n".colorize(:red)
+    fields_once = 0
+    result_json.each {|j|
+      parser = JSON.parse(j)
+      parser.each {|k, v|
+        print "#{k} " if fields_once == 0
+      }
+      fields_once += 1
+      print "\n"
+      parser.each {|k, v|
+        print "#{v} "
+      }
+      
+    }
+    print "\n"
   elsif res == MonetDBMAPI::MERROR
     raise InternalError.new "Mapi internal error."
   elsif res == MonetDBMAPI::MTIMEOUT
