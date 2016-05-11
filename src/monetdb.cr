@@ -43,6 +43,14 @@ module MonetDB
     def connect
       MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
     end
+
+    def disconnect(mid)
+      MonetDBMAPI.mapi_disconnect(mid)
+    end
+    
+    def destroy(mid)
+      MonetDBMAPI.mapi_destroy(mid)
+    end
     
     def is_connected?(mid)
       conn = MonetDBMAPI.mapi_is_connected(mid)
@@ -148,14 +156,6 @@ module MonetDB
     
     def query_handle(hdl, cmd)
       MonetDBMAPI.mapi_query_handle(hdl, cmd)
-    end
-    
-    def disconnect(mid)
-      MonetDBMAPI.mapi_disconnect(mid)
-    end
-    
-    def destroy(mid)
-      MonetDBMAPI.mapi_destroy(mid)
     end
     
   end
