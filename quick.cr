@@ -251,12 +251,12 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 query = "SELECT 1"
-2.times {|q|
-  if q == 0
-    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
-  elsif q == 1
+1.times {|q|
+  #if q == 0
+  #  query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+  #elsif q == 1
    query = "SELECT * FROM \"#{db}\".fruits"
-  end
+  #end
   mero.connect
   puts "SELECT Statement: #{query}".colorize(:green)
   hdl = mero.query(mid, query)
@@ -283,7 +283,11 @@ query = "SELECT 1"
     }
     puts "\nProcessed JSON Printable format:\n".colorize(:red)
     fields_once = 0
+    valiter = 0
+    res_hash = Hash(Int32, Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any)).new
+    build_kv = Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any).new
     result_json.each {|j|
+      build_kv = Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any).new
       parser = JSON.parse(j)
       parser.each {|k, v|
         print "#{k} " if fields_once == 0
@@ -292,10 +296,27 @@ query = "SELECT 1"
       print "\n"
       parser.each {|k, v|
         print "#{v} "
+        build_kv.merge!({k => v})
       }
-      
+      res_hash.merge!({valiter => build_kv})
+      valiter += 1
     }
+    print "\nHash Table of Results\n".colorize(:red)
+    # Sample Res hash
+    # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"}, 
+    #  1 => {"name" => "Bananna", "price" => "3.99", "weight" => "30", "comments" => "NULL", "id" => "2"}, 
+    #  2 => {"name" => "Orange", "price" => "7.99", "weight" => "60", "comments" => "NULL", "id" => "3"}, 
+    #  3 => {"name" => "Peach", "price" => "5.00", "weight" => "80", "comments" => "NULL", "id" => "4"}, 
+    #  4 => {"name" => "Kiwi", "price" => "9.00", "weight" => "20", "comments" => "NULL", "id" => "5"}, 
+    #  5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"}, 
+    #  6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"}, 
+    #  7 => {"name" => "Nectarine", "price" => "6.00", "weight" => "50", "comments" => "Juicy", "id" => "8"}}
+    pp res_hash
     print "\n"
+    print "Select Specific Fields from Hash table\n\n".colorize(:red)
+    res_hash.each {|k,v|
+      puts "Row Number: #{k} Name: #{v["name"]} Price: #{v["price"]}"
+    }
   elsif res == MonetDBMAPI::MERROR
     raise InternalError.new "Mapi internal error."
   elsif res == MonetDBMAPI::MTIMEOUT
