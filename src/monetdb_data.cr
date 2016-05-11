@@ -19,7 +19,6 @@ module MonetDB
 
   class ClientJSON < Client
 
-    property? result : Array(String)
     property? monetdb_raw_data : String
     property? fields : String
     property? types : String
