@@ -98,7 +98,6 @@ module MonetDB
       #fields_once = 0
       valiter = 0
       res_hash = Hash(Int32, Hash(JSON::Any, JSON::Any)).new
-      build_kv = Hash(JSON::Any, JSON::Any).new
       result_json.each {|j|
         build_kv = Hash(JSON::Any, JSON::Any).new
         parser = JSON.parse(j)
