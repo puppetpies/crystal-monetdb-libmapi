@@ -281,26 +281,7 @@ query = "SELECT 1"
     result_json.each {|j|
       puts j
     }
-    puts "\nProcessed JSON Printable format:\n".colorize(:red)
-    fields_once = 0
-    valiter = 0
-    res_hash = Hash(Int32, Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any)).new
-    build_kv = Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any).new
-    result_json.each {|j|
-      build_kv = Hash(String | Int32 | JSON::Any, String | Int32 | JSON::Any).new
-      parser = JSON.parse(j)
-      parser.each {|k, v|
-        print "#{k} " if fields_once == 0
-      }
-      fields_once += 1
-      print "\n"
-      parser.each {|k, v|
-        print "#{v} "
-        build_kv.merge!({k => v})
-      }
-      res_hash.merge!({valiter => build_kv})
-      valiter += 1
-    }
+    res_hash = mero.json_to_hash(result_json)
     print "\nHash Table of Results\n".colorize(:red)
     # Sample Res hash
     # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"}, 
