@@ -252,12 +252,14 @@ aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 query = "SELECT 1"
-1.times {|q|
-  #if q == 0
-  #  query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
-  #elsif q == 1
-   query = "SELECT * FROM \"#{db}\".fruits"
-  #end
+2.times {|q|
+  if q == 0
+    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+    puts "Test query 1: #{query}"
+  elsif q == 1
+    query = "SELECT * FROM \"#{db}\".fruits"
+    puts "Test query 2: #{query}"
+  end
   mero.connect
   puts "SELECT Statement: #{query}".colorize(:green)
   hdl = mero.query(mid, query)
@@ -296,9 +298,15 @@ query = "SELECT 1"
     pp res_hash
     print "\n"
     print "Select Specific Fields from Hash table\n\n".colorize(:red)
-    res_hash.each {|k,v|
-      puts "Row Number: #{k} Name: #{v["name"]} Price: #{v["price"]}"
-    }
+    if q == 0
+      res_hash.each {|k,v|
+        puts "Hash ID: #{k} F1: #{v["f1"]} F2: #{v["f2"]}"        
+      }
+    elsif q == 1
+      res_hash.each {|k,v|
+        puts "Hash ID: #{k} Name: #{v["name"]} Price: #{v["price"]}"
+      }
+    end
   elsif res == MonetDBMAPI::MERROR
     raise InternalError.new "Mapi internal error."
   elsif res == MonetDBMAPI::MTIMEOUT
