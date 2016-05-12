@@ -150,6 +150,10 @@ module MonetDB
       MonetDBMAPI.mapi_trace(mid, flag)
     end
     
+    def timeout(mid, time : Int32)
+      MonetDBMAPI.mapi_timeout(mid, time)
+    end
+    
     def get_row_count(hdl)
       MonetDBMAPI.mapi_get_row_count(hdl)
     end
