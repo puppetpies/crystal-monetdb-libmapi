@@ -146,6 +146,10 @@ module MonetDB
       MonetDBMAPI.mapi_explain_result(hdl, fd)
     end
     
+    def get_trace(mid)
+      MonetDBMAPI.mapi_get_trace(mid)
+    end
+    
     def trace(mid, flag : Int32)
       MonetDBMAPI.mapi_trace(mid, flag)
     end
