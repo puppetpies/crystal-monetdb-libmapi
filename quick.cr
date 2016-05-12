@@ -139,6 +139,7 @@ puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
  
 mid = mero.connect # Connect to a MServer5
+mero.timeout(mid, 10)
 isc = mero.is_connected?(mid)
 puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping(mid)
