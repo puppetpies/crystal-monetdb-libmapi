@@ -1,0 +1,151 @@
+Getting start with MonetDB in the Crystal Language
+==================================================
+
+First of all if you don't what Crystal is its a Statically Typed Ruby inspired language that compiles in byte code via LLVM.
+
+Today we are going to covering creating your own Crystal Shard project with the crystal-monetdb-libmapi project i created.
+
+Dependencies for this are.
+
+MonetDB Server / Client libraries installed and configured. - http://monetdb.org
+Crystal >= 0.14 - http://crystal-lang.org
+Shards >= 0.6.3 - https://github.com/crystal-lang/shards
+git - Version control
+
+First lets build create out shard project directory.
+
+[brian@orville Projects]$ mkdir monetdb-example1
+[brian@orville monetdb-example1]$ nano shard.yml
+
+# Add the content as below
+
+name: crystal-monetdb-examples
+version: 0.1.0
+
+authors:
+  - Brian Hood <brianh6854@googlemail.com>
+
+development_dependencies:
+  crystal-monetdb-libmapi:
+    github: puppetpies/crystal-monetdb-libmapi
+    version: ">= 0.1.1"
+
+license: GPLv2
+
+[brian@orville monetdb-example1]$ nano .gitignore
+
+# Add the content as below
+
+/.crystal
+/.shards
+/libs
+/doc
+
+[brian@orville monetdb-example1]$ git add .gitignore
+[brian@orville monetdb-example1]$ git commit -m "Initial commit" .gitignore  
+[master (root-commit) 49fb5f5] Initial commit
+ 1 file changed, 5 insertions(+)
+ create mode 100644 .gitignore
+[brian@orville monetdb-example1]$ cat .gitignore 
+/.crystal
+/.shards
+/libs
+/doc
+
+[brian@orville monetdb-example1]$ cat shard.yml 
+name: crystal-monetdb-examples
+version: 0.1.0
+
+authors:
+  - Brian Hood <brianh6854@googlemail.com>
+
+development_dependencies:
+  crystal-monetdb-libmapi:
+    github: puppetpies/crystal-monetdb-libmapi
+    version: ">= 0.1.1"
+
+license: GPLv2
+
+[brian@orville monetdb-example1]$ shards update
+Updating https://github.com/puppetpies/crystal-monetdb-libmapi.git
+Installing crystal-monetdb-libmapi (HEAD)
+[brian@orville monetdb-example1]$ ls -l
+total 8
+drwxr-xr-x 3 brian wheel  88 May 13 21:13 libs
+-rw-r--r-- 1 brian wheel 149 May 13 21:13 shard.lock
+-rw-r--r-- 1 brian wheel 241 May 13 21:07 shard.yml
+
+Once you have done this you notice there is libs directory don't worry about it for now.
+
+Now we create ourselves a database / schema in monetdb
+
+monetdbd create /var/monetdb5/dbfarm
+monetdbd start /var/monetdb5/dbfarm
+monetdb create monetdb-example1
+created database in maintenance mode: monetdb-example1
+monetdb release monetdb-example1
+taken database out of maintenance mode: monetdb-example1
+monetdb start monetdb-example1
+starting database 'monetdb-example1'... done
+
+Import from lib/crystal-monetdb-libmapi/examples.
+
+First create a SCHEMA test
+mclient -u monetdb -d monetdb-example1
+password:
+Welcome to mclient, the MonetDB/SQL interactive terminal (Jul2015-SP4)
+Database: MonetDB v11.21.19 (Jul2015-SP4), 'mapi:monetdb://threatmonitor-suite:50000/monetdb-example1'
+Type \q to quit, \? for a list of available commands
+auto commit mode: on
+sql>CREATE SCHEMA "test";
+operation successful (7.944ms)
+sql>\q
+
+mclient -u monetdb -d monetdb-example1 < example_schema.sql
+password:
+operation successful
+6 affected rows
+operation successful
+
+Now create the file example.cr in your Project directory with the following code.
+
+require "crystal-monetdb-libmapi/monetdb"
+require "crystal-monetdb-libmapi/monetdb_data"
+require "colorize"
+
+class ConnectionError < Exception; end
+class QueryError < Exception; end
+class InternalError < Exception; end
+class TimeoutError < Exception; end
+
+mero = MonetDB::ClientJSON.new
+mero.host = "127.0.0.1"
+mero.port = 50000
+mero.username = "monetdb"
+mero.password = "monetdb"
+mero.db = "monetdb-example1"
+
+query = "SELECT name, price FROM \"test\".fruits;"
+mid = mero.connect
+result_json = mero.query_json(mid, query)
+result = mero.json_to_hash(result_json)
+puts "Hash Created:".colorize(:red)
+p result
+puts "Display specific fields".colorize(:red)
+result.each {|k,v|
+  puts "Hash Key: #{k} Name: #{v["name"]} Price: #{v["price"]}"
+}
+
+Now lets build the project.
+
+[brian@orville monetdb-example1]$ ./example 
+Hash Created:
+{0 => {"name" => "Apple", "price" => "9.99"}, 1 => {"name" => "Bananna", "price" => "3.99"}, 2 => {"name" => "Orange", "price" => "7.99"}, 3 => {"name" => "Peach", "price" => "5.00"}, 4 => {"name" => "Kiwi", "price" => "9.00"}, 5 => {"name" => "Tomato", "price" => "2.00"}}
+Display specific fields
+Hash Key: 0 Name: Apple Price: 9.99
+Hash Key: 1 Name: Bananna Price: 3.99
+Hash Key: 2 Name: Orange Price: 7.99
+Hash Key: 3 Name: Peach Price: 5.00
+Hash Key: 4 Name: Kiwi Price: 9.00
+Hash Key: 5 Name: Tomato Price: 2.00
+
