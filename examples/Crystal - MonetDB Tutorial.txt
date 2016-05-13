@@ -136,6 +136,11 @@ result.each {|k,v|
   puts "Hash Key: #{k} Name: #{v["name"]} Price: #{v["price"]}"
 }
 
+Add the version control
+
+[brian@orville examples]$ git add Crystal\ -\ MonetDB\ Tutorial.txt 
+[brian@orville examples]$ git commit -m "Tutorial text" Crystal\ -\ MonetDB\ Tutorial.txt 
+
 Now lets build the project.
 
 [brian@orville monetdb-example1]$ ./example 
