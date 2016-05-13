@@ -232,25 +232,26 @@ puts "\n>> ALTER TABLE Test ADD COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 ADD COLUMN sex CHAR(1);"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
-aft = mero.rows_affected(hdl)
-puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
 
 puts "\n>> ALTER TABLE Test DROP COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 DROP COLUMN sex;"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
-aft = mero.rows_affected(hdl)
-puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
+
+puts "\n>> Enable Trace query"
+trace = mero.trace(mid, true)
+puts "\n> - Trace"
 
 puts "\n>> DROP TABLE Test".colorize(:red)
 sql = "DROP TABLE \"#{db}\".table1;"
 puts sql.colorize(:green)
 hdl = mero.query(mid, sql)
-aft = mero.rows_affected(hdl)
-puts "Rows affected: #{aft}".colorize(:blue)
 hdl = mero.query(mid, "COMMIT;")
+p trace
+mero.trace(mid, false) # disable trace
+
 query = "SELECT 1"
 2.times {|q|
   if q == 0
