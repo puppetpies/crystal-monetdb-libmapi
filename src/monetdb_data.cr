@@ -95,19 +95,12 @@ module MonetDB
     end
 
     def json_to_hash(result_json)
-      #fields_once = 0
       valiter = 0
       res_hash = Hash(Int32, Hash(JSON::Any, JSON::Any)).new
       result_json.each {|j|
         build_kv = Hash(JSON::Any, JSON::Any).new
         parser = JSON.parse(j)
-        #parser.each {|k, v|
-        #  print "#{k} " if fields_once == 0
-        #}
-        #fields_once += 1
-        #print "\n"
         parser.each {|k, v|
-          #print "#{v} "
           build_kv.merge!({k => v})
         }
         res_hash.merge!({valiter => build_kv})
