@@ -51,9 +51,9 @@ monetdb_raw_data.each_line {|n|
   puts n
 }
 
-puts "\nGenerated JSON Data:\n"
+#puts "\nGenerated JSON Data:\n"
 t = 0
-puts "JSON Fields / Types:\n"
+#puts "JSON Fields / Types:\n"
   result = String.build do |io|
     io.json_object do |object|
     b_fields.each {|n|
@@ -62,9 +62,9 @@ puts "JSON Fields / Types:\n"
     }
     end
   end
-puts result
+#puts result
 
-puts "\nJSON Data:\n"
+#puts "\nJSON Data:\n"
 rowcounter = 0
 monetdb_raw_data.each_line {|n|
   comma_sep = Array(String).new
@@ -81,7 +81,7 @@ monetdb_raw_data.each_line {|n|
       rowcounter += 1
     end
   end
-  puts result
+  #puts result
 }
 
 result = String.build do |io|
@@ -89,4 +89,4 @@ result = String.build do |io|
     object.field "rowcount", "#{rowcounter}"
   end
 end
-puts result
+#puts result
