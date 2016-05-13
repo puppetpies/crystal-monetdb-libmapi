@@ -76,7 +76,8 @@ module MonetDB
         comma_sep = Array(String).new
         mraw = 0
         nextrec = 0
-        comma_sep << n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"").gsub("[ ", "").gsub("[", "").gsub("]", "")
+        prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") #.gsub("[ ", "").gsub("[", "").gsub("]", "")
+        comma_sep << prebraces[2..prebraces.size-2] # Remove braces
         #puts comma_sep
         result << String.build do |io|
           io.json_object do |object|
