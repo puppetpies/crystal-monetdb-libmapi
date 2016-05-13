@@ -150,8 +150,13 @@ module MonetDB
       MonetDBMAPI.mapi_get_trace(mid)
     end
     
-    def trace(mid, flag : Int32)
-      MonetDBMAPI.mapi_trace(mid, flag)
+    def trace(mid, flag : Bool)
+      if flag == false
+        flagvalue = 0
+      else
+        flagvalue = 1
+      end
+      MonetDBMAPI.mapi_trace(mid, flagvalue)
     end
     
     def timeout(mid, time : Int32)
