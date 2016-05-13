@@ -3,7 +3,7 @@ Getting start with MonetDB in the Crystal Language
 
 First of all if you don't what Crystal is its a Statically Typed Ruby inspired language that compiles in byte code via LLVM.
 
-Today we are going to covering creating your own Crystal Shard project with the crystal-monetdb-libmapi project i created.
+Today we are going to cover creating your own Crystal Shard project with the crystal-monetdb-libmapi project i created.
 
 Dependencies for this are.
 
@@ -11,8 +11,9 @@ MonetDB Server / Client libraries installed and configured. - http://monetdb.org
 Crystal >= 0.14 - http://crystal-lang.org
 Shards >= 0.6.3 - https://github.com/crystal-lang/shards
 git - Version control
+nano - Editor
 
-First lets build create out shard project directory.
+First lets create our shard project directory.
 
 [brian@orville Projects]$ mkdir monetdb-example1
 [brian@orville monetdb-example1]$ nano shard.yml
