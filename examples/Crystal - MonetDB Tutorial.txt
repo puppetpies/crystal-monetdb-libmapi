@@ -18,7 +18,7 @@ First lets create our shard project directory.
 [brian@orville Projects]$ mkdir monetdb-example1
 [brian@orville monetdb-example1]$ nano shard.yml
 
-# Add the content as below
+Create the file shard.yml
 
 name: crystal-monetdb-examples
 version: 0.1.0
@@ -35,7 +35,7 @@ license: GPLv2
 
 [brian@orville monetdb-example1]$ nano .gitignore
 
-# Add the content as below
+Create the file .gitignore
 
 /.crystal
 /.shards
@@ -58,7 +58,7 @@ name: crystal-monetdb-examples
 version: 0.1.0
 
 authors:
-  - Brian Hood <brianh6854@googlemail.com>
+  - My Name <username@example.com>
 
 development_dependencies:
   crystal-monetdb-libmapi:
@@ -144,6 +144,7 @@ Add the version control
 
 Now lets build the project.
 
+[brian@orville monetdb-example1]$ crystal build example.cr
 [brian@orville monetdb-example1]$ ./example 
 Hash Created:
 {0 => {"name" => "Apple", "price" => "9.99"}, 1 => {"name" => "Bananna", "price" => "3.99"}, 2 => {"name" => "Orange", "price" => "7.99"}, 3 => {"name" => "Peach", "price" => "5.00"}, 4 => {"name" => "Kiwi", "price" => "9.00"}, 5 => {"name" => "Tomato", "price" => "2.00"}}
