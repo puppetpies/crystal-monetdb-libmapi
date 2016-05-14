@@ -6,7 +6,7 @@ This is currently experimental and needs a lot of work !
 
 You will need the MonetDB client package installed for this to work and also an instance of MServer5 running
 
-We can now perform and query that emits JSON useful for SELECT statements
+We can now perform a query that emits JSON useful for SELECT statements
 
 For more details look at monetdb.org
 
