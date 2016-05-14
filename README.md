@@ -24,7 +24,7 @@ class QueryError < Exception; end
 class InternalError < Exception; end
 class TimeoutError < Exception; end
 
-host = "172.17.0.2"
+host = "127.0.0.1"
 port = 50000
 username = "monetdb"
 password = "monetdb"
@@ -52,16 +52,16 @@ result.each {|k,v|
 
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
-[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 500 -2 false
+[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 127.0.0.1 -u monetdb -d threatmonitor -l 500 -2 false
 >> Server Information
 
- > Merovingian Server: 172.17.0.2
+ > Merovingian Server: 127.0.0.1
  > Port: 50000
  > Username: monetdb
  > DB: threatmonitor
  > Is Connected?: true
  > Ping?: OK
- > Merovingian URI: mapi:monetdb://172.17.0.2:50000/threatmonitor
+ > Merovingian URI: mapi:monetdb://127.0.0.1:50000/threatmonitor
  > Monet Version: 
  > Autocommit: false
 
