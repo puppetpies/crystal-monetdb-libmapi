@@ -44,17 +44,13 @@ module MonetDB
       skipfirst = 0
       @fields = ""
       @types = ""
-  #   puts raw
       raw.each {|l|
-  #   puts "RAW Line: #{l}"
         unless hdrinc == 4
           monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
           if hdrinc == 1
             @fields = l.gsub("% ", "").split("#")[0].strip
-            #puts "Field: #{@fields}"
           elsif hdrinc == 2
             @types = l.gsub("% ", "").split("#")[0].strip
-            #puts "Type: #{@types}"
           end
           hdrinc += 1
         end
@@ -72,13 +68,11 @@ module MonetDB
       ln = 0
       result = Array(String).new
       @monetdb_raw_data.each_line {|n|
-        #puts "#{ln} RAW Line: #{n}"
         comma_sep = Array(String).new
         mraw = 0
         nextrec = 0
         prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") #.gsub("[ ", "").gsub("[", "").gsub("]", "")
         comma_sep << prebraces[2..prebraces.size-2] # Remove braces
-        #puts comma_sep
         result << String.build do |io|
           io.json_object do |object|
             @fields.split(",").each {|field|
@@ -88,10 +82,8 @@ module MonetDB
             rowcounter += 1
           end
         end
-        #puts result
         ln += 1
       }
-      #puts "Result: #{@result.class}"
       return result.not_nil!
     end
 
@@ -117,7 +109,6 @@ module MonetDB
       case res  
       when MonetDBMAPI::MOK
         while (line = self.fetch_line(hdl)); rawdata << String.new(line).not_nil!; end
-        #puts "query_json: Internal Type: #{rawdata.class}"
         process_from_raw(rawdata)
         json_result = json_process_result
         self.reset # Reinitialize instance variables to blank
