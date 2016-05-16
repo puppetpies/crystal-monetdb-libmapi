@@ -171,6 +171,18 @@ module MonetDB
       MonetDBMAPI.mapi_query_handle(hdl, cmd)
     end
     
+    def cache_limit(mid, limit : Int32)
+      MonetDBMAPI.mapi_cache_limit(mid, limit)
+    end
+    
+    def cache_shuffle(hdl, percentage : Int32)
+      MonetDBMAPI.mapi_cache_shuffle(hdl, percentage)
+    end
+    
+    def cache_freeup(hdl, percentage : Int32)
+      MonetDBMAPI.mapi_cache_freeup(hdl, percentage)
+    end
+    
   end
   
 end
