@@ -1,42 +1,43 @@
-########################################################################
+# #######################################################################
 #
 # Author: Brian Hood
 # Name: Crystal bindings for MonetDB
 # Codename: Dagobert I
-# Description: 
+# Description:
 #   Data functions extending MonetDB class
-#   
 #
-########################################################################
+#
+# #######################################################################
 require "json"
 
 class ConnectionError < Exception; end
+
 class QueryError < Exception; end
+
 class InternalError < Exception; end
+
 class TimeoutError < Exception; end
 
 module MonetDB
-
   class ClientJSON < Client
-
     property? monetdb_raw_data : String
     property? fields : String
     property? types : String
-    
+
     def initialize
       super
       @monetdb_raw_data = ""
       @fields = ""
       @types = ""
     end
-    
+
     # No Alias method ?
     def reset
       @monetdb_raw_data = ""
       @fields = ""
       @types = ""
     end
-    
+
     private def process_from_raw(raw)
       monetdb_hdr_data = Array(String).new
       monetdb_raw_data = Array(String).new
@@ -44,7 +45,7 @@ module MonetDB
       skipfirst = 0
       @fields = ""
       @types = ""
-      raw.each {|l|
+      raw.each { |l|
         unless hdrinc == 4
           monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
           if hdrinc == 1
@@ -62,20 +63,19 @@ module MonetDB
         end
       }
     end
-    
     private def json_process_result
       rowcounter = 0
       ln = 0
       result = Array(String).new
-      @monetdb_raw_data.each_line {|n|
+      @monetdb_raw_data.each_line { |n|
         comma_sep = Array(String).new
         mraw = 0
         nextrec = 0
-        prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") #.gsub("[ ", "").gsub("[", "").gsub("]", "")
-        comma_sep << prebraces[2..prebraces.size-2] # Remove braces
+        prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") # .gsub("[ ", "").gsub("[", "").gsub("]", "")
+        comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
         result << String.build do |io|
           io.json_object do |object|
-            @fields.split(",").each {|field|
+            @fields.split(",").each { |field|
               object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
               mraw += 1
             }
@@ -90,10 +90,10 @@ module MonetDB
     def json_to_hash(result_json)
       valiter = 0
       res_hash = Hash(Int32, Hash(JSON::Any, JSON::Any)).new
-      result_json.each {|j|
+      result_json.each { |j|
         build_kv = Hash(JSON::Any, JSON::Any).new
         parser = JSON.parse(j)
-        parser.each {|k, v|
+        parser.each { |k, v|
           build_kv.merge!({k => v})
         }
         res_hash.merge!({valiter => build_kv})
@@ -101,14 +101,16 @@ module MonetDB
       }
       return res_hash
     end
-    
+
     def query_json(mid, cmd : String)
       hdl = self.query(mid, cmd)
       rawdata = Array(String).new
       res = self.execute(hdl)
-      case res  
+      case res
       when MonetDBMAPI::MOK
-        while (line = self.fetch_line(hdl)); rawdata << String.new(line).not_nil!; end
+        while (line = self.fetch_line(hdl))
+          rawdata << String.new(line).not_nil!
+        end
         process_from_raw(rawdata)
         json_result = json_process_result
         self.reset # Reinitialize instance variables to blank
@@ -131,7 +133,5 @@ module MonetDB
         return json_result
       end
     end
-    
   end
-  
 end

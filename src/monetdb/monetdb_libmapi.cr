@@ -1,13 +1,13 @@
-########################################################################
+# #######################################################################
 #
 # Author: Brian Hood
 # Name: Crystal bindings for MonetDB
 # Codename: Dagobert I
-# Description: 
+# Description:
 #   libmapi MonetDB Bindings converted from mapi.h
-#   
 #
-########################################################################
+#
+# #######################################################################
 
 lib LibC
   alias Stream = UInt8
@@ -15,61 +15,60 @@ end
 
 @[Link("mapi")]
 lib MonetDBMAPI
-
-# Constants
-  #_MAPI_H_INCLUDED = 1
-  MAPI_AUTO	= 0	# automatic type detection
-  MAPI_TINY	= 1
-  MAPI_UTINY	= 2
-  MAPI_SHORT	= 3
-  MAPI_USHORT	= 4
-  MAPI_INT	= 5
-  MAPI_UINT	= 6
-  MAPI_LONG	= 7
-  MAPI_ULONG	= 8
-  MAPI_LONGLONG	= 9
-  MAPI_ULONGLONG = 10
-  MAPI_CHAR	= 11
-  MAPI_VARCHAR	= 12
-  MAPI_FLOAT	= 13
-  MAPI_DOUBLE	= 14
-  MAPI_DATE	= 15
-  MAPI_TIME	= 16
-  MAPI_DATETIME	= 17
-  MAPI_NUMERIC	= 18
-  PLACEHOLDER	= "?"
-  MAPI_SEEK_SET	= 0
-  MAPI_SEEK_CUR	= 1
-  MAPI_SEEK_END	= 2
-  MAPI_TRACE	= 1
+  # Constants
+  # _MAPI_H_INCLUDED = 1
+  MAPI_AUTO       =  0 # automatic type detection
+  MAPI_TINY       =  1
+  MAPI_UTINY      =  2
+  MAPI_SHORT      =  3
+  MAPI_USHORT     =  4
+  MAPI_INT        =  5
+  MAPI_UINT       =  6
+  MAPI_LONG       =  7
+  MAPI_ULONG      =  8
+  MAPI_LONGLONG   =  9
+  MAPI_ULONGLONG  = 10
+  MAPI_CHAR       = 11
+  MAPI_VARCHAR    = 12
+  MAPI_FLOAT      = 13
+  MAPI_DOUBLE     = 14
+  MAPI_DATE       = 15
+  MAPI_TIME       = 16
+  MAPI_DATETIME   = 17
+  MAPI_NUMERIC    = 18
+  PLACEHOLDER     = "?"
+  MAPI_SEEK_SET   = 0
+  MAPI_SEEK_CUR   = 1
+  MAPI_SEEK_END   = 2
+  MAPI_TRACE      = 1
   MAPI_TRACE_LANG = 2
   # Server return codes
   # Go to the next result set, if any, and close the current result
   # set.  This function returns 1 if there are more result sets after
   # the one that was closed, otherwise, if more input is needed, return
-  # MMORE, else, return MOK 
+  # MMORE, else, return MOK
   #
-  MOK = 0 # @tab No error
-  MERROR = -1 # @tab Mapi internal error.
+  MOK      =  0 # @tab No error
+  MERROR   = -1 # @tab Mapi internal error.
   MTIMEOUT = -2 # @tab Error communicating with the server.
-  MMORE = -3 # See above
-  MSERVER = -4 # @tab This is bad / invalid SQL
+  MMORE    = -3 # See above
+  MSERVER  = -4 # @tab This is bad / invalid SQL
   # Language numbering
-  LANG_MAL	= 0
-  LANG_SQL	= 2
-  LANG_JAQL	= 3
-  PROMPTBEG	= "\001"	# start prompt bracket
-  PROMPT1	= "\001\001\n" # prompt: ready for new query
-  PROMPT2	= "\001\002\n" # prompt: more data needed
+  LANG_MAL  = 0
+  LANG_SQL  = 2
+  LANG_JAQL = 3
+  PROMPTBEG = "\001"       # start prompt bracket
+  PROMPT1   = "\001\001\n" # prompt: ready for new query
+  PROMPT2   = "\001\002\n" # prompt: more data needed
   # Enum codes for different SQL operations
   enum SQLQuery
-    Q_PARSE = 0
-    Q_TABLE = 1
-    Q_UPDATE = 2
-    Q_SCHEMA = 3
-    Q_TRANS = 4
+    Q_PARSE   = 0
+    Q_TABLE   = 1
+    Q_UPDATE  = 2
+    Q_SCHEMA  = 3
+    Q_TRANS   = 4
     Q_PREPARE = 5
-    Q_BLOCK = 6
+    Q_BLOCK   = 6
   end
 
   # three structures used for communicating date/time information
@@ -89,13 +88,13 @@ lib MonetDBMAPI
   end
 
   struct MapiDateTime # used by MAPI_DATETIME
-    year : Int8;
+    year : Int8
     month : UInt8
     day : UInt8
     hour : UInt8
     minute : UInt8
     second : UInt8
-    fraction : Int32	# in 1000 millionths of a second (10e-9)
+    fraction : Int32 # in 1000 millionths of a second (10e-9)
   end
 
   # connection-oriented functions
@@ -112,6 +111,7 @@ lib MonetDBMAPI
   fun mapi_ping(mid : Mapi) : Mapimsg
   fun mapi_error(mid : Mapi) : Mapimsg
   fun mapi_noexplain(mid : Mapi, errorprefix : LibC::Char*)
+
   struct X_IoFile
     _flags : LibC::Int
     _io_read_ptr : LibC::Char*
@@ -143,12 +143,15 @@ lib MonetDBMAPI
     _mode : LibC::Int
     _unused2 : LibC::Char[20]
   end
+
   type File = X_IoFile
+
   struct X_IoMarker
     _next : X_IoMarker*
     _sbuf : X_IoFile*
     _pos : LibC::Int
   end
+
   alias X__OffT = LibC::Long
   alias X_IoLockT = Void
   alias X__Off64T = LibC::Long
@@ -219,7 +222,6 @@ lib MonetDBMAPI
   fun mapi_get_querytype(hdl : Mapihdl) : LibC::Int
   fun mapi_get_tableid(hdl : Mapihdl) : LibC::Int
   fun mapi_get_active(mid : Mapi) : Mapihdl
-  
   # * / ** converted functions from mapi.h file
   fun mapi_resolve(host : LibC::Char*, port : LibC::Int, pattern : LibC::Char*) : LibC::Char*
   fun mapi_error_str(mid : Mapi) : LibC::Char*
@@ -243,5 +245,4 @@ lib MonetDBMAPI
   fun mapi_get_query(hdl : Mapihdl, fnr : LibC::Int) : LibC::Char*
   fun mapi_quote(msg : LibC::Char*, size : LibC::Int) : LibC::Char*
   fun mapi_unquote(msg : LibC::Char*) : LibC::Char*
-
 end

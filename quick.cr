@@ -1,13 +1,13 @@
-########################################################################
+# #######################################################################
 #
 # Author: Brian Hood
 # Name: Quick a test script for MonetDB functionality
 # Codename: Dagobert I
-# Description: 
+# Description:
 #   Will eventually be made into unit tests basic functionality
-#   thus far !   
+#   thus far !
 #
-########################################################################
+# #######################################################################
 
 require "./src/monetdb"
 require "./src/monetdb_data"
@@ -15,36 +15,34 @@ require "colorize"
 require "option_parser"
 
 enum MServer
-  MOK = 0
-  MERROR = -1
+  MOK      =  0
+  MERROR   = -1
   MTIMEOUT = -2
-  MMORE = -3
+  MMORE    = -3
   MSERVER  = -4
 end
 
 class Timers
-  
   property? start : Time
   property? finish : Time
-  
+
   def initialize
     @start = Time.now
     @finish = Time.now
   end
-  
+
   def start
     @start = Time.now
   end
-  
+
   def stop
     @finish = Time.now
   end
-  
+
   def stats
     duration = @finish - @start
     return "Start: #{@start} Finish: #{@finish} Duration: #{duration.to_s}"
   end
-    
 end
 
 def random_alphabet
@@ -78,46 +76,46 @@ mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
   parser.banner = "Usage: quick [options]"
 
-  parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") {|f|
+  parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |f|
     mero.host = f
   }
-  parser.on("-P 50000", "--PORT=50000", "\tTCP Port") {|f|
+  parser.on("-P 50000", "--PORT=50000", "\tTCP Port") { |f|
     mero.port = f.to_i
   }
-  parser.on("-u monetdb", "-USERNAME=monetdb", "\tUsername") {|f|
+  parser.on("-u monetdb", "-USERNAME=monetdb", "\tUsername") { |f|
     mero.username = f
   }
-  parser.on("-p monetdb", "-PASSWORD=monetdb", "\tPassword") {|f|
+  parser.on("-p monetdb", "-PASSWORD=monetdb", "\tPassword") { |f|
     mero.password = f
   }
-  parser.on("-d database", "-DB=test", "\tDatabase / Schema") {|f|
+  parser.on("-d database", "-DB=test", "\tDatabase / Schema") { |f|
     mero.db = f
     db = f
   }
-  parser.on("-l ITERATIONS", "-LOOP=3000", "\tINSERT Iterations") {|f|
+  parser.on("-l ITERATIONS", "-LOOP=3000", "\tINSERT Iterations") { |f|
     insloop = f.to_i
   }
-  parser.on("-i INTERVAL", "-INTERVAL=250", "\tDisplay Interval") {|f|
+  parser.on("-i INTERVAL", "-INTERVAL=250", "\tDisplay Interval") { |f|
     displayinterval = f.to_i
   }
-  parser.on("-1 UPDATERAND", "-UPDATERAND=4", "\tUpdate Randomization") {|f|
+  parser.on("-1 UPDATERAND", "-UPDATERAND=4", "\tUpdate Randomization") { |f|
     updaterands = f.to_i
   }
-  parser.on("-a BOOLEAN", "-AUTOCOMMIT=true", "\tAuto Commit value") {|f|
+  parser.on("-a BOOLEAN", "-AUTOCOMMIT=true", "\tAuto Commit value") { |f|
     if f == "true"
       autocommit = true
     else
       autocommit = false
-    end 
+    end
   }
-  parser.on("-2 BOOLEAN", "-DELETERECORDSALL=true", "\tDELETE RECORDS ALL") {|f|
+  parser.on("-2 BOOLEAN", "-DELETERECORDSALL=true", "\tDELETE RECORDS ALL") { |f|
     if f == "true"
       deleterecordsall = true
     else
       deleterecordsall = false
     end
   }
-  parser.on("-h", "--help", "Show this help") {|h|
+  parser.on("-h", "--help", "Show this help") { |h|
     puts parser
     puts
     print_stamp
@@ -137,7 +135,6 @@ puts " > Merovingian Server: #{mero.host}".colorize(:blue)
 puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
- 
 mid = mero.connect # Connect to a MServer5
 mero.timeout(mid, 10)
 isc = mero.is_connected?(mid)
@@ -148,6 +145,8 @@ uri = mero.get_uri(mid)
 puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
 ver = mero.get_monet_version(mid)
 puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
+rel = mero.release_id(mid, 1)
+puts " > Release ID: #{rel}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
 puts "\n>> Insert Test".colorize(:red)
 if isc == false
@@ -160,24 +159,24 @@ c = 0
 mero.setAutocommit(mid, autocommit)
 tm = Timers.new
 tm.start
-insloop.times {|n|
+insloop.times { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
   hdl = mero.query(mid, sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
-    c = 0;
+    c = 0
   end
   c += 1
 }
-mero.query(mid, "COMMIT;");
+mero.query(mid, "COMMIT;")
 tm.stop
 print "( Duration ) : ".colorize(:cyan)
 puts tm.stats
 
 puts "\n>> Update Test".colorize(:red)
-0.upto(updaterands) {|n|
+0.upto(updaterands) { |n|
   puts " - Update Iteration: #{n}".colorize(:yellow)
   sql = "UPDATE \"#{db}\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
   puts sql.colorize(:green)
@@ -213,14 +212,14 @@ hdl = mero.query(mid, "COMMIT;")
 
 firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
 lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
-insloop.times {|n|
+insloop.times { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
   hdl = mero.query(mid, sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
-    c = 0;
+    c = 0
   end
   c += 1
 }
@@ -253,7 +252,7 @@ p trace
 mero.trace(mid, false) # disable trace
 
 query = "SELECT 1"
-2.times {|q|
+2.times { |q|
   if q == 0
     query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
     puts "Test query 1: #{query}"
@@ -277,34 +276,34 @@ query = "SELECT 1"
       puts String.new(line)
     end
     result_json = mero.query_json(mid, query)
-    #puts "JSON Internal Data Type: #{result_json.class}\n".colorize(:red)
+    # puts "JSON Internal Data Type: #{result_json.class}\n".colorize(:red)
     puts "JSON Generated:\n".colorize(:red)
     # Sample process JSON
-    # crystal eval 'require "json"; str = "{\"name\":\"Apple\",\"price\":\"0.65\"}" 
+    # crystal eval 'require "json"; str = "{\"name\":\"Apple\",\"price\":\"0.65\"}"
     # jsn = JSON.parse(str); p jsn.each {|k,v| puts k; puts v; }'
-    result_json.each {|j|
+    result_json.each { |j|
       puts j
     }
     res_hash = mero.json_to_hash(result_json)
     print "\nHash Table of Results\n".colorize(:red)
     # Sample Res hash
-    # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"}, 
-    #  1 => {"name" => "Bananna", "price" => "3.99", "weight" => "30", "comments" => "NULL", "id" => "2"}, 
-    #  2 => {"name" => "Orange", "price" => "7.99", "weight" => "60", "comments" => "NULL", "id" => "3"}, 
-    #  3 => {"name" => "Peach", "price" => "5.00", "weight" => "80", "comments" => "NULL", "id" => "4"}, 
-    #  4 => {"name" => "Kiwi", "price" => "9.00", "weight" => "20", "comments" => "NULL", "id" => "5"}, 
-    #  5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"}, 
-    #  6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"}, 
+    # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"},
+    #  1 => {"name" => "Bananna", "price" => "3.99", "weight" => "30", "comments" => "NULL", "id" => "2"},
+    #  2 => {"name" => "Orange", "price" => "7.99", "weight" => "60", "comments" => "NULL", "id" => "3"},
+    #  3 => {"name" => "Peach", "price" => "5.00", "weight" => "80", "comments" => "NULL", "id" => "4"},
+    #  4 => {"name" => "Kiwi", "price" => "9.00", "weight" => "20", "comments" => "NULL", "id" => "5"},
+    #  5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"},
+    #  6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"},
     #  7 => {"name" => "Nectarine", "price" => "6.00", "weight" => "50", "comments" => "Juicy", "id" => "8"}}
     pp res_hash
     print "\n"
     print "Select Specific Fields from Hash table\n\n".colorize(:red)
     if q == 0
-      res_hash.each {|k,v|
-        puts "Hash ID: #{k} F1: #{v["f1"]} F2: #{v["f2"]}"        
+      res_hash.each { |k, v|
+        puts "Hash ID: #{k} F1: #{v["f1"]} F2: #{v["f2"]}"
       }
     elsif q == 1
-      res_hash.each {|k,v|
+      res_hash.each { |k, v|
         puts "Hash ID: #{k} Name: #{v["name"]} Price: #{v["price"]}"
       }
     end
@@ -318,8 +317,8 @@ query = "SELECT 1"
 }
 begin
   mero.close_handle(hdl) # Close query handle and free resources
-  mero.disconnect(mid)  # Disconnect from server
-  mero.destroy(mid) # Free handle resources
+  mero.disconnect(mid)   # Disconnect from server
+  mero.destroy(mid)      # Free handle resources
   puts "Session should now be closed down and disconnected"
   isc = mero.is_connected?(mid) # Check we disconnected
   puts "Checking ...."
