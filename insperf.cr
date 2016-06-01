@@ -159,4 +159,5 @@ else
   puts "FAIL - Actual records in table is different to records inserted ?"
 end
 puts "Total time:"
+dur.stop
 puts dur.stats
