@@ -24,7 +24,7 @@ db = "test"
 insloop = 10_000
 displayinterval = 1000
 updaterands = 1
-autocommit = true
+autocommit = false
 deleterecordsall = false
 
 def random_alphabet
@@ -62,6 +62,13 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-d database", "-DB=test", "\tDatabase / Schema") { |f|
     mero.db = f
     db = f
+  }
+  parser.on("-a true", "--AUTOCOMMIT=true", "Enabled / Disable Autocommit") {|a|
+    if a == "true"
+      autocommit = true
+    else
+      autocommit = false
+    end
   }
   parser.on("-l ITERATIONS", "-LOOP=3000", "\tINSERT Iterations") { |f|
     insloop = f.to_i
