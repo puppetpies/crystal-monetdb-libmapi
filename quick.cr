@@ -11,6 +11,7 @@
 
 require "./src/monetdb"
 require "./src/monetdb_data"
+require "./src/tools"
 require "colorize"
 require "option_parser"
 
@@ -20,29 +21,6 @@ enum MServer
   MTIMEOUT = -2
   MMORE    = -3
   MSERVER  = -4
-end
-
-class Timers
-  property? start : Time
-  property? finish : Time
-
-  def initialize
-    @start = Time.now
-    @finish = Time.now
-  end
-
-  def start
-    @start = Time.now
-  end
-
-  def stop
-    @finish = Time.now
-  end
-
-  def stats
-    duration = @finish - @start
-    return "Start: #{@start} Finish: #{@finish} Duration: #{duration.to_s}"
-  end
 end
 
 def random_alphabet
@@ -136,6 +114,7 @@ puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
 mid = mero.connect # Connect to a MServer5
+puts "MID: #{mid.class}"
 mero.timeout(mid, 10)
 isc = mero.is_connected?(mid)
 puts " > Is Connected?: #{isc}".colorize(:blue)
