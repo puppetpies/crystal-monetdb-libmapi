@@ -151,7 +151,6 @@ results_json = mero.query_json(mid, "SELECT count(*) as num FROM \"#{db}\".table
 hash_results = mero.json_to_hash(results_json)
 puts "Record Count: ".colorize(:cyan)
 hash_results.each { |x, n| puts n["num"]; m_res = n["num"] }
-# m_res_int = m_res.to_i
 m_res_int = m_res.to_s.to_i
 if m == m_res_int
   puts "SUCCESS - Record count matches"
