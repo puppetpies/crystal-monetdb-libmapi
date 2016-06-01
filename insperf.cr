@@ -125,6 +125,8 @@ firstnames = ["Edward", "Henry", "Robert", "Michael", "Dave", "Joe", "Kev"]
 lastnames = ["Smith", "Jones", "Warbutton", "Blake", "Ward", "Johnston", "Abbot"]
 c = 0
 mero.setAutocommit(mid, autocommit)
+dur = Timers.new
+dur.start
 tm = Timers.new
 tm.start
 m = 0_u32
@@ -156,3 +158,5 @@ if m == m_res_int
 else
   puts "FAIL - Actual records in table is different to records inserted ?"
 end
+puts "Total time:"
+puts dur.stats
