@@ -63,7 +63,7 @@ oparse = OptionParser.parse! do |parser|
     mero.db = f
     db = f
   }
-  parser.on("-a true", "--AUTOCOMMIT=true", "Enabled / Disable Autocommit") {|a|
+  parser.on("-a true", "--AUTOCOMMIT=true", "Enabled / Disable Autocommit") { |a|
     if a == "true"
       autocommit = true
     else
