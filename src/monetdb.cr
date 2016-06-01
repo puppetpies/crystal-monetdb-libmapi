@@ -1,3 +1,14 @@
+# #######################################################################
+#
+# Author: Brian Hood
+# Name: Crystal bindings for MonetDB
+# Codename: Dagobert I
+# Description:
+#   MonetDB Client functionality
+#
+#
+# #######################################################################
+
 require "./monetdb/*"
 
 class ConnectionError < Exception; end
