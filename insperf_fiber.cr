@@ -2,7 +2,7 @@
 # #######################################################################
 #
 # Author: Brian Hood
-# Name: Insert performance test with Ruby / Crystal driver
+# Name: Insert performance test with Crystal driver
 # Codename: Dagobert I
 # Description:
 #
@@ -16,7 +16,7 @@ require "./src/tools"
 require "colorize"
 require "option_parser"
 
-appname = "inserf_fiber"
+appname = "insperf_fiber"
 host = "127.0.0.1"
 port = 50000
 username = "monetdb"
@@ -139,13 +139,17 @@ m_res = 0
 
 worksplit = insloop / splitnum
 
+puts "Worksplit: #{worksplit}"
+puts "Insloop: #{insloop}"
+puts "Split num: #{splitnum}"
+
 splitnum.times { |x|
 
-  swarm do
+  spawn do
     puts "Swarm thread #{x}..."
     worksplit.times { |n|
       alpha = random_alphabet
-      print "Query number: #{n} " if c == displayinterval
+      print "t: #{x} Query number: #{n} " if c == displayinterval
       sql = "INSERT INTO \"#{db}\".table2 VALUES (#{n}, #{x}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
       hdl = mero.query(mid, sql)
       puts "SQL: #{sql}".colorize(:green) if c == displayinterval
@@ -162,8 +166,9 @@ splitnum.times { |x|
   
 }
 
+Fiber.yield
 mero.query(mid, "COMMIT;")
-results_json = mero.query_json(mid, "SELECT count(*) as num FROM \"#{db}\".table1;")
+results_json = mero.query_json(mid, "SELECT count(*) as num FROM \"#{db}\".table2;")
 hash_results = mero.json_to_hash(results_json)
 puts "Record Count: ".colorize(:cyan)
 hash_results.each { |x, n| puts n["num"]; m_res = n["num"] }
@@ -176,6 +181,6 @@ end
 puts "Total time:"
 dur.stop
 puts dur.stats
-mero.query(mid, "DELETE FROM \"#{db}\".table1;")
-mero.query(mid, "COMMIT;")
+#mero.query(mid, "DELETE FROM \"#{db}\".table2;")
+#mero.query(mid, "COMMIT;")
 mero.disconnect(mid)
