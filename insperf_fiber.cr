@@ -181,6 +181,6 @@ end
 puts "Total time:"
 dur.stop
 puts dur.stats
-#mero.query(mid, "DELETE FROM \"#{db}\".table2;")
-#mero.query(mid, "COMMIT;")
+mero.query(mid, "DELETE FROM \"#{db}\".table2;")
+mero.query(mid, "COMMIT;")
 mero.disconnect(mid)
