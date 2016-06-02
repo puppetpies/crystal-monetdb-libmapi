@@ -52,31 +52,44 @@ result.each {|k,v|
 
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
-[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 127.0.0.1 -u monetdb -d threatmonitor -l 500 -2 false
+[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 127.0.0.1 -u monetdb -d threatmonitor -l 500 -i 250 -1 5 -2 false
 >> Server Information
 
- > Merovingian Server: 127.0.0.1
+ > Merovingian Server: 172.17.0.2
  > Port: 50000
  > Username: monetdb
  > DB: threatmonitor
  > Is Connected?: true
  > Ping?: OK
- > Merovingian URI: mapi:monetdb://127.0.0.1:50000/threatmonitor
+ > Merovingian URI: mapi:monetdb://172.17.0.2:50000/threatmonitor
  > Monet Version: 
+ > Release ID: 0
  > Autocommit: false
 
 >> Insert Test
  - INSERT iterations: 500
-Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq', 'olzwoiitibrxmwnfixcztdrqgq')
-( Duration ) : Start: 2016-05-12 13:19:55 +0100 Finish: 2016-05-12 13:19:56 +0100 Duration: 00:00:00.9450592
+Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro')
+( Duration ) : Start: 2016-06-02 17:33:56 +0100 Finish: 2016-06-02 17:33:58 +0100 Duration: 00:00:01.0623256
 
 >> Update Test
  - Update Iteration: 0
 UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f4 LIKE '%asd%';
 Rows affected: 2
  - Update Iteration: 1
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f6 LIKE '%asd%';
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f9 LIKE '%asd%';
 Rows affected: 2
+ - Update Iteration: 2
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f1 LIKE '%asd%';
+Rows affected: 2
+ - Update Iteration: 3
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
+Rows affected: 0
+ - Update Iteration: 4
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f9 LIKE '%asd%';
+Rows affected: 2
+ - Update Iteration: 5
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
+Rows affected: 0
 
 >> Delete Test
 DELETE FROM "threatmonitor".guid_test WHERE guid = 'Dagobert';
@@ -84,23 +97,95 @@ Rows affected: 2
 
 >> Create Table Test Empty Table
 CREATE TABLE "threatmonitor".table1 ( id int, firstname char(50), lastname char(50), age int);
-Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'Dave', 'Smith', 63);
-Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'Ernest', 'Smith', 48);
+Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'John', 'Edwards', 20);
+Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'Fred', 'Edwards', 52);
 Rows affected: 1
 
 >> ALTER TABLE Test ADD COLUMN
 ALTER TABLE "threatmonitor".table1 ADD COLUMN sex CHAR(1);
-Rows affected: 0
 
 >> ALTER TABLE Test DROP COLUMN
 ALTER TABLE "threatmonitor".table1 DROP COLUMN sex;
-Rows affected: 0
+
+>> Enable Trace query
+
+> - Trace
 
 >> DROP TABLE Test
 DROP TABLE "threatmonitor".table1;
-Rows affected: 0
+mapi_query:34:DROP TABLE "threatmonitor".table1;
+fetch next block: start at:2163
+got next block: length:3
+text:&3
+
+got complete block: 
+text:&3
+
+read_line:&3
+allocating new result set
+fetch next block: start at:2166
+got next block: length:0
+text:
+got complete block: 
+text:
+
+read_line:
+mapi_query:7:COMMIT;
+fetch next block: start at:2168
+got next block: length:5
+text:&4 f
+
+got complete block: 
+text:&4 f
+
+read_line:&4 f
+allocating new result set
+fetch next block: start at:2173
+got next block: length:0
+text:
+got complete block: 
+text:
+
+read_line:
+0
+Test query 1: SELECT * FROM "threatmonitor".guid_test LIMIT 5
+SELECT Statement: SELECT * FROM "threatmonitor".guid_test LIMIT 5
+Handle: Pointer(Void)@0x1ba3770
+Table Width: 11
+Record Count: 5
+MServer Response Key: MOK Code: 0
+
+>> SELECT Test
+% threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test,	threatmonitor.guid_test # table_name
+% guid,	f1,	f2,	f3,	f4,	f5,	f6,	f7,	f8,	f9,	f10 # name
+% char,	char,	char,	char,	char,	char,	char,	char,	char,	char,	char # type
+% 36,	26,	26,	26,	26,	26,	26,	26,	26,	26,	26 # length
+[ "#dummy-vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod",	"vwgydzzpinlwwzyqzfejpcxgod"	]
+[ "#dummy-dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb",	"dynfzsvtzmpzofrgqebrlcznvb"	]
+[ "#dummy-sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh",	"sqmckjiuxgygfkuntnrgxntpzh"	]
+[ "#dummy-ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf",	"ekzpopvrqhstpfvxplhnjnphlf"	]
+[ "#dummy-nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap",	"nuqnikukecgajmahyjogqjozap"	]
+JSON Generated:
+
+{"guid":"#dummy-vwgydzzpinlwwzyqzfejpcxgod","f1":"vwgydzzpinlwwzyqzfejpcxgod","f2":"vwgydzzpinlwwzyqzfejpcxgod","f3":"vwgydzzpinlwwzyqzfejpcxgod","f4":"vwgydzzpinlwwzyqzfejpcxgod","f5":"vwgydzzpinlwwzyqzfejpcxgod","f6":"vwgydzzpinlwwzyqzfejpcxgod","f7":"vwgydzzpinlwwzyqzfejpcxgod","f8":"vwgydzzpinlwwzyqzfejpcxgod","f9":"vwgydzzpinlwwzyqzfejpcxgod","f10":"vwgydzzpinlwwzyqzfejpcxgod"}
+{"guid":"#dummy-dynfzsvtzmpzofrgqebrlcznvb","f1":"dynfzsvtzmpzofrgqebrlcznvb","f2":"dynfzsvtzmpzofrgqebrlcznvb","f3":"dynfzsvtzmpzofrgqebrlcznvb","f4":"dynfzsvtzmpzofrgqebrlcznvb","f5":"dynfzsvtzmpzofrgqebrlcznvb","f6":"dynfzsvtzmpzofrgqebrlcznvb","f7":"dynfzsvtzmpzofrgqebrlcznvb","f8":"dynfzsvtzmpzofrgqebrlcznvb","f9":"dynfzsvtzmpzofrgqebrlcznvb","f10":"dynfzsvtzmpzofrgqebrlcznvb"}
+{"guid":"#dummy-sqmckjiuxgygfkuntnrgxntpzh","f1":"sqmckjiuxgygfkuntnrgxntpzh","f2":"sqmckjiuxgygfkuntnrgxntpzh","f3":"sqmckjiuxgygfkuntnrgxntpzh","f4":"sqmckjiuxgygfkuntnrgxntpzh","f5":"sqmckjiuxgygfkuntnrgxntpzh","f6":"sqmckjiuxgygfkuntnrgxntpzh","f7":"sqmckjiuxgygfkuntnrgxntpzh","f8":"sqmckjiuxgygfkuntnrgxntpzh","f9":"sqmckjiuxgygfkuntnrgxntpzh","f10":"sqmckjiuxgygfkuntnrgxntpzh"}
+{"guid":"#dummy-ekzpopvrqhstpfvxplhnjnphlf","f1":"ekzpopvrqhstpfvxplhnjnphlf","f2":"ekzpopvrqhstpfvxplhnjnphlf","f3":"ekzpopvrqhstpfvxplhnjnphlf","f4":"ekzpopvrqhstpfvxplhnjnphlf","f5":"ekzpopvrqhstpfvxplhnjnphlf","f6":"ekzpopvrqhstpfvxplhnjnphlf","f7":"ekzpopvrqhstpfvxplhnjnphlf","f8":"ekzpopvrqhstpfvxplhnjnphlf","f9":"ekzpopvrqhstpfvxplhnjnphlf","f10":"ekzpopvrqhstpfvxplhnjnphlf"}
+{"guid":"#dummy-nuqnikukecgajmahyjogqjozap","f1":"nuqnikukecgajmahyjogqjozap","f2":"nuqnikukecgajmahyjogqjozap","f3":"nuqnikukecgajmahyjogqjozap","f4":"nuqnikukecgajmahyjogqjozap","f5":"nuqnikukecgajmahyjogqjozap","f6":"nuqnikukecgajmahyjogqjozap","f7":"nuqnikukecgajmahyjogqjozap","f8":"nuqnikukecgajmahyjogqjozap","f9":"nuqnikukecgajmahyjogqjozap","f10":"nuqnikukecgajmahyjogqjozap"}
+
+Hash Table of Results
+res_hash = {0 => {"guid" => "#dummy-vwgydzzpinlwwzyqzfejpcxgod", "f1" => "vwgydzzpinlwwzyqzfejpcxgod", "f2" => "vwgydzzpinlwwzyqzfejpcxgod", "f3" => "vwgydzzpinlwwzyqzfejpcxgod", "f4" => "vwgydzzpinlwwzyqzfejpcxgod", "f5" => "vwgydzzpinlwwzyqzfejpcxgod", "f6" => "vwgydzzpinlwwzyqzfejpcxgod", "f7" => "vwgydzzpinlwwzyqzfejpcxgod", "f8" => "vwgydzzpinlwwzyqzfejpcxgod", "f9" => "vwgydzzpinlwwzyqzfejpcxgod", "f10" => "vwgydzzpinlwwzyqzfejpcxgod"}, 1 => {"guid" => "#dummy-dynfzsvtzmpzofrgqebrlcznvb", "f1" => "dynfzsvtzmpzofrgqebrlcznvb", "f2" => "dynfzsvtzmpzofrgqebrlcznvb", "f3" => "dynfzsvtzmpzofrgqebrlcznvb", "f4" => "dynfzsvtzmpzofrgqebrlcznvb", "f5" => "dynfzsvtzmpzofrgqebrlcznvb", "f6" => "dynfzsvtzmpzofrgqebrlcznvb", "f7" => "dynfzsvtzmpzofrgqebrlcznvb", "f8" => "dynfzsvtzmpzofrgqebrlcznvb", "f9" => "dynfzsvtzmpzofrgqebrlcznvb", "f10" => "dynfzsvtzmpzofrgqebrlcznvb"}, 2 => {"guid" => "#dummy-sqmckjiuxgygfkuntnrgxntpzh", "f1" => "sqmckjiuxgygfkuntnrgxntpzh", "f2" => "sqmckjiuxgygfkuntnrgxntpzh", "f3" => "sqmckjiuxgygfkuntnrgxntpzh", "f4" => "sqmckjiuxgygfkuntnrgxntpzh", "f5" => "sqmckjiuxgygfkuntnrgxntpzh", "f6" => "sqmckjiuxgygfkuntnrgxntpzh", "f7" => "sqmckjiuxgygfkuntnrgxntpzh", "f8" => "sqmckjiuxgygfkuntnrgxntpzh", "f9" => "sqmckjiuxgygfkuntnrgxntpzh", "f10" => "sqmckjiuxgygfkuntnrgxntpzh"}, 3 => {"guid" => "#dummy-ekzpopvrqhstpfvxplhnjnphlf", "f1" => "ekzpopvrqhstpfvxplhnjnphlf", "f2" => "ekzpopvrqhstpfvxplhnjnphlf", "f3" => "ekzpopvrqhstpfvxplhnjnphlf", "f4" => "ekzpopvrqhstpfvxplhnjnphlf", "f5" => "ekzpopvrqhstpfvxplhnjnphlf", "f6" => "ekzpopvrqhstpfvxplhnjnphlf", "f7" => "ekzpopvrqhstpfvxplhnjnphlf", "f8" => "ekzpopvrqhstpfvxplhnjnphlf", "f9" => "ekzpopvrqhstpfvxplhnjnphlf", "f10" => "ekzpopvrqhstpfvxplhnjnphlf"}, 4 => {"guid" => "#dummy-nuqnikukecgajmahyjogqjozap", "f1" => "nuqnikukecgajmahyjogqjozap", "f2" => "nuqnikukecgajmahyjogqjozap", "f3" => "nuqnikukecgajmahyjogqjozap", "f4" => "nuqnikukecgajmahyjogqjozap", "f5" => "nuqnikukecgajmahyjogqjozap", "f6" => "nuqnikukecgajmahyjogqjozap", "f7" => "nuqnikukecgajmahyjogqjozap", "f8" => "nuqnikukecgajmahyjogqjozap", "f9" => "nuqnikukecgajmahyjogqjozap", "f10" => "nuqnikukecgajmahyjogqjozap"}}
+
+Select Specific Fields from Hash table
+
+Hash ID: 0 F1: vwgydzzpinlwwzyqzfejpcxgod F2: vwgydzzpinlwwzyqzfejpcxgod
+Hash ID: 1 F1: dynfzsvtzmpzofrgqebrlcznvb F2: dynfzsvtzmpzofrgqebrlcznvb
+Hash ID: 2 F1: sqmckjiuxgygfkuntnrgxntpzh F2: sqmckjiuxgygfkuntnrgxntpzh
+Hash ID: 3 F1: ekzpopvrqhstpfvxplhnjnphlf F2: ekzpopvrqhstpfvxplhnjnphlf
+Hash ID: 4 F1: nuqnikukecgajmahyjogqjozap F2: nuqnikukecgajmahyjogqjozap
+Test query 2: SELECT * FROM "threatmonitor".fruits
 SELECT Statement: SELECT * FROM "threatmonitor".fruits
-Handle: Pointer(Void)@0x1987b90
+Handle: Pointer(Void)@0x1bb1b40
 Table Width: 5
 Record Count: 8
 MServer Response Key: MOK Code: 0
@@ -134,17 +219,18 @@ res_hash = {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comme
 
 Select Specific Fields from Hash table
 
-Row Number: 0 Name: Apple Price: 9.99
-Row Number: 1 Name: Bananna Price: 3.99
-Row Number: 2 Name: Orange Price: 7.99
-Row Number: 3 Name: Peach Price: 5.00
-Row Number: 4 Name: Kiwi Price: 9.00
-Row Number: 5 Name: Tomato Price: 2.00
-Row Number: 6 Name: Pear Price: 4.00
-Row Number: 7 Name: Nectarine Price: 6.00
+Hash ID: 0 Name: Apple Price: 9.99
+Hash ID: 1 Name: Bananna Price: 3.99
+Hash ID: 2 Name: Orange Price: 7.99
+Hash ID: 3 Name: Peach Price: 5.00
+Hash ID: 4 Name: Kiwi Price: 9.00
+Hash ID: 5 Name: Tomato Price: 2.00
+Hash ID: 6 Name: Pear Price: 4.00
+Hash ID: 7 Name: Nectarine Price: 6.00
 Session should now be closed down and disconnected
 Checking ....
 Connected to MServer ? false
+
 
 -- MClient output
 
