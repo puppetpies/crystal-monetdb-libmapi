@@ -16,6 +16,7 @@ require "./src/tools"
 require "colorize"
 require "option_parser"
 
+appname = "insperf"
 host = "127.0.0.1"
 port = 50000
 username = "monetdb"
@@ -45,7 +46,7 @@ end
 
 mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
-  parser.banner = "Usage: quick [options]"
+  parser.banner = "Usage: #{appname} [options]"
 
   parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |f|
     mero.host = f

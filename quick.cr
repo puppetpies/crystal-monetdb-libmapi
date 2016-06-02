@@ -39,6 +39,7 @@ def print_stamp
   puts "Description: \n\nCrystal bindings for MonetDB Testing Suite"
 end
 
+appname = "quick"
 host = "127.0.0.1"
 port = 50000
 username = "monetdb"
@@ -52,7 +53,7 @@ deleterecordsall = false
 
 mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
-  parser.banner = "Usage: quick [options]"
+  parser.banner = "Usage: #{appname} [options]"
 
   parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |f|
     mero.host = f
