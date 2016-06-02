@@ -7,6 +7,8 @@
 #   Will eventually be made into unit tests basic functionality
 #   thus far !
 #
+#   bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 500 -i 250 -1 5 -2 false
+    
 # #######################################################################
 
 require "./src/monetdb"
@@ -115,7 +117,6 @@ puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
 mid = mero.connect # Connect to a MServer5
-puts "MID: #{mid.class}"
 mero.timeout(mid, 10)
 isc = mero.is_connected?(mid)
 puts " > Is Connected?: #{isc}".colorize(:blue)
