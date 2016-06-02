@@ -2,7 +2,7 @@
 # #######################################################################
 #
 # Author: Brian Hood
-# Name: Insert performance test with Ruby / Crystal driver
+# Name: Insert performance test with Crystal driver
 # Codename: Dagobert I
 # Description:
 #
