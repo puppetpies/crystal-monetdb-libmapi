@@ -40,6 +40,7 @@ Initialized empty Git repository in /data2/Projects/crystal-monetdb-example/.git
  create mode 100644 src/crystal-monetdb-example.cr
  create mode 100644 src/crystal-monetdb-example/version.cr
 
+# Add the crystal-monetdb-libmapi to your development_dependencies section to your shard.yml / complete your name & email
 [crystal-monetdb-example1]$ cat shard.yml 
 name: crystal-monetdb-example
 version: 0.1.0
@@ -54,6 +55,12 @@ development_dependencies:
 
 license: GPLv2
 
+# Update in your git repository
+[crystal-monetdb-example]$ git commit -m "Added dependency" shard.yml 
+[master a4ef360] Added dependency
+ 1 file changed, 5 insertions(+)
+
+# Download dependencies
 [crystal-monetdb-example]$ /data2/crystal-0.14.2-1/bin/shards -v update
 Updating https://github.com/puppetpies/crystal-monetdb-libmapi.git
 git clone --mirror --quiet -- 'https://github.com/puppetpies/crystal-monetdb-libmapi.git' crystal-monetdb-libmapi
