@@ -15,46 +15,33 @@ nano - Editor
 
 First lets create our shard project directory.
 
-[brian@orville Projects]$ mkdir monetdb-example1
-[brian@orville monetdb-example1]$ nano shard.yml
+[Projects]$ crystal init app crystal-monetdb-example
+      create  crystal-monetdb-example/.gitignore
+      create  crystal-monetdb-example/LICENSE
+      create  crystal-monetdb-example/README.md
+      create  crystal-monetdb-example/.travis.yml
+      create  crystal-monetdb-example/shard.yml
+      create  crystal-monetdb-example/src/crystal-monetdb-example.cr
+      create  crystal-monetdb-example/src/crystal-monetdb-example/version.cr
+      create  crystal-monetdb-example/spec/spec_helper.cr
+      create  crystal-monetdb-example/spec/crystal-monetdb-example_spec.cr
+Initialized empty Git repository in /data2/Projects/crystal-monetdb-example/.git/
 
-Create the file shard.yml
+[Projects]$ cd crystal-monetdb-example
+[crystal-monetdb-example]$ git add *
+[crystal-monetdb-example]$ git commit -m "Initial commit" *
+[master (root-commit) de67084] Initial commit
+ 7 files changed, 78 insertions(+)
+ create mode 100644 LICENSE
+ create mode 100644 README.md
+ create mode 100644 shard.yml
+ create mode 100644 spec/crystal-monetdb-example_spec.cr
+ create mode 100644 spec/spec_helper.cr
+ create mode 100644 src/crystal-monetdb-example.cr
+ create mode 100644 src/crystal-monetdb-example/version.cr
 
-name: crystal-monetdb-examples
-version: 0.1.0
-
-authors:
-  - Brian Hood <brianh6854@googlemail.com>
-
-development_dependencies:
-  crystal-monetdb-libmapi:
-    github: puppetpies/crystal-monetdb-libmapi
-    version: ">= 0.1.1"
-
-license: GPLv2
-
-[brian@orville monetdb-example1]$ nano .gitignore
-
-Create the file .gitignore
-
-/.crystal
-/.shards
-/libs
-/doc
-
-[brian@orville monetdb-example1]$ git add .gitignore
-[brian@orville monetdb-example1]$ git commit -m "Initial commit" .gitignore  
-[master (root-commit) 49fb5f5] Initial commit
- 1 file changed, 5 insertions(+)
- create mode 100644 .gitignore
-[brian@orville monetdb-example1]$ cat .gitignore 
-/.crystal
-/.shards
-/libs
-/doc
-
-[brian@orville monetdb-example1]$ cat shard.yml 
-name: crystal-monetdb-examples
+[crystal-monetdb-example1]$ cat shard.yml 
+name: crystal-monetdb-example
 version: 0.1.0
 
 authors:
@@ -67,17 +54,28 @@ development_dependencies:
 
 license: GPLv2
 
-[brian@orville monetdb-example1]$ shards update
+[crystal-monetdb-example]$ /data2/crystal-0.14.2-1/bin/shards -v update
 Updating https://github.com/puppetpies/crystal-monetdb-libmapi.git
+git clone --mirror --quiet -- 'https://github.com/puppetpies/crystal-monetdb-libmapi.git' crystal-monetdb-libmapi
+git tag --list --column=never
+git ls-remote --get-url origin
+git ls-tree -r --full-tree --name-only HEAD -- shard.yml
+git show HEAD:shard.yml
+git ls-tree -r --full-tree --name-only HEAD -- shard.yml
+git show HEAD:shard.yml
 Installing crystal-monetdb-libmapi (HEAD)
-[brian@orville monetdb-example1]$ ls -l
-total 8
-drwxr-xr-x 3 brian wheel  88 May 13 21:13 libs
--rw-r--r-- 1 brian wheel 149 May 13 21:13 shard.lock
--rw-r--r-- 1 brian wheel 241 May 13 21:07 shard.yml
+git ls-tree -r --full-tree --name-only HEAD -- shard.yml
+git archive --format=tar HEAD shard.yml | tar x -C '/data2/Projects/crystal-monetdb-example/libs/crystal-monetdb-libmapi'
+git ls-tree -r --full-tree --name-only HEAD -- LICENSE
+git archive --format=tar --prefix= HEAD:src/ | tar x -C '/data2/Projects/crystal-monetdb-example/libs/crystal-monetdb-libmapi'
+git log -n 1 --pretty=%H HEAD
+git ls-tree -r --full-tree --name-only HEAD -- shard.yml
+git show HEAD:shard.yml
 
-Once you have done this you notice there is libs directory don't worry about it for now.
-
+[crystal-monetdb-example]$ git commit -m "Added dependency" shard.yml 
+[master a4ef360] Added dependency
+ 1 file changed, 5 insertions(+)
+ 
 Now we create ourselves a database / schema in monetdb
 
 monetdbd create /var/monetdb5/dbfarm
@@ -139,8 +137,8 @@ result.each {|k,v|
 
 Add the version control
 
-[brian@orville examples]$ git add Crystal\ -\ MonetDB\ Tutorial.txt 
-[brian@orville examples]$ git commit -m "Tutorial text" Crystal\ -\ MonetDB\ Tutorial.txt 
+[brian@orville examples]$ git add example.cr
+[brian@orville examples]$ git commit -m "MonetDB Example" example.cr 
 
 Now lets build the project.
 
