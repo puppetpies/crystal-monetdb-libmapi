@@ -28,16 +28,6 @@ updaterands = 1
 autocommit = false
 deleterecordsall = false
 
-def random_alphabet
-  a = "abcdefghijklmnopqrstuvwxyz"
-  c = ""
-  26.times {
-    b = rand(26)
-    c = "#{c}#{a[b..b]}"
-  }
-  return c
-end
-
 def print_stamp
   puts "Author: Brian Hood"
   puts "Homepage: https://github.com/puppetpies/crystal-monetdb-libmapi\n"
@@ -133,7 +123,6 @@ tm.start
 m = 0_u32
 m_res = 0
 insloop.times { |n|
-  alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
   hdl = mero.query(mid, sql)
