@@ -161,6 +161,18 @@ module MonetDB
       MonetDBMAPI.mapi_get_trace(mid)
     end
 
+    def get_user(mid)
+      MonetDBMAPI.mapi_get_user(mid)
+    end
+
+    def get_host(mid)
+      MonetDBMAPI.mapi_get_host(mid)
+    end
+    
+    def get_mapi_version(mid)
+      MonetDBMAPI.mapi_get_mapi_version(mid)
+    end
+    
     def trace(mid, flag : Bool)
       if flag == false
         flagvalue = 0
