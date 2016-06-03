@@ -145,6 +145,10 @@ module MonetDB
       MonetDBMAPI.mapi_rows_affected(hdl)
     end
 
+    def error_str(mid)
+      MonetDBMAPI.mapi_error_str(mid)
+    end
+
     def explain(mid, fd)
       MonetDBMAPI.mapi_explain(mid, fd)
     end
