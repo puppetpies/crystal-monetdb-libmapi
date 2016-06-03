@@ -8,7 +8,6 @@
 #   thus far !
 #
 #   bin/quick -H 172.17.0.2 -u monetdb -d threatmonitor -l 500 -i 250 -1 5 -2 false
-    
 # #######################################################################
 
 require "./src/monetdb"

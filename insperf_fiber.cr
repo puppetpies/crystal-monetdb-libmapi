@@ -134,7 +134,6 @@ puts "Insloop: #{insloop}"
 puts "Split num: #{splitnum}"
 
 splitnum.times { |x|
-
   spawn do
     puts "Swarm thread #{x}..."
     worksplit.times { |n|
@@ -152,7 +151,6 @@ splitnum.times { |x|
       m += 1
     }
   end
-  
 }
 
 Fiber.yield
