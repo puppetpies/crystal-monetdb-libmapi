@@ -100,6 +100,10 @@ module MonetDB
       MonetDBMAPI.mapi_result_error(hdl)
     end
 
+    def clear_params(hdl)
+      MonetDBMAPI.mapi_clear_params(hdl)
+    end
+    
     def close_handle(hdl)
       MonetDBMAPI.mapi_close_handle(hdl)
     end
