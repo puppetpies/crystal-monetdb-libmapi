@@ -2,6 +2,7 @@
 #
 # Author: Brian Hood
 # Name: Crystal bindings for MonetDB
+# Email: <brianh6854@googlemail.com>                                   #
 # Codename: Dagobert I
 # Description:
 #   Data functions extending MonetDB class
