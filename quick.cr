@@ -2,6 +2,7 @@
 #
 # Author: Brian Hood
 # Name: Quick a test script for MonetDB functionality
+# Email: <brianh6854@googlemail.com>                                   #
 # Codename: Dagobert I
 # Description:
 #   Will eventually be made into unit tests basic functionality

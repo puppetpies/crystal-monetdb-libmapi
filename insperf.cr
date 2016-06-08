@@ -3,6 +3,7 @@
 #
 # Author: Brian Hood
 # Name: Insert performance test with Crystal driver
+# Email: <brianh6854@googlemail.com>                                   #
 # Codename: Dagobert I
 # Description:
 #
