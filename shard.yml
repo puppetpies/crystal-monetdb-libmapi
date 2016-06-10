@@ -8,4 +8,4 @@ development_dependencies:
   minitest:
     github: ysbaddaden/minitest.cr
 
-license: GPLv2
+license: MIT
