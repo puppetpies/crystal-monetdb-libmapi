@@ -1,16 +1,16 @@
 all: quick-release insperf
 
 insperf:
-	crystal build --release insperf.cr -o bin/insperf
+	crystal compile --release insperf.cr -o bin/insperf
 
 insperf_fiber:
-	crystal build --release insperf_fiber.cr -o bin/insperf_fiber
+	crystal compile --verbose --threads 16 --release insperf_fiber.cr -o bin/insperf_fiber
 
 quick:
-	crystal build quick.cr -o bin/quick
+	crystal compile quick.cr -o bin/quick
 
 quick-release:
-	crystal build --release quick.cr -o bin/quick
+	crystal compile --release quick.cr -o bin/quick
 
 clean:
 	rm -f quick
