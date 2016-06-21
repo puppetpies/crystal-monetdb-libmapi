@@ -233,7 +233,7 @@ p trace
 mero.trace(false) # disable trace
 
 query = "SELECT 1"
-2.times { |q|
+1.times { |q|
   if q == 0
     query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
     puts "Test query 1: #{query}"
@@ -241,7 +241,8 @@ query = "SELECT 1"
     query = "SELECT * FROM \"#{db}\".fruits"
     puts "Test query 2: #{query}"
   end
-  mero.connect
+  mero.close_handle(hdl)
+  mero.new_handle
   puts "SELECT Statement: #{query}".colorize(:green)
   hdl = mero.query(query)
   puts "Handle: #{hdl}".colorize(:blue)
@@ -265,7 +266,7 @@ query = "SELECT 1"
     result_json.each { |j|
       puts j
     }
-    res_hash = mero.json_to_hash(result_json)
+    #res_hash = mero.json_to_hash(result_json)
     print "\nHash Table of Results\n".colorize(:red)
     # Sample Res hash
     # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"},
@@ -276,15 +277,19 @@ query = "SELECT 1"
     #  5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"},
     #  6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"},
     #  7 => {"name" => "Nectarine", "price" => "6.00", "weight" => "50", "comments" => "Juicy", "id" => "8"}}
-    pp res_hash
+    #pp res_hash
     print "\n"
     print "Select Specific Fields from Hash table\n\n".colorize(:red)
     if q == 0
-      res_hash.each { |k, v|
+      res_hash_f1 = mero.json_to_hash(result_json)
+      pp res_hash_f1
+      res_hash_f1.each { |k, v|
         puts "Hash ID: #{k} F1: #{v["f1"]} F2: #{v["f2"]}"
       }
     elsif q == 1
-      res_hash.each { |k, v|
+      res_hash_f2 = mero.json_to_hash(result_json)
+      pp res_hash_f2
+      res_hash_f2.each { |k, v|
         puts "Hash ID: #{k} Name: #{v["name"]} Price: #{v["price"]}"
       }
     end
