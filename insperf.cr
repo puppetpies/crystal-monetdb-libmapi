@@ -87,17 +87,17 @@ puts " > Merovingian Server: #{mero.host}".colorize(:blue)
 puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
-mid = mero.connect # Connect to a MServer5
-mero.timeout(mid, 10)
-isc = mero.is_connected?(mid)
+mero.connect # Connect to a MServer5
+mero.timeout(10)
+isc = mero.is_connected?
 puts " > Is Connected?: #{isc}".colorize(:blue)
-ping = mero.ping(mid)
+ping = mero.ping
 puts " > Ping?: #{ping}".colorize(:blue)
-uri = mero.get_uri(mid)
+uri = mero.get_uri
 puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
-ver = mero.get_monet_version(mid)
+ver = mero.get_monet_version
 puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
-rel = mero.release_id(mid, 1)
+rel = mero.release_id(1)
 puts " > Release ID: #{rel}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
 puts "\n>> Insert Test".colorize(:red)
@@ -109,14 +109,14 @@ end
 puts "\n>> Create Table Test Empty Table".colorize(:red)
 sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query(sql)
+hdl = mero.query("COMMIT;")
 
 puts " - INSERT iterations: #{insloop}".colorize(:yellow)
 firstnames = ["Edward", "Henry", "Robert", "Michael", "Dave", "Joe", "Kev"]
 lastnames = ["Smith", "Jones", "Warbutton", "Blake", "Ward", "Johnston", "Abbot"]
 c = 0
-mero.setAutocommit(mid, autocommit)
+mero.setAutocommit(autocommit)
 dur = Timers.new
 dur.start
 tm = Timers.new
@@ -126,7 +126,7 @@ m_res = 0
 insloop.times { |n|
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
-  hdl = mero.query(mid, sql)
+  hdl = mero.query(sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
     c = 0
@@ -137,8 +137,8 @@ insloop.times { |n|
   c += 1
   m += 1
 }
-mero.query(mid, "COMMIT;")
-results_json = mero.query_json(mid, "SELECT count(*) as num FROM \"#{db}\".table1;")
+mero.query("COMMIT;")
+results_json = mero.query_json("SELECT count(*) as num FROM \"#{db}\".table1;")
 hash_results = mero.json_to_hash(results_json)
 puts "Record Count: ".colorize(:cyan)
 hash_results.each { |x, n| puts n["num"]; m_res = n["num"] }
@@ -151,6 +151,6 @@ end
 puts "Total time:"
 dur.stop
 puts dur.stats
-mero.query(mid, "DELETE FROM \"#{db}\".table1;")
-mero.query(mid, "COMMIT;")
-mero.disconnect(mid)
+mero.query("DELETE FROM \"#{db}\".table1;")
+mero.query("COMMIT;")
+mero.disconnect
