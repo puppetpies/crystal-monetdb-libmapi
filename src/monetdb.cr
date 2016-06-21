@@ -106,7 +106,7 @@ module MonetDB
     def clear_params(hdl)
       MonetDBMAPI.mapi_clear_params(hdl)
     end
-    
+
     def new_handle
       MonetDBMAPI.mapi_new_handle(@mid)
     end
@@ -183,11 +183,11 @@ module MonetDB
     def get_host
       MonetDBMAPI.mapi_get_host(@mid)
     end
-    
+
     def get_mapi_version
       MonetDBMAPI.mapi_get_mapi_version(@mid)
     end
-    
+
     def trace(flag : Bool)
       if flag == false
         flagvalue = 0

@@ -39,8 +39,8 @@ mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{appname} [options]"
 
-  parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |f|
-    mero.host = f
+  parser.on("-h 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |h|
+    mero.host = h
   }
   parser.on("-P 50000", "--PORT=50000", "\tTCP Port") { |f|
     mero.port = f.to_i
@@ -68,7 +68,7 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-i INTERVAL", "-INTERVAL=250", "\tDisplay Interval") { |f|
     displayinterval = f.to_i
   }
-  parser.on("-h", "--help", "\tDisplay options") { |h|
+  parser.on("-H", "--help", "\tDisplay options") {
     print_stamp
     puts parser
     exit

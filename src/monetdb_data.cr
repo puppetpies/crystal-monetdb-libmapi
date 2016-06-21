@@ -20,13 +20,14 @@ class InternalError < Exception; end
 class TimeoutError < Exception; end
 
 # Macro for creating alias methods
-class Object 
-  macro alias_method(new, old) 
-    def {{new}}(*args, **kwargs) 
-      {{old}}(*args, **kwargs) 
-    end 
-  end 
-end 
+class Object
+  macro alias_method(new, old)
+
+    def {{new}}(*args, **kwargs)
+      {{old}}(*args, **kwargs)
+    end
+  end
+end
 
 module MonetDB
   class ClientJSON < Client
@@ -34,7 +35,7 @@ module MonetDB
     property? fields : String
     property? types : String
     alias_method reset, initialize
-    
+
     def initialize
       super
       @monetdb_raw_data = ""

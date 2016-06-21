@@ -57,8 +57,8 @@ mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
   parser.banner = "Usage: #{appname} [options]"
 
-  parser.on("-H 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |f|
-    mero.host = f
+  parser.on("-h 127.0.0.1", "--HOST=127.0.0.1", "\tIP / DNS Name") { |h|
+    mero.host = h
   }
   parser.on("-P 50000", "--PORT=50000", "\tTCP Port") { |f|
     mero.port = f.to_i
@@ -96,7 +96,7 @@ oparse = OptionParser.parse! do |parser|
       deleterecordsall = false
     end
   }
-  parser.on("-h", "--help", "Show this help") { |h|
+  parser.on("-H", "--help", "Show this help") {
     puts parser
     puts
     print_stamp
@@ -266,7 +266,7 @@ query = "SELECT 1"
     result_json.each { |j|
       puts j
     }
-    #res_hash = mero.json_to_hash(result_json)
+    # res_hash = mero.json_to_hash(result_json)
     print "\nHash Table of Results\n".colorize(:red)
     # Sample Res hash
     # {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"},
@@ -277,7 +277,7 @@ query = "SELECT 1"
     #  5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"},
     #  6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"},
     #  7 => {"name" => "Nectarine", "price" => "6.00", "weight" => "50", "comments" => "Juicy", "id" => "8"}}
-    #pp res_hash
+    # pp res_hash
     print "\n"
     print "Select Specific Fields from Hash table\n\n".colorize(:red)
     if q == 0
@@ -303,8 +303,8 @@ query = "SELECT 1"
 }
 begin
   mero.close_handle(hdl) # Close query handle and free resources
-  mero.disconnect   # Disconnect from server
-  mero.destroy      # Free handle resources
+  mero.disconnect        # Disconnect from server
+  mero.destroy           # Free handle resources
   puts "Session should now be closed down and disconnected"
   isc = mero.is_connected? # Check we disconnected
   puts "Checking ...."
