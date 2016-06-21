@@ -106,8 +106,8 @@ module MonetDB
       return res_hash
     end
 
-    def query_json(mid, cmd : String)
-      hdl = self.query(mid, cmd)
+    def query_json(cmd : String)
+      hdl = self.query(cmd)
       rawdata = Array(String).new
       res = self.execute(hdl)
       case res
