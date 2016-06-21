@@ -116,17 +116,17 @@ puts " > Merovingian Server: #{mero.host}".colorize(:blue)
 puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
-mid = mero.connect # Connect to a MServer5
-mero.timeout(mid, 10)
-isc = mero.is_connected?(mid)
+mero.connect # Connect to a MServer5
+mero.timeout(10)
+isc = mero.is_connected?
 puts " > Is Connected?: #{isc}".colorize(:blue)
-ping = mero.ping(mid)
+ping = mero.ping
 puts " > Ping?: #{ping}".colorize(:blue)
-uri = mero.get_uri(mid)
+uri = mero.get_uri
 puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
-ver = mero.get_monet_version(mid)
+ver = mero.get_monet_version
 puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
-rel = mero.release_id(mid, 1)
+rel = mero.release_id(1)
 puts " > Release ID: #{rel}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
 puts "\n>> Insert Test".colorize(:red)
@@ -137,21 +137,21 @@ end
 
 puts " - INSERT iterations: #{insloop}".colorize(:yellow)
 c = 0
-mero.setAutocommit(mid, autocommit)
+mero.setAutocommit(autocommit)
 tm = Timers.new
 tm.start
 insloop.times { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
-  hdl = mero.query(mid, sql)
+  hdl = mero.query(sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
     c = 0
   end
   c += 1
 }
-mero.query(mid, "COMMIT;")
+mero.query("COMMIT;")
 tm.stop
 print "( Duration ) : ".colorize(:cyan)
 puts tm.stats
@@ -161,35 +161,35 @@ puts "\n>> Update Test".colorize(:red)
   puts " - Update Iteration: #{n}".colorize(:yellow)
   sql = "UPDATE \"#{db}\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
   puts sql.colorize(:green)
-  hdl = mero.query(mid, sql)
+  hdl = mero.query(sql)
   aft = mero.rows_affected(hdl)
   puts "Rows affected: #{aft}".colorize(:blue)
-  hdl = mero.query(mid, "COMMIT;")
+  hdl = mero.query("COMMIT;")
 }
 
 puts "\n>> Delete Test".colorize(:red)
 sql = "DELETE FROM \"#{db}\".guid_test WHERE guid = 'Dagobert';"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
+hdl = mero.query(sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query("COMMIT;")
 
 if deleterecordsall == true
   puts "\n>> Delete Test Empty Table".colorize(:red)
   sql = "DELETE FROM \"#{db}\".guid_test;"
   puts sql.colorize(:green)
-  hdl = mero.query(mid, sql)
+  hdl = mero.query(sql)
   aft = mero.rows_affected(hdl)
   puts "Rows affected: #{aft}".colorize(:blue)
-  hdl = mero.query(mid, "COMMIT;")
+  hdl = mero.query("COMMIT;")
 end
 
 puts "\n>> Create Table Test Empty Table".colorize(:red)
 sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query(sql)
+hdl = mero.query("COMMIT;")
 
 firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
 lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
@@ -197,7 +197,7 @@ insloop.times { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
-  hdl = mero.query(mid, sql)
+  hdl = mero.query(sql)
   puts "SQL: #{sql}".colorize(:green) if c == displayinterval
   if c == displayinterval
     c = 0
@@ -206,31 +206,31 @@ insloop.times { |n|
 }
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query("COMMIT;")
 
 puts "\n>> ALTER TABLE Test ADD COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 ADD COLUMN sex CHAR(1);"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query(sql)
+hdl = mero.query("COMMIT;")
 
 puts "\n>> ALTER TABLE Test DROP COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 DROP COLUMN sex;"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query(sql)
+hdl = mero.query("COMMIT;")
 
 puts "\n>> Enable Trace query"
-trace = mero.trace(mid, true)
+trace = mero.trace(true)
 puts "\n> - Trace"
 
 puts "\n>> DROP TABLE Test".colorize(:red)
 sql = "DROP TABLE \"#{db}\".table1;"
 puts sql.colorize(:green)
-hdl = mero.query(mid, sql)
-hdl = mero.query(mid, "COMMIT;")
+hdl = mero.query(sql)
+hdl = mero.query("COMMIT;")
 p trace
-mero.trace(mid, false) # disable trace
+mero.trace(false) # disable trace
 
 query = "SELECT 1"
 2.times { |q|
@@ -243,7 +243,7 @@ query = "SELECT 1"
   end
   mero.connect
   puts "SELECT Statement: #{query}".colorize(:green)
-  hdl = mero.query(mid, query)
+  hdl = mero.query(query)
   puts "Handle: #{hdl}".colorize(:blue)
   tblwidth = mero.fetch_row(hdl)
   puts "Table Width: #{tblwidth}".colorize(:blue)
@@ -256,7 +256,7 @@ query = "SELECT 1"
     while (line = mero.fetch_line(hdl))
       puts String.new(line)
     end
-    result_json = mero.query_json(mid, query)
+    result_json = mero.query_json(query)
     # puts "JSON Internal Data Type: #{result_json.class}\n".colorize(:red)
     puts "JSON Generated:\n".colorize(:red)
     # Sample process JSON
@@ -298,10 +298,10 @@ query = "SELECT 1"
 }
 begin
   mero.close_handle(hdl) # Close query handle and free resources
-  mero.disconnect(mid)   # Disconnect from server
-  mero.destroy(mid)      # Free handle resources
+  mero.disconnect   # Disconnect from server
+  mero.destroy      # Free handle resources
   puts "Session should now be closed down and disconnected"
-  isc = mero.is_connected?(mid) # Check we disconnected
+  isc = mero.is_connected? # Check we disconnected
   puts "Checking ...."
   puts "Connected to MServer ? #{isc}"
 rescue
