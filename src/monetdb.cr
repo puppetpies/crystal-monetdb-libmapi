@@ -107,6 +107,10 @@ module MonetDB
       MonetDBMAPI.mapi_clear_params(hdl)
     end
     
+    def new_handle
+      MonetDBMAPI.mapi_new_handle(@mid)
+    end
+
     def close_handle(hdl)
       MonetDBMAPI.mapi_close_handle(hdl)
     end
