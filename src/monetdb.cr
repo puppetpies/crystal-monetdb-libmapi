@@ -27,6 +27,7 @@ module MonetDB
     property? username : String
     property? password : String
     property? db : String
+    property? mid : MonetDBMAPI::Mapi
     getter host, port, username, password, lang, db
     setter host, port, username, password, lang, db
 
@@ -37,14 +38,15 @@ module MonetDB
       @password = "monetdb"
       @lang = "sql"
       @db = "test"
+      @mid = connect
     end
 
-    def get_monet_version(mid)
-      MonetDBMAPI.mapi_get_monet_version(mid)
+    def get_monet_version
+      MonetDBMAPI.mapi_get_monet_version(@mid)
     end
 
-    def ping(mid)
-      ping = MonetDBMAPI.mapi_ping(mid)
+    def ping
+      ping = MonetDBMAPI.mapi_ping(@mid)
       if ping == 0
         return "OK"
       else
@@ -53,19 +55,19 @@ module MonetDB
     end
 
     def connect
-      MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
+      @mid = MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
     end
 
-    def disconnect(mid)
-      MonetDBMAPI.mapi_disconnect(mid)
+    def disconnect
+      MonetDBMAPI.mapi_disconnect(@mid)
     end
 
-    def destroy(mid)
-      MonetDBMAPI.mapi_destroy(mid)
+    def destroy
+      MonetDBMAPI.mapi_destroy(@mid)
     end
 
-    def is_connected?(mid)
-      conn = MonetDBMAPI.mapi_is_connected(mid)
+    def is_connected?
+      conn = MonetDBMAPI.mapi_is_connected(@mid)
       if conn == 1
         return true
       elsif conn == 0
@@ -73,8 +75,8 @@ module MonetDB
       end
     end
 
-    def query(mid, cmd : String)
-      MonetDBMAPI.mapi_query(mid, cmd)
+    def query(cmd : String)
+      MonetDBMAPI.mapi_query(@mid, cmd)
     end
 
     def query_handle(hdl, cmd : String)
@@ -89,12 +91,12 @@ module MonetDB
       MonetDBMAPI.mapi_fetch_line(hdl)
     end
 
-    def get_uri(mid)
-      MonetDBMAPI.mapi_get_uri(mid)
+    def get_uri
+      MonetDBMAPI.mapi_get_uri(@mid)
     end
 
-    def release_id(mid, id : Int32)
-      MonetDBMAPI.mapi_release_id(mid, id)
+    def release_id(id : Int32)
+      MonetDBMAPI.mapi_release_id(@mid, id)
     end
 
     def result_error(hdl)
@@ -129,13 +131,13 @@ module MonetDB
       MonetDBMAPI.mapi_fetch_field_array(hdl)
     end
 
-    def setAutocommit(mid, autocommit : Bool)
+    def setAutocommit(autocommit : Bool)
       if autocommit == false
         autovalue = 0
       else
         autovalue = 1
       end
-      MonetDBMAPI.mapi_setAutocommit(mid, autovalue)
+      MonetDBMAPI.mapi_setAutocommit(@mid, autovalue)
     end
 
     def next_result(hdl)
@@ -150,12 +152,12 @@ module MonetDB
       MonetDBMAPI.mapi_rows_affected(hdl)
     end
 
-    def error_str(mid)
-      MonetDBMAPI.mapi_error_str(mid)
+    def error_str
+      MonetDBMAPI.mapi_error_str(@mid)
     end
 
-    def explain(mid, fd)
-      MonetDBMAPI.mapi_explain(mid, fd)
+    def explain(fd)
+      MonetDBMAPI.mapi_explain(@mid, fd)
     end
 
     def explain_query(hdl, fd)
@@ -166,33 +168,33 @@ module MonetDB
       MonetDBMAPI.mapi_explain_result(hdl, fd)
     end
 
-    def get_trace(mid)
-      MonetDBMAPI.mapi_get_trace(mid)
+    def get_trace
+      MonetDBMAPI.mapi_get_trace(@mid)
     end
 
-    def get_user(mid)
-      MonetDBMAPI.mapi_get_user(mid)
+    def get_user
+      MonetDBMAPI.mapi_get_user(@mid)
     end
 
-    def get_host(mid)
-      MonetDBMAPI.mapi_get_host(mid)
+    def get_host
+      MonetDBMAPI.mapi_get_host(@mid)
     end
     
-    def get_mapi_version(mid)
-      MonetDBMAPI.mapi_get_mapi_version(mid)
+    def get_mapi_version
+      MonetDBMAPI.mapi_get_mapi_version(@mid)
     end
     
-    def trace(mid, flag : Bool)
+    def trace(flag : Bool)
       if flag == false
         flagvalue = 0
       else
         flagvalue = 1
       end
-      MonetDBMAPI.mapi_trace(mid, flagvalue)
+      MonetDBMAPI.mapi_trace(@mid, flagvalue)
     end
 
-    def timeout(mid, time : Int32)
-      MonetDBMAPI.mapi_timeout(mid, time)
+    def timeout(time : Int32)
+      MonetDBMAPI.mapi_timeout(@mid, time)
     end
 
     def get_row_count(hdl)
@@ -203,8 +205,8 @@ module MonetDB
       MonetDBMAPI.mapi_query_handle(hdl, cmd)
     end
 
-    def cache_limit(mid, limit : Int32)
-      MonetDBMAPI.mapi_cache_limit(mid, limit)
+    def cache_limit(limit : Int32)
+      MonetDBMAPI.mapi_cache_limit(@mid, limit)
     end
 
     def cache_shuffle(hdl, percentage : Int32)
