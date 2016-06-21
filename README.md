@@ -52,7 +52,7 @@ result.each {|k,v|
 
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
-
+[brian@orville crystal-monetdb-libmapi]$ bin/quick -h 172.17.0.2 -u monetdb -d threatmonitor -l 500
 >> Server Information
 
  > Merovingian Server: 172.17.0.2
@@ -208,7 +208,7 @@ sql>select * from fruits;
 
 Here is an Example of insperf_fiber that i wrote to do a benchmarks.
 
-bin/insperf_fiber -H 172.17.0.7 -u monetdb -d threatmonitor -l 10000 -i 1000 -s 2
+bin/insperf_fiber -h 172.17.0.7 -u monetdb -d threatmonitor -l 10000 -i 1000 -s 2
 >> Server Information
 
  > Merovingian Server: 172.17.0.7
