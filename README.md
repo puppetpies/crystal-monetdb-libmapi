@@ -41,7 +41,7 @@ myschema = "\"threatmonitor\""
 
 query = "SELECT * FROM #{myschema}.fruits;"
 mid = mero.connect
-result_json = mero.query_json(mid, query)
+result_json = mero.query_json(query)
 result = mero.json_to_hash(result_json)
 puts "Hash Created:".colorize(:red)
 p result
@@ -52,7 +52,7 @@ result.each {|k,v|
 
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
-[brian@orville crystal-monetdb-libmapi]$ bin/quick -H 127.0.0.1 -u monetdb -d threatmonitor -l 500 -i 250 -1 5 -2 false
+
 >> Server Information
 
  > Merovingian Server: 172.17.0.2
@@ -68,37 +68,25 @@ crystal build --release quick.cr -o bin/quick
 
 >> Insert Test
  - INSERT iterations: 500
-Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro', 'jlfendfbobyiobgbxkdulalmro')
-( Duration ) : Start: 2016-06-02 17:33:56 +0100 Finish: 2016-06-02 17:33:58 +0100 Duration: 00:00:01.0623256
+Query number: 250 SQL: INSERT INTO "threatmonitor".guid_test VALUES ('#dummy-wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc', 'wlbgqqbyqtfklfdklaxbvybfjc')
+( Duration ) : Start: 2016-06-21 15:19:27 +0100 Finish: 2016-06-21 15:19:28 +0100 Duration: 00:00:00.9013414
 
 >> Update Test
  - Update Iteration: 0
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f4 LIKE '%asd%';
-Rows affected: 2
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
+Rows affected: 0
  - Update Iteration: 1
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f9 LIKE '%asd%';
-Rows affected: 2
- - Update Iteration: 2
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f1 LIKE '%asd%';
-Rows affected: 2
- - Update Iteration: 3
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
-Rows affected: 0
- - Update Iteration: 4
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f9 LIKE '%asd%';
-Rows affected: 2
- - Update Iteration: 5
-UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f0 LIKE '%asd%';
-Rows affected: 0
+UPDATE "threatmonitor".guid_test SET guid = 'Dagobert' WHERE f2 LIKE '%asd%';
+Rows affected: 1
 
 >> Delete Test
 DELETE FROM "threatmonitor".guid_test WHERE guid = 'Dagobert';
-Rows affected: 2
+Rows affected: 1
 
 >> Create Table Test Empty Table
 CREATE TABLE "threatmonitor".table1 ( id int, firstname char(50), lastname char(50), age int);
-Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'John', 'Edwards', 20);
-Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'Fred', 'Edwards', 52);
+Query number: 0 SQL: INSERT INTO "threatmonitor".table1 VALUES (0, 'John', 'Smith', 7);
+Query number: 250 SQL: INSERT INTO "threatmonitor".table1 VALUES (250, 'Fred', 'Edwards', 70);
 Rows affected: 1
 
 >> ALTER TABLE Test ADD COLUMN
@@ -114,7 +102,7 @@ ALTER TABLE "threatmonitor".table1 DROP COLUMN sex;
 >> DROP TABLE Test
 DROP TABLE "threatmonitor".table1;
 mapi_query:34:DROP TABLE "threatmonitor".table1;
-fetch next block: start at:2163
+fetch next block: start at:2053
 got next block: length:3
 text:&3
 
@@ -123,15 +111,17 @@ text:&3
 
 read_line:&3
 allocating new result set
-fetch next block: start at:2166
+fetch next block: start at:2056
 got next block: length:0
 text:
 got complete block: 
-text:
+text:
 
-read_line:
+
+read_line:
+
 mapi_query:7:COMMIT;
-fetch next block: start at:2168
+fetch next block: start at:2058
 got next block: length:5
 text:&4 f
 
@@ -140,17 +130,19 @@ text:&4 f
 
 read_line:&4 f
 allocating new result set
-fetch next block: start at:2173
+fetch next block: start at:2063
 got next block: length:0
 text:
 got complete block: 
-text:
+text:
 
-read_line:
+
+read_line:
+
 0
 Test query 1: SELECT * FROM "threatmonitor".guid_test LIMIT 5
 SELECT Statement: SELECT * FROM "threatmonitor".guid_test LIMIT 5
-Handle: Pointer(Void)@0x1ba3770
+Handle: Pointer(Void)@0x136dc20
 Table Width: 11
 Record Count: 5
 MServer Response Key: MOK Code: 0
@@ -174,62 +166,19 @@ JSON Generated:
 {"guid":"#dummy-nuqnikukecgajmahyjogqjozap","f1":"nuqnikukecgajmahyjogqjozap","f2":"nuqnikukecgajmahyjogqjozap","f3":"nuqnikukecgajmahyjogqjozap","f4":"nuqnikukecgajmahyjogqjozap","f5":"nuqnikukecgajmahyjogqjozap","f6":"nuqnikukecgajmahyjogqjozap","f7":"nuqnikukecgajmahyjogqjozap","f8":"nuqnikukecgajmahyjogqjozap","f9":"nuqnikukecgajmahyjogqjozap","f10":"nuqnikukecgajmahyjogqjozap"}
 
 Hash Table of Results
-res_hash = {0 => {"guid" => "#dummy-vwgydzzpinlwwzyqzfejpcxgod", "f1" => "vwgydzzpinlwwzyqzfejpcxgod", "f2" => "vwgydzzpinlwwzyqzfejpcxgod", "f3" => "vwgydzzpinlwwzyqzfejpcxgod", "f4" => "vwgydzzpinlwwzyqzfejpcxgod", "f5" => "vwgydzzpinlwwzyqzfejpcxgod", "f6" => "vwgydzzpinlwwzyqzfejpcxgod", "f7" => "vwgydzzpinlwwzyqzfejpcxgod", "f8" => "vwgydzzpinlwwzyqzfejpcxgod", "f9" => "vwgydzzpinlwwzyqzfejpcxgod", "f10" => "vwgydzzpinlwwzyqzfejpcxgod"}, 1 => {"guid" => "#dummy-dynfzsvtzmpzofrgqebrlcznvb", "f1" => "dynfzsvtzmpzofrgqebrlcznvb", "f2" => "dynfzsvtzmpzofrgqebrlcznvb", "f3" => "dynfzsvtzmpzofrgqebrlcznvb", "f4" => "dynfzsvtzmpzofrgqebrlcznvb", "f5" => "dynfzsvtzmpzofrgqebrlcznvb", "f6" => "dynfzsvtzmpzofrgqebrlcznvb", "f7" => "dynfzsvtzmpzofrgqebrlcznvb", "f8" => "dynfzsvtzmpzofrgqebrlcznvb", "f9" => "dynfzsvtzmpzofrgqebrlcznvb", "f10" => "dynfzsvtzmpzofrgqebrlcznvb"}, 2 => {"guid" => "#dummy-sqmckjiuxgygfkuntnrgxntpzh", "f1" => "sqmckjiuxgygfkuntnrgxntpzh", "f2" => "sqmckjiuxgygfkuntnrgxntpzh", "f3" => "sqmckjiuxgygfkuntnrgxntpzh", "f4" => "sqmckjiuxgygfkuntnrgxntpzh", "f5" => "sqmckjiuxgygfkuntnrgxntpzh", "f6" => "sqmckjiuxgygfkuntnrgxntpzh", "f7" => "sqmckjiuxgygfkuntnrgxntpzh", "f8" => "sqmckjiuxgygfkuntnrgxntpzh", "f9" => "sqmckjiuxgygfkuntnrgxntpzh", "f10" => "sqmckjiuxgygfkuntnrgxntpzh"}, 3 => {"guid" => "#dummy-ekzpopvrqhstpfvxplhnjnphlf", "f1" => "ekzpopvrqhstpfvxplhnjnphlf", "f2" => "ekzpopvrqhstpfvxplhnjnphlf", "f3" => "ekzpopvrqhstpfvxplhnjnphlf", "f4" => "ekzpopvrqhstpfvxplhnjnphlf", "f5" => "ekzpopvrqhstpfvxplhnjnphlf", "f6" => "ekzpopvrqhstpfvxplhnjnphlf", "f7" => "ekzpopvrqhstpfvxplhnjnphlf", "f8" => "ekzpopvrqhstpfvxplhnjnphlf", "f9" => "ekzpopvrqhstpfvxplhnjnphlf", "f10" => "ekzpopvrqhstpfvxplhnjnphlf"}, 4 => {"guid" => "#dummy-nuqnikukecgajmahyjogqjozap", "f1" => "nuqnikukecgajmahyjogqjozap", "f2" => "nuqnikukecgajmahyjogqjozap", "f3" => "nuqnikukecgajmahyjogqjozap", "f4" => "nuqnikukecgajmahyjogqjozap", "f5" => "nuqnikukecgajmahyjogqjozap", "f6" => "nuqnikukecgajmahyjogqjozap", "f7" => "nuqnikukecgajmahyjogqjozap", "f8" => "nuqnikukecgajmahyjogqjozap", "f9" => "nuqnikukecgajmahyjogqjozap", "f10" => "nuqnikukecgajmahyjogqjozap"}}
 
 Select Specific Fields from Hash table
 
+res_hash_f1 # => {0 => {"guid" => "#dummy-vwgydzzpinlwwzyqzfejpcxgod", "f1" => "vwgydzzpinlwwzyqzfejpcxgod", "f2" => "vwgydzzpinlwwzyqzfejpcxgod", "f3" => "vwgydzzpinlwwzyqzfejpcxgod", "f4" => "vwgydzzpinlwwzyqzfejpcxgod", "f5" => "vwgydzzpinlwwzyqzfejpcxgod", "f6" => "vwgydzzpinlwwzyqzfejpcxgod", "f7" => "vwgydzzpinlwwzyqzfejpcxgod", "f8" => "vwgydzzpinlwwzyqzfejpcxgod", "f9" => "vwgydzzpinlwwzyqzfejpcxgod", "f10" => "vwgydzzpinlwwzyqzfejpcxgod"}, 1 => {"guid" => "#dummy-dynfzsvtzmpzofrgqebrlcznvb", "f1" => "dynfzsvtzmpzofrgqebrlcznvb", "f2" => "dynfzsvtzmpzofrgqebrlcznvb", "f3" => "dynfzsvtzmpzofrgqebrlcznvb", "f4" => "dynfzsvtzmpzofrgqebrlcznvb", "f5" => "dynfzsvtzmpzofrgqebrlcznvb", "f6" => "dynfzsvtzmpzofrgqebrlcznvb", "f7" => "dynfzsvtzmpzofrgqebrlcznvb", "f8" => "dynfzsvtzmpzofrgqebrlcznvb", "f9" => "dynfzsvtzmpzofrgqebrlcznvb", "f10" => "dynfzsvtzmpzofrgqebrlcznvb"}, 2 => {"guid" => "#dummy-sqmckjiuxgygfkuntnrgxntpzh", "f1" => "sqmckjiuxgygfkuntnrgxntpzh", "f2" => "sqmckjiuxgygfkuntnrgxntpzh", "f3" => "sqmckjiuxgygfkuntnrgxntpzh", "f4" => "sqmckjiuxgygfkuntnrgxntpzh", "f5" => "sqmckjiuxgygfkuntnrgxntpzh", "f6" => "sqmckjiuxgygfkuntnrgxntpzh", "f7" => "sqmckjiuxgygfkuntnrgxntpzh", "f8" => "sqmckjiuxgygfkuntnrgxntpzh", "f9" => "sqmckjiuxgygfkuntnrgxntpzh", "f10" => "sqmckjiuxgygfkuntnrgxntpzh"}, 3 => {"guid" => "#dummy-ekzpopvrqhstpfvxplhnjnphlf", "f1" => "ekzpopvrqhstpfvxplhnjnphlf", "f2" => "ekzpopvrqhstpfvxplhnjnphlf", "f3" => "ekzpopvrqhstpfvxplhnjnphlf", "f4" => "ekzpopvrqhstpfvxplhnjnphlf", "f5" => "ekzpopvrqhstpfvxplhnjnphlf", "f6" => "ekzpopvrqhstpfvxplhnjnphlf", "f7" => "ekzpopvrqhstpfvxplhnjnphlf", "f8" => "ekzpopvrqhstpfvxplhnjnphlf", "f9" => "ekzpopvrqhstpfvxplhnjnphlf", "f10" => "ekzpopvrqhstpfvxplhnjnphlf"}, 4 => {"guid" => "#dummy-nuqnikukecgajmahyjogqjozap", "f1" => "nuqnikukecgajmahyjogqjozap", "f2" => "nuqnikukecgajmahyjogqjozap", "f3" => "nuqnikukecgajmahyjogqjozap", "f4" => "nuqnikukecgajmahyjogqjozap", "f5" => "nuqnikukecgajmahyjogqjozap", "f6" => "nuqnikukecgajmahyjogqjozap", "f7" => "nuqnikukecgajmahyjogqjozap", "f8" => "nuqnikukecgajmahyjogqjozap", "f9" => "nuqnikukecgajmahyjogqjozap", "f10" => "nuqnikukecgajmahyjogqjozap"}}
 Hash ID: 0 F1: vwgydzzpinlwwzyqzfejpcxgod F2: vwgydzzpinlwwzyqzfejpcxgod
 Hash ID: 1 F1: dynfzsvtzmpzofrgqebrlcznvb F2: dynfzsvtzmpzofrgqebrlcznvb
 Hash ID: 2 F1: sqmckjiuxgygfkuntnrgxntpzh F2: sqmckjiuxgygfkuntnrgxntpzh
 Hash ID: 3 F1: ekzpopvrqhstpfvxplhnjnphlf F2: ekzpopvrqhstpfvxplhnjnphlf
 Hash ID: 4 F1: nuqnikukecgajmahyjogqjozap F2: nuqnikukecgajmahyjogqjozap
-Test query 2: SELECT * FROM "threatmonitor".fruits
-SELECT Statement: SELECT * FROM "threatmonitor".fruits
-Handle: Pointer(Void)@0x1bb1b40
-Table Width: 5
-Record Count: 8
-MServer Response Key: MOK Code: 0
-
->> SELECT Test
-% threatmonitor.fruits,	threatmonitor.fruits,	threatmonitor.fruits,	threatmonitor.fruits,	threatmonitor.fruits # table_name
-% name,	price,	weight,	comments,	id # name
-% varchar,	varchar,	int,	clob,	int # type
-% 9,	4,	2,	11,	1 # length
-[ "Apple",	"9.99",	50,	NULL,	1	]
-[ "Bananna",	"3.99",	30,	NULL,	2	]
-[ "Orange",	"7.99",	60,	NULL,	3	]
-[ "Peach",	"5.00",	80,	NULL,	4	]
-[ "Kiwi",	"9.00",	20,	NULL,	5	]
-[ "Tomato",	"2.00",	20,	"Yes a fruit",	6	]
-[ "Pear",	"4.00",	30,	"Juicy",	7	]
-[ "Nectarine",	"6.00",	50,	"Juicy",	8	]
-JSON Generated:
-
-{"name":"Apple","price":"9.99","weight":"50","comments":"NULL","id":"1"}
-{"name":"Bananna","price":"3.99","weight":"30","comments":"NULL","id":"2"}
-{"name":"Orange","price":"7.99","weight":"60","comments":"NULL","id":"3"}
-{"name":"Peach","price":"5.00","weight":"80","comments":"NULL","id":"4"}
-{"name":"Kiwi","price":"9.00","weight":"20","comments":"NULL","id":"5"}
-{"name":"Tomato","price":"2.00","weight":"20","comments":"Yes a fruit","id":"6"}
-{"name":"Pear","price":"4.00","weight":"30","comments":"Juicy","id":"7"}
-{"name":"Nectarine","price":"6.00","weight":"50","comments":"Juicy","id":"8"}
-
-Hash Table of Results
-res_hash = {0 => {"name" => "Apple", "price" => "9.99", "weight" => "50", "comments" => "NULL", "id" => "1"}, 1 => {"name" => "Bananna", "price" => "3.99", "weight" => "30", "comments" => "NULL", "id" => "2"}, 2 => {"name" => "Orange", "price" => "7.99", "weight" => "60", "comments" => "NULL", "id" => "3"}, 3 => {"name" => "Peach", "price" => "5.00", "weight" => "80", "comments" => "NULL", "id" => "4"}, 4 => {"name" => "Kiwi", "price" => "9.00", "weight" => "20", "comments" => "NULL", "id" => "5"}, 5 => {"name" => "Tomato", "price" => "2.00", "weight" => "20", "comments" => "Yes a fruit", "id" => "6"}, 6 => {"name" => "Pear", "price" => "4.00", "weight" => "30", "comments" => "Juicy", "id" => "7"}, 7 => {"name" => "Nectarine", "price" => "6.00", "weight" => "50", "comments" => "Juicy", "id" => "8"}}
-
-Select Specific Fields from Hash table
-
-Hash ID: 0 Name: Apple Price: 9.99
-Hash ID: 1 Name: Bananna Price: 3.99
-Hash ID: 2 Name: Orange Price: 7.99
-Hash ID: 3 Name: Peach Price: 5.00
-Hash ID: 4 Name: Kiwi Price: 9.00
-Hash ID: 5 Name: Tomato Price: 2.00
-Hash ID: 6 Name: Pear Price: 4.00
-Hash ID: 7 Name: Nectarine Price: 6.00
 Session should now be closed down and disconnected
 Checking ....
 Connected to MServer ? false
+
 
 
 -- MClient output
