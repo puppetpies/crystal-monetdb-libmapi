@@ -70,8 +70,8 @@ monetdb_raw_data.each_line { |n|
   comma_sep = Array(String).new
   mraw = 0
   nextrec = 0
-  comma_sep << n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"").gsub("[ ", "").gsub("[", "").gsub("]", "")
-  # puts comma_sep
+  prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") # .gsub("[ ", "").gsub("[", "").gsub("]", "")
+  comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
   result = String.build do |io|
     io.json_object do |object|
       fields.split(",").each { |field|
