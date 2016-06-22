@@ -133,7 +133,7 @@ mero.db = "monetdb-example1"
 
 query = "SELECT name, price FROM \"test\".fruits;"
 mid = mero.connect
-result_json = mero.query_json(mid, query)
+result_json = mero.query_json(query)
 result = mero.json_to_hash(result_json)
 puts "Hash Created:".colorize(:red)
 p result
