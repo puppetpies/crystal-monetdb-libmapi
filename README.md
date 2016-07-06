@@ -49,8 +49,8 @@ puts "Display specific fields".colorize(:red)
 result.each {|k,v|
   puts "Hash Key: #{k} Name: #{v["name"]} Price: #{v["price"]}"
 }
-<br />
-<br />
+
+```
 Have fun!
 
 Brian Hood
