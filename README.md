@@ -50,7 +50,7 @@ result.each {|k,v|
   puts "Hash Key: #{k} Name: #{v["name"]} Price: #{v["price"]}"
 }
 
-```
+````
 [brian@orville crystal-monetdb-libmapi]$ make
 crystal build --release quick.cr -o bin/quick
 [brian@orville crystal-monetdb-libmapi]$ bin/quick -h 172.17.0.2 -u monetdb -d threatmonitor -l 500
@@ -256,7 +256,6 @@ Record Count:
 SUCCESS - Record count matches
 Total time:
 Start: 2016-06-02 17:18:02 +0100 Finish: 2016-06-02 17:18:09 +0100 Duration: 00:00:06.3378785
-```
 
 Have fun!
 
