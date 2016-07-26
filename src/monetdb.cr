@@ -28,8 +28,7 @@ module MonetDB
     property? password : String
     property? db : String
     property? mid : MonetDBMAPI::Mapi
-    getter host, port, username, password, lang, db
-    setter host, port, username, password, lang, db
+    property host, port, username, password, lang, db
 
     def initialize
       @host = "127.0.0.1"
