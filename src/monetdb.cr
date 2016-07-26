@@ -41,10 +41,6 @@ module MonetDB
       @mid = connect
     end
 
-    def get_monet_version
-      MonetDBMAPI.mapi_get_monet_version(@mid)
-    end
-
     def ping
       ping = MonetDBMAPI.mapi_ping(@mid)
       if ping == 0
@@ -89,10 +85,6 @@ module MonetDB
 
     def fetch_line(hdl)
       MonetDBMAPI.mapi_fetch_line(hdl)
-    end
-
-    def get_uri
-      MonetDBMAPI.mapi_get_uri(@mid)
     end
 
     def release_id(id : Int32)
@@ -172,22 +164,6 @@ module MonetDB
       MonetDBMAPI.mapi_explain_result(hdl, fd)
     end
 
-    def get_trace
-      MonetDBMAPI.mapi_get_trace(@mid)
-    end
-
-    def get_user
-      MonetDBMAPI.mapi_get_user(@mid)
-    end
-
-    def get_host
-      MonetDBMAPI.mapi_get_host(@mid)
-    end
-
-    def get_mapi_version
-      MonetDBMAPI.mapi_get_mapi_version(@mid)
-    end
-
     def trace(flag : Bool)
       if flag == false
         flagvalue = 0
@@ -220,5 +196,13 @@ module MonetDB
     def cache_freeup(hdl, percentage : Int32)
       MonetDBMAPI.mapi_cache_freeup(hdl, percentage)
     end
+    
+    # Get methods thats are all the same using @mid
+    {% for method in %w(trace autocommit active from to lang uri dbname host user mapi_version monet_version motd) %}
+      def get_{{ method.id }}
+        MonetDBMAPI.mapi_get_{{ method.id }}(@mid)
+      end
+    {% end %}
+    
   end
 end
