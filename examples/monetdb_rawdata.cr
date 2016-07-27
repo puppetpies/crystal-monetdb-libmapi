@@ -51,9 +51,9 @@ puts "Header Data:\n"
 puts "#{monetdb_hdr_data}"
 
 puts "Fields"
-p fields
+fields.each {|n,x| puts x.split("\t"); }
 puts "Types"
-p types
+types.each {|n,x| puts x.split("\t") }
 
 puts "\nRaw Data:\n"
 monetdb_raw_data.each_line { |n|
