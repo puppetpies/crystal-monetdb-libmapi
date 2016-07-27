@@ -16,16 +16,19 @@ monetdb_hdr_data = ""
 monetdb_raw_data = ""
 hdrinc = 0
 skipfirst = 0
-fields = ""
-types = ""
+fields = Hash(Int32, String).new
+types = Hash(Int32, String).new
+valiter = 0
 File.open("monetdb_raw_result.txt", "r") { |n|
   n.each_line { |l|
     unless hdrinc == 4
       monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
       if hdrinc == 1
-        fields = l.gsub("% ", "").split("#")[0].strip
+        field_data = l.gsub("% ", "").split("#")[0].strip
+        fields.merge!({valiter => field_data})
       elsif hdrinc == 2
-        types = l.gsub("% ", "").split("#")[0].strip
+        type_data = l.gsub("% ", "").split("#")[0].strip
+        types.merge!({valiter => type_data})
       end
       hdrinc += 1
     end
@@ -35,16 +38,22 @@ File.open("monetdb_raw_result.txt", "r") { |n|
       end
       skipfirst += 1
     end
+    valiter += 1
   }
 }
 
 b_fields = Array(String).new
-fields.split(",").each { |n| b_fields << n.strip }
+fields.each { |n,x| b_fields << x.strip }
 b_types = Array(String).new
-types.split(",").each { |n| b_types << n.strip }
+types.each { |n,x| b_types << x.strip }
 
 puts "Header Data:\n"
 puts "#{monetdb_hdr_data}"
+
+puts "Fields"
+p fields
+puts "Types"
+p types
 
 puts "\nRaw Data:\n"
 monetdb_raw_data.each_line { |n|
@@ -74,8 +83,8 @@ monetdb_raw_data.each_line { |n|
   comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
   result = String.build do |io|
     io.json_object do |object|
-      fields.split(",").each { |field|
-        object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
+      fields.each { |n,x|
+        object.field "#{x.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
         mraw += 1
       }
       rowcounter += 1
