@@ -176,10 +176,6 @@ module MonetDB
       MonetDBMAPI.mapi_timeout(@mid, time)
     end
 
-    def get_row_count(hdl)
-      MonetDBMAPI.mapi_get_row_count(hdl)
-    end
-
     def query_handle(hdl, cmd)
       MonetDBMAPI.mapi_query_handle(hdl, cmd)
     end
@@ -195,6 +191,28 @@ module MonetDB
     def cache_freeup(hdl, percentage : Int32)
       MonetDBMAPI.mapi_cache_freeup(hdl, percentage)
     end
+    
+    def get_field_count(hdl) : LibC::Int
+      MonetDBMAPI.mapi_get_field_count(hdl)
+    end
+    
+    {% for method in %w(query_type tableid) %}
+      def get_{{ method.id }}(hdl)
+        MonetDBMAPI.mapi_get_querytype(hdl)
+      end
+    {% end %}
+    
+    {% for method in %w(row_count last_id) %}
+      def get_{{ method.id }}(hdl) : MonetDBMAPI::MapiInt64
+        MonetDBMAPI.mapi_get_{{ method.id }}(hdl)
+      end
+    {% end %}
+    
+    {% for method in %w(len digits scale table name type query) %}
+      def get_{{ method.id }}(hdl, fnr : Int32)
+        mapi_get_{{ method.id }}(hdl, fnr)
+      end
+    {% end %}
     
     # Get methods thats are all the same using @mid
     {% for method in %w(trace autocommit active from to lang uri dbname host user mapi_version monet_version motd) %}
