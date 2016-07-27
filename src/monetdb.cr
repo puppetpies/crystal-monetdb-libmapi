@@ -198,7 +198,7 @@ module MonetDB
     
     {% for method in %w(query_type tableid) %}
       def get_{{ method.id }}(hdl)
-        MonetDBMAPI.mapi_get_querytype(hdl)
+        MonetDBMAPI.mapi_get_{{ method.id }}(hdl)
       end
     {% end %}
     
