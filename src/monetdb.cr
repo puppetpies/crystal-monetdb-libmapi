@@ -92,24 +92,8 @@ module MonetDB
       MonetDBMAPI.mapi_explain_result(hdl, fd)
     end
 
-    def fetch_line(hdl)
-      MonetDBMAPI.mapi_fetch_line(hdl)
-    end
-
-    def fetch_row(hdl)
-      MonetDBMAPI.mapi_fetch_row(hdl)
-    end
-
-    def fetch_all_rows(hdl)
-      MonetDBMAPI.mapi_fetch_all_rows(hdl)
-    end
-
     def fetch_field(hdl, fnr : Int32)
       MonetDBMAPI.mapi_fetch_field(hdl, fnr)
-    end
-
-    def fetch_field_array(hdl)
-      MonetDBMAPI.mapi_fetch_field_array(hdl)
     end
 
     def get_field_count(hdl) : LibC::Int
@@ -214,6 +198,12 @@ module MonetDB
     {% for method in %w(trace autocommit active from to lang uri dbname host user mapi_version monet_version motd) %}
       def get_{{ method.id }}
         MonetDBMAPI.mapi_get_{{ method.id }}(@mid)
+      end
+    {% end %}
+    
+    {% for method in %w(line row all_rows field_array) %}
+      def fetch_{{ method.id }}(hdl)
+        MonetDBMAPI.mapi_fetch_{{ method.id }}(hdl)
       end
     {% end %}
     
