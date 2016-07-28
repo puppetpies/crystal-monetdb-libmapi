@@ -40,7 +40,7 @@ mero.db = db
 myschema = "\"threatmonitor\""
 
 query = "SELECT * FROM #{myschema}.fruits;"
-mid = mero.connect
+mero.connect
 result_json = mero.query_json(query)
 result = mero.json_to_hash(result_json)
 puts "Hash Created:".colorize(:red)
