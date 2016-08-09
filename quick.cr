@@ -235,7 +235,7 @@ mero.trace(false) # disable trace
 query = "SELECT 1"
 2.times { |q|
   if q == 0
-    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 30"
     puts "Test query 1: #{query}"
   elsif q == 1
     query = "SELECT * FROM \"#{db}\".fruits"
