@@ -60,11 +60,14 @@ module MonetDB
             types = l.gsub("% ", "").gsub("\t", "").split("#")[0].strip
           end
           fieldstypehash.merge!({fields => types})
-          @get_fields.merge!({valiter => {fieldstypehash}})
-          puts "Get Fields"
-          p @get_fields
+         
           hdrinc += 1
         end
+        @get_fields.merge!({valiter => fieldstypehash})
+        puts "Fields and Type hash"
+        p fieldstypehash
+        puts "Get Fields"
+        p @get_fields
         if hdrinc == 4
           if skipfirst > 0
             @monetdb_raw_data = "#{@monetdb_raw_data}#{l}\n"
@@ -83,7 +86,7 @@ module MonetDB
         mraw = 0
         nextrec = 0
         prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") # .gsub("[ ", "").gsub("[", "").gsub("]", "")
-        comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
+        comma_sep << prebraces[2..prebraces.size - 2].to_s                                         # Remove braces
         result << String.build do |io|
           io.json_object do |object|
             @get_fields.each do |v, ft|
