@@ -22,37 +22,47 @@ class TimeoutError < Exception; end
 module MonetDB
   class ClientJSON < Client
     property? monetdb_raw_data : String
-    property? fields : String
-    property? types : String
+    property? get_fields : Hash(Int32, Hash(String | Nil, String | Nil))
+    property get_fields
+    #property? fields : String
+    #property? types : String
 
     def initialize
       super
       @monetdb_raw_data = ""
-      @fields = ""
-      @types = ""
+      @get_fields = Hash(Int32, Hash(String | Nil, String | Nil)).new
+      #@fields = ""
+      #@types = ""
     end
 
     def reset
       @monetdb_raw_data = ""
-      @fields = ""
-      @types = ""
+      @get_fields = Hash(Int32, Hash(String | Nil, String | Nil)).new
+      #@fields = ""
+      #@types = ""
     end
 
     private def process_from_raw(raw)
       monetdb_hdr_data = Array(String).new
       monetdb_raw_data = Array(String).new
+      fieldstypehash = Hash(String | Nil, String | Nil).new
       hdrinc = 0
       skipfirst = 0
-      @fields = ""
-      @types = ""
+      #@fields = ""
+      #@types = ""
+      valiter = 0
       raw.each { |l|
         unless hdrinc == 4
           monetdb_hdr_data = "#{monetdb_hdr_data}#{l}"
           if hdrinc == 1
-            @fields = l.gsub("% ", "").split("#")[0].strip
+            fields = l.gsub("% ", "").gsub("\t", "").split("#")[0].strip
           elsif hdrinc == 2
-            @types = l.gsub("% ", "").split("#")[0].strip
+            types = l.gsub("% ", "").gsub("\t", "").split("#")[0].strip
           end
+          fieldstypehash.merge!({fields => types})
+          @get_fields.merge!({valiter => {fieldstypehash}})
+          puts "Get Fields"
+          p @get_fields
           hdrinc += 1
         end
         if hdrinc == 4
@@ -63,6 +73,7 @@ module MonetDB
         end
       }
     end
+    
     private def json_process_result
       rowcounter = 0
       ln = 0
@@ -75,10 +86,16 @@ module MonetDB
         comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
         result << String.build do |io|
           io.json_object do |object|
-            @fields.split(",").each { |field|
-              object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
-              mraw += 1
-            }
+            @get_fields.each do |v, ft|
+              ft.each do |f,t|
+                if f.is_a?(String)
+                  f.split(",").each do |field|
+                    object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
+                    mraw += 1
+                  end
+                end
+              end
+            end
             rowcounter += 1
           end
         end
