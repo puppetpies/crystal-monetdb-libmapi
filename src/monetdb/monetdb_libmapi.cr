@@ -94,7 +94,7 @@ lib MonetDBMAPI
     hour : UInt8
     minute : UInt8
     second : UInt8
-    fraction : Int32 # in 1000 millionths of a second (10e-9)
+    fraction : Float64 # in 1000 millionths of a second (10e-9)
   end
 
   # connection-oriented functions
