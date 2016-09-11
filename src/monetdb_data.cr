@@ -39,8 +39,7 @@ module MonetDB
     end
 
     private def process_from_raw(raw)
-      monetdb_hdr_data = Array(String).new
-      monetdb_raw_data = Array(String).new
+      monetdb_hdr_data = ""
       hdrinc = 0
       skipfirst = 0
       @fields = ""
