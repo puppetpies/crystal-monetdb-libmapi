@@ -76,7 +76,8 @@ module MonetDB
         result << String.build do |io|
           io.json_object do |object|
             @fields.split(",").each { |field|
-              object.field "#{field.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
+              object.field "#{field.strip.gsub("\"", "")}", 
+                           "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
               mraw += 1
             }
             rowcounter += 1
