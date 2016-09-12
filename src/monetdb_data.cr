@@ -62,6 +62,7 @@ module MonetDB
         end
       }
     end
+
     private def json_process_result
       rowcounter = 0
       ln = 0
@@ -70,8 +71,11 @@ module MonetDB
         comma_sep = Array(String).new
         mraw = 0
         nextrec = 0
-        prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") # .gsub("[ ", "").gsub("[", "").gsub("]", "")
-        comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
+        prebraces = n.gsub("\t", "")
+                     .gsub("\\\"", "")
+                     .gsub("\n", "")
+                     .gsub("NULL", "\"NULL\"")
+        comma_sep << prebraces[2..prebraces.size - 2] # Remove braces
         result << String.build do |io|
           io.json_object do |object|
             @fields.split(",").each { |field|
