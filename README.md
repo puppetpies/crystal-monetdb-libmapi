@@ -10,6 +10,17 @@ We can now perform a query that emits JSON useful for SELECT statements
 
 For more details look at monetdb.org
 
+Shards
+
+Add this to your shard.yml and run shards install or crystal dep
+
+```
+  crystal-monetdb-libmapi:
+    github: puppetpies/crystal-monetdb-libmapi
+    version: ">= 0.1.1"
+
+```
+
 Examples schemas provided under examples/
 
 ```crystal
