@@ -61,6 +61,19 @@ module MonetDB
       @mid = MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
     end
 
+    # Overload to allow easy connect
+    # conn = MonetDB::Client.new
+    # conn.connect("localhost", "monetdb", "monetdb", "myschema") 
+    def connect(host : String, username : String, password : String, database : String, port : Int32 = @port, lang : String = @lang)
+      @host = host
+      @username = username
+      @password = password
+      @db = database
+      @port = port
+      @lang = lang
+      @mid = MonetDBMAPI.mapi_connect(host, port, username, password, lang, db)
+    end
+
     def disconnect
       MonetDBMAPI.mapi_disconnect(@mid)
     end
