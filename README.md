@@ -47,11 +47,15 @@ mero.port = port
 mero.username = username
 mero.password = password
 mero.db = db
-
 myschema = "\"threatmonitor\""
 
 query = "SELECT * FROM #{myschema}.fruits;"
 mero.connect
+
+# Alternative connect overload method to allow easy connect
+# conn = MonetDB::Client.new
+# conn.connect("localhost", "username", "password", "testschema") 
+
 result_json = mero.query_json(query)
 result = mero.json_to_hash(result_json)
 puts "Hash Created:".colorize(:red)
