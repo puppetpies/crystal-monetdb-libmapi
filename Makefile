@@ -1,4 +1,7 @@
-all: quick-release insperf
+all: quick-release insperf easyconnect
+
+easyconnect:
+	crystal build --release easyconnect.cr -o bin/easyconnect
 
 insperf:
 	crystal build --release insperf.cr -o bin/insperf
