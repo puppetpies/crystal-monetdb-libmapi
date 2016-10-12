@@ -19,6 +19,7 @@ class TimeoutError < Exception; end
 
 module MonetDB
   class Client
+    getter established : Bool
     property? host : String
     property? port : Int32
     property? username : String
@@ -28,6 +29,7 @@ module MonetDB
     property host, port, username, password, lang, db
 
     def initialize
+      @established = false
       @host = "127.0.0.1"
       @port = 50000
       @username = "monetdb"
@@ -56,7 +58,7 @@ module MonetDB
     def close_handle(hdl)
       MonetDBMAPI.mapi_close_handle(hdl)
     end
-   
+
     def connect
       @mid = MonetDBMAPI.mapi_connect(@host, @port, @username, @password, @lang, @db)
     end
@@ -109,13 +111,16 @@ module MonetDB
     def get_field_count(hdl) : LibC::Int
       MonetDBMAPI.mapi_get_field_count(hdl)
     end
-    
+
     def is_connected?
       conn = MonetDBMAPI.mapi_is_connected(@mid)
-      if conn == 1
-        return true
-      elsif conn == 0
-        return false
+      case conn
+      when 1
+        @established = true
+      when 0
+        @established = false
+      else
+        @established = false
       end
     end
 
