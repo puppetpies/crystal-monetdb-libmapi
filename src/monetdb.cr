@@ -25,7 +25,7 @@ module MonetDB
     property? username : String
     property? password : String
     property? db : String
-    property? mid : MonetDBMAPI::Mapi
+    getter mid : MonetDBMAPI::Mapi
     property host, port, username, password, lang, db
 
     def initialize
