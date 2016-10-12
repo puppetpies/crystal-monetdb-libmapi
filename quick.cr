@@ -129,6 +129,8 @@ puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
 rel = mero.release_id(1)
 puts " > Release ID: #{rel}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
+p mero
+
 puts "\n>> Insert Test".colorize(:red)
 if isc == false
   raise ConnectionError.new "Not connected make sure the MServer is started and see ./quick -h for details"
