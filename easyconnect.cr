@@ -16,7 +16,8 @@ conn = MonetDB::Client.new
 conn.connect("localhost", "monetdb", "monetdb", "test")
 
 if conn.is_connected?
-  puts "Connected".colorize(:red)
+  puts "Connected: #{conn.established}".colorize(:green)
+  puts "MAPI URI: #{conn.mapiuri}".colorize(:yellow)
 else
   abort "Failed to connect".colorize(:red)
 end
