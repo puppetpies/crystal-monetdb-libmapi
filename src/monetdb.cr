@@ -20,6 +20,7 @@ class TimeoutError < Exception; end
 module MonetDB
   class Client
     getter established : Bool
+    getter ping : Bool
     getter mapiuri : String
     property? host : String
     property? port : Int32
@@ -31,6 +32,7 @@ module MonetDB
 
     def initialize
       @established = false
+      @ping = false
       @host = "127.0.0.1"
       @port = 50000
       @username = "monetdb"
@@ -69,6 +71,7 @@ module MonetDB
     # conn = MonetDB::Client.new
     # conn.connect("localhost", "monetdb", "monetdb", "myschema") 
     def connect(host : String, username : String, password : String, database : String, port : Int32 = @port, lang : String = @lang)
+      @ping = false
       @host = host
       @username = username
       @password = password
@@ -139,8 +142,10 @@ module MonetDB
       ping = MonetDBMAPI.mapi_ping(@mid)
       case ping
       when 0
+        @ping = true
         return "OK"
       else
+        @ping = false
         return "FAILED"
       end
     end
