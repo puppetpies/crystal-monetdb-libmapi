@@ -20,6 +20,7 @@ class TimeoutError < Exception; end
 module MonetDB
   class Client
     getter established : Bool
+    getter mapiuri : String
     property? host : String
     property? port : Int32
     property? username : String
@@ -36,6 +37,7 @@ module MonetDB
       @password = "monetdb"
       @lang = "sql"
       @db = "test"
+      @mapiuri = "mapi:monetdb://#{@host}:#{@port}/#{@db}"
       @mid = connect
     end
 
@@ -73,6 +75,7 @@ module MonetDB
       @db = database
       @port = port
       @lang = lang
+      @mapiuri = "mapi:monetdb://#{@host}:#{@port}/#{@db}"
       @mid = MonetDBMAPI.mapi_connect(host, port, username, password, lang, db)
     end
 
