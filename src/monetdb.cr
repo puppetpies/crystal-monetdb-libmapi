@@ -137,7 +137,8 @@ module MonetDB
 
     def ping
       ping = MonetDBMAPI.mapi_ping(@mid)
-      if ping == 0
+      case ping
+      when 0
         return "OK"
       else
         return "FAILED"
