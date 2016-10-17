@@ -153,7 +153,7 @@ insloop.times { |n|
   end
   c += 1
 }
-mero.query("COMMIT;")
+mero.commit
 tm.stop
 print "( Duration ) : ".colorize(:cyan)
 puts tm.stats
@@ -166,7 +166,7 @@ puts "\n>> Update Test".colorize(:red)
   hdl = mero.query(sql)
   aft = mero.rows_affected(hdl)
   puts "Rows affected: #{aft}".colorize(:blue)
-  hdl = mero.query("COMMIT;")
+  hdl = mero.commit
 }
 
 puts "\n>> Delete Test".colorize(:red)
@@ -175,7 +175,7 @@ puts sql.colorize(:green)
 hdl = mero.query(sql)
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 if deleterecordsall == true
   puts "\n>> Delete Test Empty Table".colorize(:red)
@@ -184,14 +184,14 @@ if deleterecordsall == true
   hdl = mero.query(sql)
   aft = mero.rows_affected(hdl)
   puts "Rows affected: #{aft}".colorize(:blue)
-  hdl = mero.query("COMMIT;")
+  hdl = mero.commit
 end
 
 puts "\n>> Create Table Test Empty Table".colorize(:red)
 sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
 puts sql.colorize(:green)
 hdl = mero.query(sql)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
 lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
@@ -208,19 +208,19 @@ insloop.times { |n|
 }
 aft = mero.rows_affected(hdl)
 puts "Rows affected: #{aft}".colorize(:blue)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 puts "\n>> ALTER TABLE Test ADD COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 ADD COLUMN sex CHAR(1);"
 puts sql.colorize(:green)
 hdl = mero.query(sql)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 puts "\n>> ALTER TABLE Test DROP COLUMN".colorize(:red)
 sql = "ALTER TABLE \"#{db}\".table1 DROP COLUMN sex;"
 puts sql.colorize(:green)
 hdl = mero.query(sql)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 puts "\n>> Enable Trace query"
 trace = mero.trace(true)
@@ -230,7 +230,7 @@ puts "\n>> DROP TABLE Test".colorize(:red)
 sql = "DROP TABLE \"#{db}\".table1;"
 puts sql.colorize(:green)
 hdl = mero.query(sql)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 p trace
 mero.trace(false) # disable trace
 

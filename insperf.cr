@@ -110,7 +110,7 @@ puts "\n>> Create Table Test Empty Table".colorize(:red)
 sql = "CREATE TABLE \"#{db}\".table1 ( id int, firstname char(50), lastname char(50), age int);"
 puts sql.colorize(:green)
 hdl = mero.query(sql)
-hdl = mero.query("COMMIT;")
+hdl = mero.commit
 
 puts " - INSERT iterations: #{insloop}".colorize(:yellow)
 firstnames = ["Edward", "Henry", "Robert", "Michael", "Dave", "Joe", "Kev"]
@@ -137,7 +137,7 @@ insloop.times { |n|
   c += 1
   m += 1
 }
-mero.query("COMMIT;")
+mero.commit
 results_json = mero.query_json("SELECT count(*) as num FROM \"#{db}\".table1;")
 hash_results = mero.json_to_hash(results_json)
 puts "Record Count: ".colorize(:cyan)
@@ -152,5 +152,5 @@ puts "Total time:"
 dur.stop
 puts dur.stats
 mero.query("DELETE FROM \"#{db}\".table1;")
-mero.query("COMMIT;")
+mero.commit
 mero.disconnect

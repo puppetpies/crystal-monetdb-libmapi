@@ -81,6 +81,11 @@ module MonetDB
       @mid = MonetDBMAPI.mapi_connect(host, port, username, password, lang, db)
     end
 
+    # Helper method commit just the same as mero.query("COMMIT;")
+    def commit
+      query("COMMIT;")
+    end
+    
     def disconnect
       MonetDBMAPI.mapi_disconnect(@mid)
     end
