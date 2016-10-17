@@ -95,15 +95,12 @@ ping = mero.ping?
 puts " > Ping?: #{ping}".colorize(:blue)
 uri = mero.get_uri
 puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
-ver = mero.get_monet_version
-puts " > Monet Version: #{String.new(ver)}".colorize(:blue)
-rel = mero.release_id(1)
-puts " > Release ID: #{rel}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
+p mero
+
 puts "\n>> Insert Test".colorize(:red)
 if isc == false
-  raise ConnectionError.new "Not connected make sure the MServer is started and see ./insperf -h for details"
-  exit
+  abort ConnectionError.new "Not connected make sure the MServer is started and see ./insperf -h for details"
 end
 
 puts "\n>> Create Table Test Empty Table".colorize(:red)
