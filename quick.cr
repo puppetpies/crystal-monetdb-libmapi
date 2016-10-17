@@ -120,7 +120,7 @@ mero.connect # Connect to a MServer5
 mero.timeout(10)
 isc = mero.is_connected?
 puts " > Is Connected?: #{isc}".colorize(:blue)
-ping = mero.ping
+ping = mero.ping?
 puts " > Ping?: #{ping}".colorize(:blue)
 uri = mero.get_uri
 puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)

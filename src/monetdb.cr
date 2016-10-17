@@ -71,7 +71,6 @@ module MonetDB
     # conn = MonetDB::Client.new
     # conn.connect("localhost", "monetdb", "monetdb", "myschema") 
     def connect(host : String, username : String, password : String, database : String, port : Int32 = @port, lang : String = @lang)
-      @ping = false
       @host = host
       @username = username
       @password = password
@@ -138,15 +137,13 @@ module MonetDB
       MonetDBMAPI.mapi_next_result(hdl)
     end
 
-    def ping
+    def ping?
       ping = MonetDBMAPI.mapi_ping(@mid)
       case ping
       when 0
         @ping = true
-        return "OK"
       else
         @ping = false
-        return "FAILED"
       end
     end
     
