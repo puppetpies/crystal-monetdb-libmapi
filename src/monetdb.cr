@@ -77,8 +77,8 @@ module MonetDB
       @db = database
       @port = port
       @lang = lang
-      @mapiuri = "mapi:monetdb://#{@host}:#{@port}/#{@db}"
       @mid = MonetDBMAPI.mapi_connect(host, port, username, password, lang, db)
+      @mapiuri = get_uri
     end
 
     # Helper method commit just the same as mero.query("COMMIT;")
@@ -224,6 +224,11 @@ module MonetDB
       MonetDBMAPI.mapi_timeout(@mid, time)
     end
 
+    def get_uri
+      urip = MonetDBMAPI.mapi_get_uri(@mid)
+      return String.new(urip)
+    end
+    
     {% for method in %w(query_type tableid) %}
       def get_{{ method.id }}(hdl)
         MonetDBMAPI.mapi_get_{{ method.id }}(hdl)
@@ -243,7 +248,7 @@ module MonetDB
     {% end %}
     
     # Get methods thats are all the same using @mid
-    {% for method in %w(trace autocommit active from to lang uri dbname host user mapi_version monet_version motd) %}
+    {% for method in %w(trace autocommit active from to lang dbname host user mapi_version monet_version motd) %}
       def get_{{ method.id }}
         MonetDBMAPI.mapi_get_{{ method.id }}(@mid)
       end

@@ -94,7 +94,7 @@ puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping?
 puts " > Ping?: #{ping}".colorize(:blue)
 uri = mero.get_uri
-puts " > Merovingian URI: #{String.new(uri)}".colorize(:blue)
+puts " > Merovingian URI: #{uri}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
 p mero
 
