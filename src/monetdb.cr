@@ -127,8 +127,6 @@ module MonetDB
       case conn
       when 1
         @established = true
-      when 0
-        @established = false
       else
         @established = false
       end
@@ -160,6 +158,30 @@ module MonetDB
       MonetDBMAPI.mapi_query_handle(hdl, cmd)
     end
 
+    def query_prep
+      MonetDBMAPI.mapi_query_prep(mid : Mapi)
+    end
+    
+    def query_part(hdl, cmd : String, size : Int32)
+      MonetDBMAPI.mapi_query_part(hdl, cmd, size)
+    end
+    
+    def query_done(hdl)
+      MonetDBMAPI.mapi_query_done(hdl)
+    end
+    
+    def quick_query(cmd : String, fd : File*)
+      MonetDBMAPI.mapi_quick_query(@mid, cmd, fd)
+    end
+    
+    def query_array(cmd : String, val : String)
+      MonetDBMAPI.mapi_query_array(@mid, cmd, val)
+    end
+    
+    def quick_query_array(cmd : String, val : String, fd : File*)
+      MonetDBMAPI.mapi_quick_query_array(@mid, cmd, val, fd)
+    end
+    
     def release_id(id : Int32)
       MonetDBMAPI.mapi_release_id(@mid, id)
     end
