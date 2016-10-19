@@ -159,7 +159,7 @@ module MonetDB
     end
 
     def query_prep
-      MonetDBMAPI.mapi_query_prep(@mid : Mapi)
+      MonetDBMAPI.mapi_query_prep(mid : Mapi)
     end
     
     def query_part(hdl, cmd : String, size : Int32)
