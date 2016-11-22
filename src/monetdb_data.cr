@@ -118,9 +118,9 @@ module MonetDB
         return json_result
       when MonetDBMAPI::MERROR
         raise InternalError.new "Mapi internal error."
-      when res == MonetDBMAPI::MTIMEOUT
+      when MonetDBMAPI::MTIMEOUT
         raise TimeoutError.new "Error communicating with the server."
-      when res == MonetDBMAPI::MSERVER
+      when MonetDBMAPI::MSERVER
         raise QueryError.new "Query generated and invalid response please check your SQL"
       else
         json_result = Array(String).new
