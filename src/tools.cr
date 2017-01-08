@@ -24,12 +24,12 @@ struct Number
   end
   
   {% for method in %w(upto downto) %}
-    def {{ method.id }}_with_progress(hdl)
+    def {{ method.id }}_with_progress(num)
       bar = ProgressBar.new
       bar.total = self
       bar.incomplete = "."
       bar.complete = "o"
-      self.times do |i|
+      self.{{ method.id }}(num) do |i|
         yield i
         bar.inc
       end
