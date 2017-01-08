@@ -137,7 +137,7 @@ c = 0
 mero.setAutocommit(autocommit)
 tm = Timers.new
 tm.start
-insloop.times { |n|
+insloop.times_with_progress { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
@@ -190,7 +190,7 @@ hdl = mero.commit
 
 firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
 lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
-insloop.times { |n|
+insloop.times_with_progress { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"

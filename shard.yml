@@ -7,5 +7,7 @@ authors:
 development_dependencies:
   minitest:
     github: ysbaddaden/minitest.cr
+  progress:
+    github: askn/progress
 
 license: MIT
