@@ -120,7 +120,7 @@ tm = Timers.new
 tm.start
 m = 0_u32
 m_res = 0
-insloop.times { |n|
+insloop.times_with_progress { |n|
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
   hdl = mero.query(sql)

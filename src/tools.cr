@@ -9,6 +9,34 @@
 #
 # #######################################################################
 
+require "progress"
+
+struct Number
+  def times_with_progress(&block)
+    bar = ProgressBar.new
+    bar.total = self
+    bar.incomplete = "."
+    bar.complete = "o"
+    self.times do |i|
+      yield i
+      bar.inc
+    end
+  end
+  
+  {% for method in %w(upto downto) %}
+    def {{ method.id }}_with_progress(hdl)
+      bar = ProgressBar.new
+      bar.total = self
+      bar.incomplete = "."
+      bar.complete = "o"
+      self.times do |i|
+        yield i
+        bar.inc
+      end
+    end
+  {% end %}
+end
+
 class Timers
   property? start : Time
   property? finish : Time

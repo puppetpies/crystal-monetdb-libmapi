@@ -137,7 +137,7 @@ c = 0
 mero.setAutocommit(autocommit)
 tm = Timers.new
 tm.start
-insloop.times { |n|
+insloop.times_with_progress { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".guid_test VALUES ('#dummy-#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}', '#{alpha}')"
@@ -154,7 +154,7 @@ print "( Duration ) : ".colorize(:cyan)
 puts tm.stats
 
 puts "\n>> Update Test".colorize(:red)
-0.upto(updaterands) { |n|
+0.upto_with_progress(updaterands) { |n|
   puts " - Update Iteration: #{n}".colorize(:yellow)
   sql = "UPDATE \"#{db}\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
   puts sql.colorize(:green)
@@ -190,7 +190,7 @@ hdl = mero.commit
 
 firstnames = ["John", "Fred", "Dave", "Ernest", "James"]
 lastnames = ["Smith", "Jones", "Edwards", "Stevens", "Williams"]
-insloop.times { |n|
+insloop.times_with_progress { |n|
   alpha = random_alphabet
   print "Query number: #{n} " if c == displayinterval
   sql = "INSERT INTO \"#{db}\".table1 VALUES (#{n}, '#{firstnames[rand(firstnames.size)]}', '#{lastnames[rand(lastnames.size)]}', #{rand(80)});"
