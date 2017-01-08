@@ -21,6 +21,19 @@ struct Number
       bar.inc
     end
   end
+  
+  {% for method in %w(upto downto) %}
+    def {{ method.id }}_with_progress(hdl)
+      bar = ProgressBar.new
+      bar.total = self
+      bar.incomplete = "."
+      bar.complete = "o"
+      self.times do |i|
+        yield i
+        bar.inc
+      end
+    end
+  {% end %}
 end
 
 class Timers
