@@ -154,7 +154,7 @@ print "( Duration ) : ".colorize(:cyan)
 puts tm.stats
 
 puts "\n>> Update Test".colorize(:red)
-0.upto_with_progress(updaterands) { |n|
+0.upto(updaterands) { |n|
   puts " - Update Iteration: #{n}".colorize(:yellow)
   sql = "UPDATE \"#{db}\".guid_test SET guid = 'Dagobert' WHERE f#{rand(10)} LIKE '%asd%';"
   puts sql.colorize(:green)
