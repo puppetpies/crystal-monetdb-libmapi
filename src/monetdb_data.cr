@@ -73,10 +73,10 @@ module MonetDB
                      .gsub("\n", "")
                      .gsub("NULL", "\"NULL\"")
         comma_sep << prebraces[2..prebraces.size - 2] # Remove braces
-        result << String.build do |io|
-          io.json_object do |object|
+        result << JSON.build do |json|
+          json.object do
             @fields.split(",").each { |field|
-              object.field "#{field.strip.gsub("\"", "")}", 
+              json.field "#{field.strip.gsub("\"", "")}", 
                            "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
               mraw += 1
             }
@@ -124,10 +124,10 @@ module MonetDB
         raise QueryError.new "Query generated and invalid response please check your SQL"
       else
         json_result = Array(String).new
-        json_result << String.build do |io|
-          io.json_object do |object|
-            object.field "result", "Unknown MServer Response code / MAPI Implementation outdated ?"
-            object.field "troubleshooting", "Maybe you missing specifying Schema SELECT * FROM \"myschema\".table ..."
+        json_result << JSON.build do |json|
+          json.object do
+            json.field "result", "Unknown MServer Response code / MAPI Implementation outdated ?"
+            json.field "troubleshooting", "Maybe you missing specifying Schema SELECT * FROM \"myschema\".table ..."
           end
         end
         self.reset
