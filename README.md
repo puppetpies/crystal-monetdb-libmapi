@@ -2,7 +2,9 @@
 
 Crystal binding for the MonetDB MAPI client interface
 
-This is currently experimental and needs a lot of work !
+Tested on
+
+Crystal 0.21
 
 You will need the MonetDB client package installed for this to work and also an instance of MServer5 running
 
