@@ -12,8 +12,11 @@
 require "./src/monetdb"
 require "colorize"
 
+timeout = 10
+
 conn = MonetDB::Client.new
 conn.connect("localhost", "monetdb", "monetdb", "test")
+conn.timeout(timeout)
 
 if conn.is_connected?
   puts "Connected: #{conn.established}".colorize(:green)

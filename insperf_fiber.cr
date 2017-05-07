@@ -25,6 +25,7 @@ db = "test"
 insloop = 10_000
 splitnum = 2
 displayinterval = 1000
+timeout = 10
 updaterands = 1
 autocommit = false
 deleterecordsall = false
@@ -91,7 +92,7 @@ puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
 mero.connect # Connect to a MServer5
-mero.timeout(10)
+mero.timeout(timeout)
 isc = mero.is_connected?
 puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping?

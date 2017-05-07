@@ -49,9 +49,11 @@ password = "monetdb"
 db = "test"
 insloop = 3_000
 displayinterval = 250
+timeout = 10
 updaterands = 1
 autocommit = false
 deleterecordsall = false
+
 
 mero = MonetDB::ClientJSON.new
 oparse = OptionParser.parse! do |parser|
@@ -117,7 +119,7 @@ puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
 puts " > DB: #{mero.db}".colorize(:blue)
 mero.connect # Connect to a MServer5
-mero.timeout(10)
+mero.timeout(timeout)
 isc = mero.is_connected?
 puts " > Is Connected?: #{isc}".colorize(:blue)
 ping = mero.ping?
