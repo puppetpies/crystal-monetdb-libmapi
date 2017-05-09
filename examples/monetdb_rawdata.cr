@@ -63,10 +63,10 @@ monetdb_raw_data.each_line { |n|
 # puts "\nGenerated JSON Data:\n"
 t = 0
 # puts "JSON Fields / Types:\n"
-result = String.build do |io|
-  io.json_object do |object|
+result = JSON.build do |json|
+  json.object do
     b_fields.each { |n|
-      object.field "#{n}", "#{b_types[t]}"
+      json.field "#{n}", "#{b_types[t]}"
       t += 1
     }
   end
@@ -81,10 +81,10 @@ monetdb_raw_data.each_line { |n|
   nextrec = 0
   prebraces = n.gsub("\t", "").gsub("\\\"", "").gsub("\n", "").gsub("NULL", "\"NULL\"") # .gsub("[ ", "").gsub("[", "").gsub("]", "")
   comma_sep << prebraces[2..prebraces.size - 2]                                         # Remove braces
-  result = String.build do |io|
-    io.json_object do |object|
+  result = JSON.build do |json|
+    json.object do
       fields.each { |n,x|
-        object.field "#{x.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
+        json.field "#{x.strip.gsub("\"", "")}", "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
         mraw += 1
       }
       rowcounter += 1
@@ -93,9 +93,9 @@ monetdb_raw_data.each_line { |n|
   # puts result
 }
 
-result = String.build do |io|
-  io.json_object do |object|
-    object.field "rowcount", "#{rowcounter}"
+result = JSON.build do |json|
+  json.object do
+    json.field "rowcount", "#{rowcounter}"
   end
 end
 # puts result
