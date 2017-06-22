@@ -93,8 +93,8 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-q", "--quiet", "\tQuiet mode") { |f|
     quiet = true
   }  
-  parser.on("-a", "--autocommit", "\tAutocommit default true") { |f|
-    autocommit = false
+  parser.on("-a", "--autocommit", "\tAutocommit default false") { |f|
+    autocommit = true
   }  
   parser.on("-H", "--help", "Show this help") {
     puts parser
@@ -134,7 +134,7 @@ schema = gen_schema(db, table, columns)
 hdl = mero.query(schema)
 #res = mero.execute(hdl)
 #if res == MonetDBMAPI::MOK
-1.upto(inserts) {|i|
+1.upto(inserts) do |i|
   sql = "INSERT INTO \"#{db}\".#{table} VALUES ("
   1.upto(columns) {|n|
     sql += "'#{r}'"
@@ -145,7 +145,7 @@ hdl = mero.query(schema)
   sql += ");"
   puts sql unless quiet == true
   hdl = mero.query(sql)
-}
+end
 hdl = mero.commit
 #end
 puts "Generated Schema".colorize(:red)
