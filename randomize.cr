@@ -43,7 +43,7 @@ def print_stamp
   puts "Description: \n\nCrystal bindings for MonetDB Testing Suite"
 end
 
-appname = "quick"
+appname = "randomize"
 host = "127.0.0.1"
 port = 50000
 username = "monetdb"
@@ -93,6 +93,9 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-q", "--quiet", "\tQuiet mode") { |f|
     quiet = true
   }  
+  parser.on("-a", "--autocommit", "\tAutocommit default true") { |f|
+    autocommit = false
+  }  
   parser.on("-H", "--help", "Show this help") {
     puts parser
     puts
@@ -122,10 +125,11 @@ puts " > Ping?: #{ping}".colorize(:blue)
 uri = mero.get_uri
 puts " > Merovingian URI: #{uri}".colorize(:blue)
 puts " > Autocommit: #{autocommit}".colorize(:blue)
+mero.setAutocommit(autocommit)
 p mero
 
 r = random_data(width)
-puts r
+#puts r
 schema = gen_schema(db, table, columns)
 hdl = mero.query(schema)
 #res = mero.execute(hdl)
