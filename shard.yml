@@ -1,5 +1,5 @@
 name: crystal-monetdb-libmapi
-version: 0.1.1
+version: 0.2
 
 authors:
   - Brian Hood <brianh6854@googlemail.com>
@@ -7,5 +7,7 @@ authors:
 development_dependencies:
   minitest:
     github: ysbaddaden/minitest.cr
+  progress:
+    github: askn/progress
 
 license: MIT
