@@ -6,6 +6,8 @@ Tested on
 
 Crystal 0.22
 
+Work around added for Crystal 0.23 on CentOS see https://github.com/crystal-lang/crystal/issues/4719
+
 You will need the MonetDB client package installed for this to work and also an instance of MServer5 running
 
 We can now perform a query that emits JSON useful for SELECT statements
@@ -56,7 +58,7 @@ mero.connect
 
 # Alternative connect overload method to allow easy connect
 # conn = MonetDB::Client.new
-# conn.connect("localhost", "username", "password", "testschema") 
+# conn.connect("localhost", "username", "password", "testschema")
 
 result_json = mero.query_json(query)
 result = mero.json_to_hash(result_json)
