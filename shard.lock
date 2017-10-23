@@ -4,3 +4,7 @@ shards:
     github: ysbaddaden/minitest.cr
     version: 0.3.5
 
+  progress:
+    github: askn/progress
+    commit: df7f323a334e025be8798b0c99cd7e0cebb473ed
+
