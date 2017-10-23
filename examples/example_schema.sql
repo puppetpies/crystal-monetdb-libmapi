@@ -1,5 +1,10 @@
 -- msqldump dump table test.fruits Wed Apr 27 22:23:01 2016
 -- MonetDB v11.21.19 (Jul2015-SP4), 'mapi:monetdb://mdb-master-01:50000/test'
+
+CREATE USER "testmdb" WITH ENCRYPTED PASSWORD 'f0d40f67042fcd9be29a92253350d7b2f138de24ebf6d7aa8a95f00722db95d6ff4520627593568aad2412e06709354667abdd43684b5361faf8db637db490d9' NAME 'Tester' SCHEMA "sys";
+CREATE SCHEMA "test" AUTHORIZATION "testmdb";
+ALTER USER "testmdb" SET SCHEMA "test";
+
 CREATE TABLE "test"."fruits" (
 	"name"     VARCHAR(50),
 	"price"    VARCHAR(10),
