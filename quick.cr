@@ -47,6 +47,7 @@ port = 50000
 username = "monetdb"
 password = "monetdb"
 db = "test"
+schema = "myschema"
 insloop = 3_000
 displayinterval = 250
 timeout = 10
@@ -74,6 +75,10 @@ oparse = OptionParser.parse! do |parser|
   parser.on("-d database", "-DB=test", "\tDatabase / Schema") { |f|
     mero.db = f
     db = f
+  }
+  parser.on("-s schema", "-SCHEMA=schema", "\tSchema") { |f|
+    mero.db = f
+    schema = f
   }
   parser.on("-l ITERATIONS", "-LOOP=3000", "\tINSERT Iterations") { |f|
     insloop = f.to_i
@@ -112,6 +117,7 @@ mero.port ||= port
 mero.username ||= username
 mero.password ||= password
 mero.db ||= db
+mero.schema ||= schema
 puts ">> Server Information".colorize(:red)
 puts "\n"
 puts " > Merovingian Server: #{mero.host}".colorize(:blue)
@@ -234,10 +240,10 @@ mero.trace(false) # disable trace
 query = "SELECT 1"
 2.times { |q|
   if q == 0
-    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5"
+    query = "SELECT * FROM \"#{db}\".guid_test LIMIT 5;"
     puts "Test query 1: #{query}"
   elsif q == 1
-    query = "SELECT * FROM \"#{db}\".fruits"
+    query = "SELECT * FROM \"#{db}\".fruits;"
     puts "Test query 2: #{query}"
   end
   mero.close_handle(hdl)

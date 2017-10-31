@@ -23,6 +23,7 @@ port = 50000
 username = "monetdb"
 password = "monetdb"
 db = "test"
+schema = "myschema"
 insloop = 10_000
 displayinterval = 1000
 timeout = 10
@@ -56,6 +57,10 @@ oparse = OptionParser.parse! do |parser|
     mero.db = f
     db = f
   }
+  parser.on("-s schema", "-SCHEMA=schema", "\tSchema") { |f|
+    mero.db = f
+    schema = f
+  }
   parser.on("-a true", "--AUTOCOMMIT=true", "Enabled / Disable Autocommit") { |a|
     if a == "true"
       autocommit = true
@@ -82,12 +87,14 @@ mero.port ||= port
 mero.username ||= username
 mero.password ||= password
 mero.db ||= db
+mero.schema ||= schema
 puts ">> Server Information".colorize(:red)
 puts "\n"
 puts " > Merovingian Server: #{mero.host}".colorize(:blue)
 puts " > Port: #{mero.port}".colorize(:blue)
 puts " > Username: #{mero.username}".colorize(:blue)
-puts " > DB: #{mero.db}".colorize(:blue)
+puts " > Schema: #{mero.schema}".colorize(:blue)
+puts "  -> DB: #{mero.db}".colorize(:green)
 mero.connect # Connect to a MServer5
 mero.timeout(timeout)
 isc = mero.is_connected?

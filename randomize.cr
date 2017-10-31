@@ -49,6 +49,7 @@ port = 50000
 username = "monetdb"
 password = "monetdb"
 db = "test"
+schema = "myschema"
 timeout = 10
 autocommit = false
 data = ""
@@ -78,6 +79,10 @@ oparse = OptionParser.parse! do |parser|
     mero.db = f
     db = f
   }
+  parser.on("-s schema", "-SCHEMA=schema", "\tSchema") { |f|
+    mero.db = f
+    schema = f
+  }
   parser.on("-t table", "-TABLE=test", "\tTable for Random") { |f|
     table = f
   }
@@ -92,10 +97,10 @@ oparse = OptionParser.parse! do |parser|
   }
   parser.on("-q", "--quiet", "\tQuiet mode") { |f|
     quiet = true
-  }  
+  }
   parser.on("-a", "--autocommit", "\tAutocommit default false") { |f|
     autocommit = true
-  }  
+  }
   parser.on("-H", "--help", "Show this help") {
     puts parser
     puts
@@ -110,6 +115,7 @@ mero.port ||= port
 mero.username ||= username
 mero.password ||= password
 mero.db ||= db
+mero.schema ||= schema
 puts ">> Server Information".colorize(:red)
 puts "\n"
 puts " > Merovingian Server: #{mero.host}".colorize(:blue)
