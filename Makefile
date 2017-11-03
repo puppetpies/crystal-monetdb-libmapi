@@ -1,4 +1,4 @@
-all: quick-release insperf easyconnect
+all: quick-release insperf easyconnect randomize
 
 easyconnect:
 	crystal build --no-debug --release easyconnect.cr -o bin/easyconnect
@@ -14,6 +14,9 @@ quick:
 
 quick-release:
 	crystal build --no-debug --release quick.cr -o bin/quick
+
+randomize:
+	crystal build --no-debug --release randomize.cr -o bin/randomize
 
 clean:
 	rm -f quick

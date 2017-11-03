@@ -5,7 +5,7 @@
 # Email: <brianh6854@googlemail.com>                                   #
 # Codename: Dagobert I
 # Description:
-#   Simple usage of new easy connect overload method and 
+#   Simple usage of new easy connect overload method and
 #   connection established check.
 # #######################################################################
 
@@ -15,6 +15,7 @@ require "colorize"
 timeout = 10
 
 conn = MonetDB::Client.new
+# hostname, username, password, schema
 conn.connect("localhost", "monetdb", "monetdb", "test")
 conn.timeout(timeout)
 

@@ -76,7 +76,7 @@ module MonetDB
         result << JSON.build do |json|
           json.object do
             @fields.split(",").each { |field|
-              json.field "#{field.strip.gsub("\"", "")}", 
+              json.field "#{field.strip.gsub("\"", "")}",
                            "#{comma_sep[nextrec].split(",")[mraw].strip.gsub("\"", "")}"
               mraw += 1
             }
@@ -117,10 +117,25 @@ module MonetDB
         self.reset # Reinitialize instance variables to blank
         return json_result
       when MonetDBMAPI::MERROR
+        while (line = self.fetch_line(hdl))
+          rawdata << String.new(line).not_nil!
+        end
+        pp rawdata
+        pp res
         raise InternalError.new "Mapi internal error."
       when MonetDBMAPI::MTIMEOUT
+        while (line = self.fetch_line(hdl))
+          rawdata << String.new(line).not_nil!
+        end
+         pp rawdata
+         pp res
         raise TimeoutError.new "Error communicating with the server."
       when MonetDBMAPI::MSERVER
+        while (line = self.fetch_line(hdl))
+          rawdata << String.new(line).not_nil!
+        end
+        pp rawdata
+        pp res
         raise QueryError.new "Query generated and invalid response please check your SQL"
       else
         json_result = Array(String).new
