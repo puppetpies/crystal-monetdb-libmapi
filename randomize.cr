@@ -80,7 +80,7 @@ oparse = OptionParser.parse! do |parser|
     db = f
   }
   parser.on("-s schema", "-SCHEMA=schema", "\tSchema") { |f|
-    mero.db = f
+    mero.schema = f
     schema = f
   }
   parser.on("-t table", "-TABLE=test", "\tTable for Random") { |f|
