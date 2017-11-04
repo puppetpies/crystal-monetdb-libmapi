@@ -43,6 +43,7 @@ module MonetDB
       @schema = "myschema"
       @mapiuri = "mapi:monetdb://#{@host}:#{@port}/#{@db}"
       @mid = connect
+      is_connected?
     end
 
     def cache_limit(limit : Int32)
