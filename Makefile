@@ -18,6 +18,12 @@ quick-release:
 randomize:
 	crystal build --no-debug --release randomize.cr -o bin/randomize
 
+# Cleanup all distributed binaries
 clean:
-	rm -f quick
+	rm -f bin/quick
+	rm -f bin/insperf
+	rm -f bin/quick-release
+	rm -f bin/randomize
+	rm -f bin/insperf_fiber
+	rm -f bin/easyconnect
 	rm -Rf .crystal
