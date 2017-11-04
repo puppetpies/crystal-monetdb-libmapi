@@ -70,6 +70,21 @@ result.each {|k,v|
 }
 
 ```
+
+NOTE: I recently added a workaround for compiling under Centos 7 / RHEL
+
+We also provide an easyconnect script which allows you to provide all the host,
+login parameters as seen above.
+
+There are a few benchmark tools ( Feel free to add more )
+
+  insperf - Insert performance included my stopwatch
+  insperf_fiber
+  randomize - Random columns / table width and data
+
+  I do hope with this project people get involved feel free to fork the project
+  as always, raise issues where needed i just want everyone to have a good time !
+
 Have fun!
 
 Brian Hood
